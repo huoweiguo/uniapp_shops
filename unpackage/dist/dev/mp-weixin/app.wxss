@@ -1,0 +1,15 @@
+
+	/*每个页面公共css */
+.mb30 {
+  margin-bottom: 30rpx;
+}
+.ftb {
+  font-weight: bold;
+}
+.order_button_btn_2 {
+  padding: 10rpx 20rpx;
+  color: #ff7704;
+  border: 2rpx solid #ff7704;
+  border-radius: 30rpx;
+}
+page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}

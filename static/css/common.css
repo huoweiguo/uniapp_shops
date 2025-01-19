@@ -1,0 +1,12 @@
+.mb30 {
+  margin-bottom: 30rpx;
+}
+.ftb {
+  font-weight: bold;
+}
+.order_button_btn_2 {
+  padding: 10rpx 20rpx;
+  color: #ff7704;
+  border: 2rpx solid #ff7704;
+  border-radius: 30rpx;
+}

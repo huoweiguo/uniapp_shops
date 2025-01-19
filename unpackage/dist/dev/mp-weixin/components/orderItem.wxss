@@ -1,0 +1,298 @@
+
+.data-v-f8ab5a84 .uni-collapse-item__title-wrap {
+    flex: none !important;
+    width: auto !important;
+}
+.data-v-f8ab5a84 .uni-collapse-item__title.uni-collapse-item-border {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.data-v-f8ab5a84 .goods_store .uni-numbox__plus {
+    background-color: #ff6d00 !important;
+    border-radius: 50%;
+    padding: 0 !important;
+    width: 46rpx;
+    height: 46rpx;
+}
+.data-v-f8ab5a84 .goods_store .uni-numbox__value {
+    font-size: 32rpx;
+    font-weight: bold;
+}
+.data-v-f8ab5a84 .goods_store .uni-numbox__plus .uni-numbox--text {
+    color: #fff !important;
+}
+.data-v-f8ab5a84 .goods_store .uni-numbox__minus {
+    border: 2rpx solid #ff6d00;
+    border-radius: 50%;
+    color: #ff6d00;
+    padding: 0 !important;
+    width: 46rpx;
+    height: 46rpx;
+    box-sizing: border-box;
+}
+.data-v-f8ab5a84 .goods_store .uni-numbox__minus .uni-numbox--text {
+    color: #ff6d00 !important;
+}
+
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.order_container .order_status_desc.data-v-f8ab5a84 {
+  background-color: #fff7d3;
+  padding: 30rpx 30rpx 30rpx 0;
+  font-family: PingFangSC-Regular;
+  margin-bottom: 20rpx;
+}
+.order_container .order_status_desc .order_status_outer.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.order_container .order_status_desc .order_status_outer .order_status_name.data-v-f8ab5a84 {
+  color: #fff;
+  font-size: 28rpx;
+  padding: 6rpx 15px;
+  border-radius: 0 25rpx 25rpx 0;
+}
+.order_container .order_status_desc .order_status_outer .order_status_1.data-v-f8ab5a84 {
+  background-color: #40c37f;
+}
+.order_container .order_status_desc .order_status_outer .order_id.data-v-f8ab5a84 {
+  font-size: 28rpx;
+  color: #f60;
+  font-weight: bold;
+}
+.order_container .order_status_desc .order_dilivery.data-v-f8ab5a84 {
+  font-family: PingFangSC-Regular;
+  font-weight: bold;
+  color: #040000;
+  font-size: 30rpx;
+  padding: 0 20rpx;
+}
+.order_container .order_mall.data-v-f8ab5a84 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+.order_container .order_mall .order_mall_icon.data-v-f8ab5a84 {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+.order_container .order_mall .order_mall_name.data-v-f8ab5a84 {
+  font-size: 30rpx;
+  color: #030303;
+  font-weight: bold;
+}
+.order_container .order_user.data-v-f8ab5a84 {
+  margin-bottom: 50rpx;
+}
+.order_container .order_user .order_user_info.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+.order_container .order_user .order_user_info .order_user_outer.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.order_container .order_user .order_user_info .order_user_outer .user_tag.data-v-f8ab5a84 {
+  background-color: #ecf7fd;
+  color: #4099d3;
+  font-size: 24rpx;
+  padding: 6rpx 10rpx;
+}
+.order_container .order_user .order_user_info .mall_user_name.data-v-f8ab5a84 {
+  font-weight: bold;
+  margin-right: 14rpx;
+}
+.order_container .order_user .order_user_info .mall_user_tag.data-v-f8ab5a84 {
+  margin-right: 20rpx;
+  color: #40c37f;
+  border: 2rpx solid #40c37f;
+  font-size: 20rpx;
+  padding: 4rpx 8rpx;
+  border-radius: 6rpx;
+}
+.order_container .order_user .order_user_info .mall_user_phone.data-v-f8ab5a84 {
+  color: #656565;
+}
+.order_container .order_user .order_user_info .mall_phone.data-v-f8ab5a84 {
+  width: 40rpx;
+  height: 40rpx;
+}
+.order_container .order_user .order_user_address.data-v-f8ab5a84 {
+  color: #9f9f9f;
+  margin-bottom: 30rpx;
+}
+.order_container .order_user .order_times.data-v-f8ab5a84 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+.order_container .order_user .order_times .order_times_text.data-v-f8ab5a84 {
+  color: #aaa;
+}
+.order_container .order_user .order_times .order_times_sec.data-v-f8ab5a84 {
+  color: #5c5c5c;
+}
+.order_container .order_user .order_remark.data-v-f8ab5a84 {
+  background-color: #fff2ea;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+}
+.order_container .order_user .order_remark .order_remark_tag.data-v-f8ab5a84 {
+  background-color: #ffe9db;
+  color: #d8344d;
+  font-size: 28rpx;
+  padding: 6rpx 10rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+}
+.order_container .order_user .order_remark .order_remark_text.data-v-f8ab5a84 {
+  color: #000;
+  font-weight: bold;
+  font-size: 28rpx;
+}
+.order_container .order_user .order_button.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+.order_container .order_user .order_button .order_button_btn.data-v-f8ab5a84 {
+  color: #ff7704;
+  border: 2rpx solid #ff7704;
+  font-size: 28rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 30rpx;
+}
+.order_container .order_user .order_number.data-v-f8ab5a84 {
+  display: flex;
+  align-items: center;
+}
+.order_container .order_user .order_number text.data-v-f8ab5a84 {
+  color: #ff7704;
+  font-weight: bold;
+}
+.order_container .order_complete.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  color: #6d6d6d;
+}
+.order_container .order_complete text.data-v-f8ab5a84 {
+  color: #666 !important;
+}
+.order_content.data-v-f8ab5a84 {
+  padding: 30rpx 0;
+}
+.order_content .order_content_title.data-v-f8ab5a84 {
+  font-size: 32rpx;
+  color: #040404;
+  font-weight: bold;
+}
+.order_content .order_goods_item.data-v-f8ab5a84 {
+  display: flex;
+  margin-bottom: 30rpx;
+}
+.order_content .order_goods_item .order_goods_left.data-v-f8ab5a84 {
+  width: 220rpx;
+  height: 220rpx;
+  overflow: hidden;
+  margin-right: 20rpx;
+}
+.order_content .order_goods_item .order_goods_right.data-v-f8ab5a84 {
+  flex: 1;
+}
+.order_content .goods_item.data-v-f8ab5a84 {
+  color: #979797;
+  margin-bottom: 10rpx;
+}
+.order_content .goods_item text.data-v-f8ab5a84 {
+  color: #ff051c;
+  font-weight: bold;
+}
+.order_content .goods_item_orange.data-v-f8ab5a84 {
+  color: #ff7704;
+  margin-bottom: 10rpx;
+}
+.order_content .goods_store.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.order_content .goods_store .goods_store_number.data-v-f8ab5a84 {
+  color: #979797;
+}
+.order_content .goods_store .goods_store_number text.data-v-f8ab5a84 {
+  color: #ff051c;
+  font-weight: bold;
+}
+.order_content .order_info_item .info_item_text.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+.order_content .order_info_item .info_item_text text.data-v-f8ab5a84 {
+  font-size: 28rpx;
+}
+.order_content .order_info_item .info_item_text text.data-v-f8ab5a84:first-child {
+  color: #9d9d9d;
+}
+.order_content .order_info_item .info_item_text text.data-v-f8ab5a84:last-child {
+  color: #000;
+  font-weight: bold;
+}
+.order_content .order_info_item .info_item_charge.data-v-f8ab5a84 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.order_content .order_info_item .info_item_charge text.data-v-f8ab5a84 {
+  font-size: 28rpx;
+}
+.order_content .order_info_item .info_item_charge text.data-v-f8ab5a84:first-child {
+  color: #000;
+}
+.order_content .order_info_item .info_item_charge text.data-v-f8ab5a84:last-child {
+  color: #f87e19;
+  font-weight: bold;
+  margin-left: 20rpx;
+}
+.swiper.data-v-f8ab5a84 {
+  height: 220rpx;
+}
+.swiper-item.data-v-f8ab5a84 {
+  display: block;
+  height: 220rpx;
+  line-height: 220rpx;
+  text-align: center;
+}

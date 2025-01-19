@@ -1,0 +1,1 @@
+<view class="goods_container data-v-7e2880f6"><uni-section class="data-v-7e2880f6" u-s="{{['d']}}" u-i="7e2880f6-0" bind:__l="__l"><uni-search-bar wx:if="{{b}}" class="data-v-7e2880f6" bindconfirm="{{a}}" u-i="7e2880f6-1,7e2880f6-0" bind:__l="__l" u-p="{{b}}"/></uni-section><view class="data-v-7e2880f6">123</view></view>
