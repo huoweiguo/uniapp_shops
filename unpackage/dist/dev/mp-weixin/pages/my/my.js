@@ -6,8 +6,8 @@ const _sfc_main = {
     return {
       top: 0,
       list: [
-        { icon: common_assets.dataIcon, title: "经营数据", url: "" },
-        { icon: common_assets.orderIcon, title: "全部订单", url: "" }
+        { icon: "../../static/data.png", title: "经营数据", url: "" },
+        { icon: "../../static/order.png", title: "全部订单", url: "" }
       ]
     };
   },

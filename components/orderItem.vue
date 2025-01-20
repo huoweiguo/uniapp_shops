@@ -11,7 +11,7 @@
       <text class="order_dilivery">立即送出 | 12:28前到达</text>
     </view>
     <view class="order_mall">
-      <cover-image class="order_mall_icon" src="../static/mall-f.png"></cover-image>
+      <image class="order_mall_icon" src="../static/mall-f.png"></image>
       <text class="order_mall_name">上海人民广场人民公园店</text>
     </view>
     <view class="order_user">
@@ -21,7 +21,7 @@
           <text class="mall_user_tag">门店新客</text>
           <text class="mall_user_phone">18725486580</text>
         </view>
-        <cover-image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></cover-image>
+        <image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></image>
       </view>
       <view class="order_user_address">
         安徽省六安市金安区三十铺镇枣园小区,安徽省六安市金安区三十铺镇枣园小区。
@@ -36,7 +36,7 @@
           <text class="user_tag">骑手</text>
           <text class="mall_user_phone">18725486580</text>
         </view>
-        <cover-image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></cover-image>
+        <image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></image>
       </view>
       <view class="order_remark">
         <text class="order_remark_tag">备注</text>
@@ -60,10 +60,10 @@
               <swiper class="swiper" circular indicator-color="#999" indicator-active-color="white" :indicator-dots="indicatorDots" autoplay interval="2000"
               				:duration="duration">
                 <swiper-item>
-                  <cover-image src="/static/2.png"></cover-image>
+                  <image src="../static/2.png"></image>
                 </swiper-item>
                 <swiper-item>
-                  <cover-image src="/static/3.png"></cover-image>
+                  <image src="../static/3.png"></image>
                 </swiper-item>
               </swiper>
             </view>

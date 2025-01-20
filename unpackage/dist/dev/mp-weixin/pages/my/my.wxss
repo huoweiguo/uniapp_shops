@@ -132,6 +132,6 @@
   margin-top: 10rpx;
 }
 .my-member-block .overview-icon.data-v-2f1ef635 {
-  width: 60rpx;
-  height: 60rpx;
+  width: 50rpx;
+  height: 50rpx;
 }

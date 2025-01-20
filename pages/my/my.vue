@@ -3,7 +3,7 @@
     <view class="my_header_box" :style="'padding-top:'+ top +'px'"></view>
     <view class="my_header_outer">
       <view class="my_info">
-        <cover-image class="header_icon" src="/static/header.png"></cover-image>
+        <cover-image class="header_icon" src="../../static/header.png"></cover-image>
         <text class="header_nickname">我是一只小小鸟</text>
       </view>
     </view>
@@ -17,7 +17,7 @@
     
     <view class="my-content">
       <view class="my-member">
-        <cover-image class="member_icon" src="/static/member.png"></cover-image>
+        <image class="member_icon" src="../../static/member.png"></image>
         会员权益生效中
         <text>有效期至：2025-10-01</text>
       </view>
@@ -26,7 +26,7 @@
         <uni-grid :column="4" :highlight="true" :show-border="false">
           <uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
             <view class="grid-item-box" style="background-color: #fff;">
-              <cover-image :src="item.icon" class="overview-icon"></cover-image>
+              <image :src="item.icon" class="overview-icon"></image>
               <text class="text">{{ item.title }}</text>
             </view>
           </uni-grid-item>
@@ -37,15 +37,13 @@
 </template>
 
 <script>
-  import dataIcon from '/static/data.png'
-  import orderIcon from '/static/order.png'
   export default {
     data() {
       return {
         top: 0,
         list: [
-          { icon: dataIcon, title: '经营数据', url: '' },
-          { icon: orderIcon, title: '全部订单', url: '' },
+          { icon: '../../static/data.png', title: '经营数据', url: '' },
+          { icon: '../../static/order.png', title: '全部订单', url: '' },
         ]
       }
     },
@@ -180,8 +178,8 @@
     margin-top: 10rpx;
   }
   .overview-icon {
-    width: 60rpx;
-    height: 60rpx;
+    width: 50rpx;
+    height: 50rpx;
   }  
 }
 </style>

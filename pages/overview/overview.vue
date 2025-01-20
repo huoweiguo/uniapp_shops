@@ -5,7 +5,7 @@
       <uni-grid :column="4" :highlight="true" :show-border="false" @change="change">
         <uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
           <view class="grid-item-box" style="background-color: #fff;">
-            <cover-image :src="item.icon" class="overview-icon"></cover-image>
+            <image :src="item.icon" class="overview-icon"></image>
             <text class="text">{{ item.title }}</text>
           </view>
         </uni-grid-item>
@@ -15,12 +15,12 @@
 </template>
 
 <script>
-  import record from '/static/record.png'
-  import pandian from '/static/pandian.png'
-  import jiaoyi from '/static/jiaoyi.png'
-  import store from '/static/store.png'
-  import storeQuery from '/static/store-query.png'
-  import taocan from '/static/taocan.png'
+  import record from '../../static/record.png'
+  import pandian from '../../static/pandian.png'
+  import jiaoyi from '../../static/jiaoyi.png'
+  import store from '../../static/store.png'
+  import storeQuery from '../../static/store-query.png'
+  import taocan from '../../static/taocan.png'
   export default {
     data() {
       return {
