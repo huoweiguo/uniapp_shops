@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "商品详情",
+          "pathName": "pages/goodsDetail/goodsDetail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "商品",
           "pathName": "pages/goods/goods",
           "query": "",

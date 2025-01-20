@@ -4,7 +4,8 @@
     "pages/goods/goods",
     "pages/customer/customer",
     "pages/overview/overview",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/goodsDetail/goodsDetail"
   ],
   "window": {
     "navigationBarTextStyle": "black",

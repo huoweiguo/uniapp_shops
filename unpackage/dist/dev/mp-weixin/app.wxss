@@ -1,7 +1,13 @@
 
 	/*每个页面公共css */
+body {
+  font-family: -apple-system,Helvetica,sans-serif;
+}
 .mb30 {
   margin-bottom: 30rpx;
+}
+.mb20 {
+  margin-bottom: 20rpx;
 }
 .ftb {
   font-weight: bold;

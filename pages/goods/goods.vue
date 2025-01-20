@@ -14,7 +14,7 @@
     </view>
     
     <scroll-view scroll-y="true">
-      <view class="goods-item-list">
+      <navigator class="goods-item-list" url="/pages/goodsDetail/goodsDetail">
         <uni-swipe-action>
           <uni-swipe-action-item>
             <view class="content-box">
@@ -28,15 +28,15 @@
             </view>
             <template v-slot:right>
               <view class="slot-button">
-                <text class="slot-button-text bgred" @click="bindClick({position:'right',content:{text:'编辑'}})">编辑</text>
-                <text class="slot-button-text bgblue" @click="bindClick({position:'right',content:{text:'删除'}})">删除</text>
+                <text class="slot-button-text bgred" @tap="bindClick({position:'right',content:{text:'编辑'}})">编辑</text>
+                <text class="slot-button-text bgblue" @tap="bindClick({position:'right',content:{text:'删除'}})">删除</text>
               </view>
             </template>
           </uni-swipe-action-item>
         </uni-swipe-action>
-      </view>
+      </navigator>
       
-      <view class="goods-item-list">
+      <navigator class="goods-item-list" url="/pages/goodsDetail/goodsDetail">
         <uni-swipe-action>
           <uni-swipe-action-item>
             <view class="content-box">
@@ -56,7 +56,7 @@
             </template>
           </uni-swipe-action-item>
         </uni-swipe-action>
-      </view>
+      </navigator>
     </scroll-view>
   </view>
 </template>

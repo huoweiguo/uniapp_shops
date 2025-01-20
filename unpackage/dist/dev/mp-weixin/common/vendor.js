@@ -8151,6 +8151,12 @@ const pages = [
       navigationStyle: "custom",
       navigationBarTextStyle: "white"
     }
+  },
+  {
+    path: "pages/goodsDetail/goodsDetail",
+    style: {
+      navigationBarTitleText: "商品详情"
+    }
   }
 ];
 const globalStyle = {
