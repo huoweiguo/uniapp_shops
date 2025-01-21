@@ -33,4 +33,62 @@
   height: 60rpx;
   color: #333;
   font-weight: bold;
+  margin-bottom: 40rpx;
+}
+.recharge_container .recharge_version.data-v-2984a38c {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.recharge_container .recharge_version .recharge_version_item.data-v-2984a38c {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border: 2rpx solid #eaebed;
+  border-radius: 10rpx;
+  height: 220rpx;
+  width: 200rpx;
+}
+.recharge_container .recharge_version .recharge_version_item .version_label.data-v-2984a38c {
+  color: #333;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+.recharge_container .recharge_version .recharge_version_item .version_small.data-v-2984a38c {
+  color: #999;
+  font-size: 24rpx;
+}
+.recharge_container .recharge_version .active_version.data-v-2984a38c {
+  border: 2rpx solid #fbe5c0;
+  background-image: linear-gradient(to bottom, #ffe9af, #fff7e0);
+}
+.recharge_container .recharge_version .active_version .version_label.data-v-2984a38c {
+  color: #925101;
+}
+.recharge_container .recharge_pay.data-v-2984a38c {
+  position: fixed;
+  left: 0;
+  bottom: 80rpx;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+.recharge_container .recharge_pay .charge_btn.data-v-2984a38c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 230rpx;
+  height: 80rpx;
+  background-image: linear-gradient(to right, #ffcd7c, #ffe8b0);
+  border-radius: 10rpx;
+  color: #542801;
+}
+.recharge_container .recharge_pay .charge_price.data-v-2984a38c {
+  color: #fc5e03;
+  font-weight: bold;
 }

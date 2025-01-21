@@ -4,7 +4,7 @@
       <view class="overview_item_title">常用功能</view>
       <uni-grid :column="4" :highlight="true" :show-border="false" @change="change">
         <uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
-          <view class="grid-item-box" style="background-color: #fff;">
+          <view class="grid-item-box" style="background-color: #fff;" @tap="goUrl(item.url)">
             <image :src="item.icon" class="overview-icon"></image>
             <text class="text">{{ item.title }}</text>
           </view>
@@ -35,7 +35,12 @@
       }
     },
     methods: {
-      change (e) {}
+      change (e) {},
+      goUrl (url) {
+        uni.navigateTo({
+          url
+        })
+      }
     }
   }
 </script>

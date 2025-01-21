@@ -1,6 +1,6 @@
 "use strict";
-const common_assets = require("../../common/assets.js");
 const common_vendor = require("../../common/vendor.js");
+const common_assets = require("../../common/assets.js");
 const _sfc_main = {
   data() {
     return {
@@ -16,6 +16,11 @@ const _sfc_main = {
   },
   methods: {
     change(e) {
+    },
+    goUrl(url) {
+      common_vendor.index.navigateTo({
+        url
+      });
     }
   }
 };
@@ -35,9 +40,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: item.icon,
         b: common_vendor.t(item.title),
-        c: index,
-        d: "46a3d50c-1-" + i0 + ",46a3d50c-0",
-        e: common_vendor.p({
+        c: common_vendor.o(($event) => $options.goUrl(item.url), index),
+        d: index,
+        e: "46a3d50c-1-" + i0 + ",46a3d50c-0",
+        f: common_vendor.p({
           index
         })
       };

@@ -207,15 +207,14 @@ const _sfc_main = {
   }
 };
 if (!Array) {
-  const _easycom_uni_load_more2 = common_vendor.resolveComponent("uni-load-more");
+  const _component_uni_load_more = common_vendor.resolveComponent("uni-load-more");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _component_data_picker_view = common_vendor.resolveComponent("data-picker-view");
-  (_easycom_uni_load_more2 + _easycom_uni_icons2 + _component_data_picker_view)();
+  (_component_uni_load_more + _easycom_uni_icons2 + _component_data_picker_view)();
 }
-const _easycom_uni_load_more = () => "../../../uni-load-more/components/uni-load-more/uni-load-more.js";
 const _easycom_uni_icons = () => "../../../uni-icons/components/uni-icons/uni-icons.js";
 if (!Math) {
-  (_easycom_uni_load_more + _easycom_uni_icons)();
+  _easycom_uni_icons();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
