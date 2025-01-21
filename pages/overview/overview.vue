@@ -25,12 +25,12 @@
     data() {
       return {
         list: [
-          { icon: record, title: '出入记录', url: ''},
+          { icon: record, title: '出入记录', url: '/'},
           { icon: pandian, title: '盘点', url: ''},
-          { icon: jiaoyi, title: '交易信息', url: ''},
+          { icon: jiaoyi, title: '交易信息', url: '/pages/transaction/transaction'},
           { icon: store, title: '出库', url: ''},
           { icon: storeQuery, title: '出库查询', url: ''},
-          { icon: taocan, title: '套餐', url: ''}
+          { icon: taocan, title: '套餐', url: '/pages/recharge/recharge'}
         ]
       }
     },

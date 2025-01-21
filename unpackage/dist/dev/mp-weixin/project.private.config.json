@@ -8,6 +8,20 @@
     "miniprogram": {
       "list": [
         {
+          "name": "套餐",
+          "pathName": "pages/recharge/recharge",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "交易记录",
+          "pathName": "pages/transaction/transaction",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "商品详情",
           "pathName": "pages/goodsDetail/goodsDetail",
           "query": "",

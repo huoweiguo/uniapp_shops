@@ -8,6 +8,8 @@ if (!Math) {
   "./pages/overview/overview.js";
   "./pages/my/my.js";
   "./pages/goodsDetail/goodsDetail.js";
+  "./pages/transaction/transaction.js";
+  "./pages/recharge/recharge.js";
 }
 const _sfc_main = {
   onLaunch: function() {

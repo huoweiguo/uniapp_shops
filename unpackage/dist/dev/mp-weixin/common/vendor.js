@@ -8157,6 +8157,18 @@ const pages = [
     style: {
       navigationBarTitleText: "商品详情"
     }
+  },
+  {
+    path: "pages/transaction/transaction",
+    style: {
+      navigationBarTitleText: "交易记录"
+    }
+  },
+  {
+    path: "pages/recharge/recharge",
+    style: {
+      navigationBarTitleText: "套餐"
+    }
   }
 ];
 const globalStyle = {

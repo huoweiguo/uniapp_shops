@@ -5,7 +5,9 @@
     "pages/customer/customer",
     "pages/overview/overview",
     "pages/my/my",
-    "pages/goodsDetail/goodsDetail"
+    "pages/goodsDetail/goodsDetail",
+    "pages/transaction/transaction",
+    "pages/recharge/recharge"
   ],
   "window": {
     "navigationBarTextStyle": "black",
