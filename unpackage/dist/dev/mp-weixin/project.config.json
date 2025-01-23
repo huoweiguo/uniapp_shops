@@ -18,27 +18,10 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.6.0",
-  "appid": "wx4d6a09988788d6b9",
+  "libVersion": "3.7.6",
+  "appid": "touristappid",
   "projectname": "uniapp_shop",
-  "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
-      "list": []
-    },
-    "game": {
-      "current": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "current": -1,
-      "list": []
-    }
-  },
+  "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2

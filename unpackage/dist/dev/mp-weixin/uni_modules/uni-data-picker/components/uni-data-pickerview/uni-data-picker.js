@@ -321,7 +321,7 @@ const dataPicker = {
       });
     },
     getCommand(options = {}) {
-      let db = common_vendor.er.database(this.spaceInfo);
+      let db = common_vendor.Vs.database(this.spaceInfo);
       const action = options.action || this.action;
       if (action) {
         db = db.action(action);
@@ -545,4 +545,3 @@ const dataPicker = {
   }
 };
 exports.dataPicker = dataPicker;
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-data-picker/components/uni-data-pickerview/uni-data-picker.js.map

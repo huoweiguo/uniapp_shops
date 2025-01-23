@@ -28,8 +28,8 @@
 		  "path" : "pages/my/my",
 		  "style":{
 		    "navigationBarTitleText" : "我的",
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white"
+			"navigationStyle": "custom",
+			"navigationBarTextStyle": "white"
 		  }
 		},
 		{
@@ -47,11 +47,32 @@
 		  }
 		},
 		{
-		  "path" : "pages/recharge/recharge",
-		  "style" : 
-		  {
-		    "navigationBarTitleText" : "套餐"
-		  }
+			"path" : "pages/recharge/recharge",
+			"style" : 
+			{
+				"navigationBarTitleText" : "套餐"
+			}
+		},
+		{
+			"path" : "pages/entryExit/entryExit",
+			"style" : 
+			{
+				"navigationBarTitleText" : "出入记录"
+			}
+		},
+		{
+			"path" : "pages/salesOrderDetails/salesOrderDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : "销售单详情"
+			}
+		},
+		{
+			"path" : "pages/outbound/outbound",
+			"style" : 
+			{
+				"navigationBarTitleText" : "出库"
+			}
 		}
 	],
 	"globalStyle": {

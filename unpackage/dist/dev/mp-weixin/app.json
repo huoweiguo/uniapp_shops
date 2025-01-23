@@ -7,7 +7,10 @@
     "pages/my/my",
     "pages/goodsDetail/goodsDetail",
     "pages/transaction/transaction",
-    "pages/recharge/recharge"
+    "pages/recharge/recharge",
+    "pages/entryExit/entryExit",
+    "pages/salesOrderDetails/salesOrderDetails",
+    "pages/outbound/outbound"
   ],
   "window": {
     "navigationBarTextStyle": "black",

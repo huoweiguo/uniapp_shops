@@ -30,22 +30,22 @@ const _sfc_main = {
   },
   methods: {
     search(value) {
-      common_vendor.index.__f__("log", "at pages/goods/goods.vue:94", value);
+      console.log(value);
     },
     bindClick(options) {
-      common_vendor.index.__f__("log", "at pages/goods/goods.vue:97", options);
+      console.log(options);
     },
     onnodeclick(e) {
-      common_vendor.index.__f__("log", "at pages/goods/goods.vue:100", e);
+      console.log(e);
     },
     onpopupopened(e) {
-      common_vendor.index.__f__("log", "at pages/goods/goods.vue:103", "popupopened");
+      console.log("popupopened");
     },
     onpopupclosed(e) {
-      common_vendor.index.__f__("log", "at pages/goods/goods.vue:106", "popupclosed");
+      console.log("popupclosed");
     },
     onchange(e) {
-      common_vendor.index.__f__("log", "at pages/goods/goods.vue:109", "onchange:", e);
+      console.log("onchange:", e);
     }
   }
 };
@@ -118,4 +118,3 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-7e2880f6"]]);
 wx.createPage(MiniProgramPage);
-//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/goods/goods.js.map

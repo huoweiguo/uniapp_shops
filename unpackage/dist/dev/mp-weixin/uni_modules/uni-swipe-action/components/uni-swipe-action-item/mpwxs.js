@@ -61,4 +61,3 @@ mpMixins = {
 };
 const mpwxs = mpMixins;
 exports.mpwxs = mpwxs;
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-swipe-action/components/uni-swipe-action-item/mpwxs.js.map

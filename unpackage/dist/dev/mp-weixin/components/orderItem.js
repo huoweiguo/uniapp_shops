@@ -16,15 +16,15 @@ const _sfc_main = {
         phoneNumber,
         // 电话号码
         success: function() {
-          common_vendor.index.__f__("log", "at components/orderItem.vue:111", "拨打电话成功");
+          console.log("拨打电话成功");
         },
         fail: function(err) {
-          common_vendor.index.__f__("log", "at components/orderItem.vue:114", "拨打电话失败：", err);
+          console.log("拨打电话失败：", err);
         }
       });
     },
     changeNumber(value) {
-      common_vendor.index.__f__("log", "at components/orderItem.vue:120", value, "haha");
+      console.log(value, "haha");
     }
   },
   options: {
@@ -68,4 +68,3 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-f8ab5a84"]]);
 wx.createComponent(Component);
-//# sourceMappingURL=../../.sourcemap/mp-weixin/components/orderItem.js.map
