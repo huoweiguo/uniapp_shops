@@ -6372,7 +6372,7 @@ function populateParameters(fromRes, toRes) {
   let _SDKVersion = SDKVersion;
   const hostLanguage = (language || "").replace(/_/g, "-");
   const parameters = {
-    appId: "",
+    appId: "__UNI__533891A",
     appName: "uniapp_shop",
     appVersion: "1.0.0",
     appVersionCode: "100",
@@ -6521,7 +6521,7 @@ const getAppBaseInfo = {
       hostName: _hostName,
       hostSDKVersion: SDKVersion,
       hostTheme: theme,
-      appId: "",
+      appId: "__UNI__533891A",
       appName: "uniapp_shop",
       appVersion: "1.0.0",
       appVersionCode: "100",
@@ -7187,7 +7187,7 @@ function initOnError() {
 function initRuntimeSocketService() {
   const hosts = "192.168.1.240,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin_mCDG-g";
+  const id = "mp-weixin_7cMbW5";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -8177,6 +8177,24 @@ const pages = [
       navigationStyle: "custom",
       navigationBarTextStyle: "white"
     }
+  },
+  {
+    path: "pages/entryExit/entryExit",
+    style: {
+      navigationBarTitleText: "出入记录"
+    }
+  },
+  {
+    path: "pages/salesOrderDetails/salesOrderDetails",
+    style: {
+      navigationBarTitleText: "销售单详情"
+    }
+  },
+  {
+    path: "pages/outbound/outbound",
+    style: {
+      navigationBarTitleText: "出库"
+    }
   }
 ];
 const globalStyle = {
@@ -8550,7 +8568,7 @@ function T(e2) {
 const b = true, E = "mp-weixin", P = T(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = E, A = T(""), O = T("[]") || [];
 let N = "";
 try {
-  N = "";
+  N = "__UNI__533891A";
 } catch (e2) {
 }
 let L = {};

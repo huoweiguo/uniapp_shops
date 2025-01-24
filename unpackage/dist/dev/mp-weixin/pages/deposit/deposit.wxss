@@ -36,7 +36,7 @@
   align-items: center;
   flex-direction: column;
   background-color: #78cf7e;
-  padding: 100rpx 0 150rpx;
+  padding: 80rpx 0 130rpx;
 }
 .deposit_box .deposit_small_text.data-v-41eeec45 {
   color: #fff;
@@ -47,16 +47,18 @@
   font-size: 60rpx;
   color: #fff;
 }
-.deposit_item_amount.data-v-41eeec45 {
-  display: flex;
-  flex-wrap: wrap;
+.deposit_outer.data-v-41eeec45 {
   width: 80%;
-  margin: -50rpx auto 50rpx;
+  margin: -80rpx auto 50rpx;
   padding: 30rpx;
   background-color: #fff;
   border-radius: 16rpx;
 }
-.deposit_item_amount .deposit_inner.data-v-41eeec45 {
+.deposit_outer .deposit_item_amount.data-v-41eeec45 {
+  display: flex;
+  flex-wrap: wrap;
+}
+.deposit_outer .deposit_item_amount .deposit_inner.data-v-41eeec45 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,33 +68,69 @@
   border-radius: 16rpx;
   margin: 8rpx;
 }
-.deposit_item_amount .deposit_inner text.data-v-41eeec45 {
+.deposit_outer .deposit_item_amount .deposit_inner text.data-v-41eeec45 {
   color: #3f3f3f;
 }
-.deposit_item_amount .deposit_inner text.data-v-41eeec45:first-child {
+.deposit_outer .deposit_item_amount .deposit_inner text.data-v-41eeec45:first-child {
   font-size: 32rpx;
 }
-.deposit_item_amount .deposit_inner text.data-v-41eeec45:last-child {
+.deposit_outer .deposit_item_amount .deposit_inner text.data-v-41eeec45:last-child {
   font-size: 42rpx;
   font-weight: 500;
 }
-.deposit-ipt.data-v-41eeec45 {
+.deposit_outer .deposit_item_amount .activeAmount.data-v-41eeec45 {
+  background-color: #78cf7e;
+}
+.deposit_outer .deposit_item_amount .activeAmount text.data-v-41eeec45 {
+  color: #fff;
+}
+.deposit_outer .deposit-ipt.data-v-41eeec45 {
   display: flex;
   flex-direction: column;
-  margin: 0 50rpx;
+  margin-top: 30rpx;
 }
-.deposit-ipt .other_input.data-v-41eeec45 {
+.deposit_outer .deposit-ipt .other_input.data-v-41eeec45 {
   border: 2rpx solid #78cf7e;
   height: 70rpx;
   padding: 0 20rpx;
   border-radius: 10rpx;
   box-sizing: border-box;
 }
-.deposit-ipt text.data-v-41eeec45 {
+.deposit_outer .deposit-ipt text.data-v-41eeec45 {
   display: flex;
   justify-content: center;
   color: #f00;
   font-size: 28rpx;
   text-align: center;
-  margin-top: 10rpx;
+  margin-top: 18rpx;
+}
+.deposit_pay.data-v-41eeec45 {
+  margin: 30rpx;
+  background-color: #fff;
+  padding: 20rpx;
+}
+.deposit_pay .deposit_fs.data-v-41eeec45 {
+  display: flex;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+.deposit_pay .deposit_wechat.data-v-41eeec45 {
+  display: flex;
+  justify-content: space-between;
+}
+.deposit_pay .deposit_wechat .deposit_checked.data-v-41eeec45 {
+  width: 32rpx;
+  height: 32rpx;
+}
+.deposit_pay .deposit_wechat .deposit_wechat_name.data-v-41eeec45 {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+}
+.deposit_pay .deposit_wechat .deposit_wechat_name .deposit_wechat_image.data-v-41eeec45 {
+  height: 32rpx;
+  width: 34rpx;
+  margin-right: 10rpx;
 }

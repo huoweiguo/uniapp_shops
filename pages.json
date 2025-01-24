@@ -1,74 +1,88 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style":{
-				"navigationBarTitleText": "订单"
-			}
-		},
-		{
-		  "path" : "pages/goods/goods",
-		  "style" :{
-		    "navigationBarTitleText" : "业务"
-		  }
-		},
-		{
-		  "path" : "pages/customer/customer",
-		  "style" :{
-		    "navigationBarTitleText" : "客户"
-		  }
-		},
-		{
-		  "path" : "pages/overview/overview",
-		  "style" :{
-		    "navigationBarTitleText" : "经营"
-		  }
-		},
-		{
-		  "path" : "pages/my/my",
-		  "style":{
-		    "navigationBarTitleText" : "我的",
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "订单"
+      }
+    },
+    {
+      "path": "pages/goods/goods",
+      "style": {
+        "navigationBarTitleText": "业务"
+      }
+    },
+    {
+      "path": "pages/customer/customer",
+      "style": {
+        "navigationBarTitleText": "客户"
+      }
+    },
+    {
+      "path": "pages/overview/overview",
+      "style": {
+        "navigationBarTitleText": "经营"
+      }
+    },
+    {
+      "path": "pages/my/my",
+      "style": {
+        "navigationBarTitleText": "我的",
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white"
-		  }
-		},
-		{
-		  "path" : "pages/goodsDetail/goodsDetail",
-		  "style" : 
-		  {
-		    "navigationBarTitleText" : "商品详情"
-		  }
-		},
-		{
-		  "path" : "pages/transaction/transaction",
-		  "style" : 
-		  {
-		    "navigationBarTitleText" : "交易记录"
-		  }
-		},
-		{
-		  "path" : "pages/recharge/recharge",
-		  "style" : 
-		  {
-		    "navigationBarTitleText" : "套餐"
-		  }
-		},
-		{
-		  "path" : "pages/deposit/deposit",
-		  "style" : 
-		  {
-		    "navigationBarTitleText" : "充值",
+      }
+    },
+    {
+      "path": "pages/goodsDetail/goodsDetail",
+      "style": {
+        "navigationBarTitleText": "商品详情"
+      }
+    },
+    {
+      "path": "pages/transaction/transaction",
+      "style": {
+        "navigationBarTitleText": "交易记录"
+      }
+    },
+    {
+      "path": "pages/recharge/recharge",
+      "style": {
+        "navigationBarTitleText": "套餐"
+      }
+    },
+    {
+      "path": "pages/deposit/deposit",
+      "style": {
+        "navigationBarTitleText": "充值",
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white"
-		  }
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	},
+      }
+    },
+    {
+      "path": "pages/entryExit/entryExit",
+      "style": {
+        "navigationBarTitleText": "出入记录"
+      }
+    },
+    {
+      "path": "pages/salesOrderDetails/salesOrderDetails",
+      "style": {
+        "navigationBarTitleText": "销售单详情"
+      }
+    },
+    {
+      "path": "pages/outbound/outbound",
+      "style": {
+        "navigationBarTitleText": "出库"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
   "tabBar": {
     "selectedColor": "#2b9939",
     "color": "#8f8f94",
@@ -99,5 +113,5 @@
       }
     ]
   },
-	"uniIdRouter": {}
+  "uniIdRouter": {}
 }

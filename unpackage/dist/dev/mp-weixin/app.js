@@ -11,6 +11,9 @@ if (!Math) {
   "./pages/transaction/transaction.js";
   "./pages/recharge/recharge.js";
   "./pages/deposit/deposit.js";
+  "./pages/entryExit/entryExit.js";
+  "./pages/salesOrderDetails/salesOrderDetails.js";
+  "./pages/outbound/outbound.js";
 }
 const _sfc_main = {
   onLaunch: function() {

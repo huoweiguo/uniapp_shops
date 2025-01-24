@@ -1,9 +1,11 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const common_assets = require("../../common/assets.js");
 const _sfc_main = {
   data() {
     return {
       top: 0,
+      selectAmount: "",
       amount: "",
       currentIndex: 0,
       amountArr: [
@@ -30,6 +32,10 @@ const _sfc_main = {
           }
         }
       });
+    },
+    setAmount(index, item) {
+      this.currentIndex = index;
+      this.selectAmount = item.amount;
     }
   }
 };
@@ -39,11 +45,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.f($data.amountArr, (item, index, i0) => {
       return {
         a: common_vendor.t(item.amount),
-        b: index
+        b: index,
+        c: common_vendor.o(($event) => $options.setAmount(index, item), index),
+        d: index === $data.currentIndex ? 1 : ""
       };
     }),
     c: $data.amount,
-    d: common_vendor.o(($event) => $data.amount = $event.detail.value)
+    d: common_vendor.o(($event) => $data.amount = $event.detail.value),
+    e: common_assets._imports_0$1,
+    f: common_assets._imports_1$1
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-41eeec45"]]);
