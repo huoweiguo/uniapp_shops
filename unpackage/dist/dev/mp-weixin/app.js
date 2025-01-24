@@ -10,6 +10,7 @@ if (!Math) {
   "./pages/goodsDetail/goodsDetail.js";
   "./pages/transaction/transaction.js";
   "./pages/recharge/recharge.js";
+  "./pages/deposit/deposit.js";
 }
 const _sfc_main = {
   onLaunch: function() {

@@ -19,7 +19,6 @@
     data() {
       return {
         currentIndex: 0,
-        currentMount: 0,
         versionArr: [
           { id: 1343, label: '极速版', text: '夫妻店开单收银', price: 599 },
           { id: 1344, label: '基础版', text: '夫妻店开单收银', price: 1099 },
@@ -30,7 +29,7 @@
     computed: {
       currentMount: {
         get () {
-          return this.versionArr[this.currentIndex].price.toFixed(2)
+          return this.versionArr[this.currentIndex].price.toFixed(2) || 0.00
         }
       }
     },

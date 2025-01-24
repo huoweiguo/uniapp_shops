@@ -7,7 +7,8 @@
     "pages/my/my",
     "pages/goodsDetail/goodsDetail",
     "pages/transaction/transaction",
-    "pages/recharge/recharge"
+    "pages/recharge/recharge",
+    "pages/deposit/deposit"
   ],
   "window": {
     "navigationBarTextStyle": "black",

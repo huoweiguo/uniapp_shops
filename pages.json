@@ -52,6 +52,15 @@
 		  {
 		    "navigationBarTitleText" : "套餐"
 		  }
+		},
+		{
+		  "path" : "pages/deposit/deposit",
+		  "style" : 
+		  {
+		    "navigationBarTitleText" : "充值",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+		  }
 		}
 	],
 	"globalStyle": {

@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "充值",
+          "pathName": "pages/deposit/deposit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "套餐",
           "pathName": "pages/recharge/recharge",
           "query": "",
