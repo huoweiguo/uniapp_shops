@@ -117,4 +117,3 @@ if (typeof block1 === "function")
   block1(_sfc_main);
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createComponent(Component);
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-swipe-action/components/uni-swipe-action-item/uni-swipe-action-item.js.map

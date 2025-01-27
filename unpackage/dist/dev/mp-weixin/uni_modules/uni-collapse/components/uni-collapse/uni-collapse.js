@@ -57,7 +57,7 @@ const _sfc_main = {
         if (str) {
           if (val === vm.nameSync) {
             if (!this.accordion) {
-              common_vendor.index.__f__("warn", "at uni_modules/uni-collapse/components/uni-collapse/uni-collapse.vue:75", "accordion 属性为 false ,v-model 类型应该为 array");
+              console.warn("accordion 属性为 false ,v-model 类型应该为 array");
               return;
             }
             vm.isOpen = true;
@@ -67,7 +67,7 @@ const _sfc_main = {
           val.forEach((v) => {
             if (v === vm.nameSync) {
               if (this.accordion) {
-                common_vendor.index.__f__("warn", "at uni_modules/uni-collapse/components/uni-collapse/uni-collapse.vue:85", "accordion 属性为 true ,v-model 类型应该为 string");
+                console.warn("accordion 属性为 true ,v-model 类型应该为 string");
                 return;
               }
               vm.isOpen = true;
@@ -116,4 +116,3 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createComponent(Component);
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-collapse/components/uni-collapse/uni-collapse.js.map
