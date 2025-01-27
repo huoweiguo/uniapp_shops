@@ -11,7 +11,9 @@
     "pages/deposit/deposit",
     "pages/entryExit/entryExit",
     "pages/salesOrderDetails/salesOrderDetails",
-    "pages/outbound/outbound"
+    "pages/outbound/outbound",
+    "pages/inventoryQuery/inventoryQuery",
+    "pages/businessSituation/businessSituation"
   ],
   "window": {
     "navigationBarTextStyle": "black",

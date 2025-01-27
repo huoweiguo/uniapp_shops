@@ -8195,6 +8195,18 @@ const pages = [
     style: {
       navigationBarTitleText: "出库"
     }
+  },
+  {
+    path: "pages/inventoryQuery/inventoryQuery",
+    style: {
+      navigationBarTitleText: "库存查询"
+    }
+  },
+  {
+    path: "pages/businessSituation/businessSituation",
+    style: {
+      navigationBarTitleText: "经营概况"
+    }
   }
 ];
 const globalStyle = {
