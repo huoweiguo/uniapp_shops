@@ -11,7 +11,10 @@
     "pages/deposit/deposit",
     "pages/entryExit/entryExit",
     "pages/salesOrderDetails/salesOrderDetails",
-    "pages/outbound/outbound"
+    "pages/outbound/outbound",
+    "pages/stocktakingDetail/stocktakingDetail",
+    "pages/createGoods/createGoods",
+    "pages/login/login"
   ],
   "window": {
     "navigationBarTextStyle": "black",

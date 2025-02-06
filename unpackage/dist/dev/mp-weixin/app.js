@@ -14,6 +14,9 @@ if (!Math) {
   "./pages/entryExit/entryExit.js";
   "./pages/salesOrderDetails/salesOrderDetails.js";
   "./pages/outbound/outbound.js";
+  "./pages/stocktakingDetail/stocktakingDetail.js";
+  "./pages/createGoods/createGoods.js";
+  "./pages/login/login.js";
 }
 const _sfc_main = {
   onLaunch: function() {

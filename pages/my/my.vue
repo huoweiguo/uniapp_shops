@@ -12,7 +12,7 @@
         <text>账户余额（元）</text>
         <text class="ftb">&yen;149.19</text>
       </view>
-      <text class="recharge-btn">立即充值</text>
+      <navigator class="recharge-btn" url="/pages/deposit/deposit">立即充值</navigator>
     </view>
     
     <view class="my-content">
