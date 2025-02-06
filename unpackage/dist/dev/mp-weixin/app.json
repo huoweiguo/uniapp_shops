@@ -13,6 +13,8 @@
     "pages/salesOrderDetails/salesOrderDetails",
     "pages/outbound/outbound",
     "pages/stocktakingDetail/stocktakingDetail",
+    "pages/inventoryQuery/inventoryQuery",
+    "pages/businessSituation/businessSituation",
     "pages/createGoods/createGoods",
     "pages/login/login"
   ],

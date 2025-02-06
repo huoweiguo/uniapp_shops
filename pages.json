@@ -75,24 +75,33 @@
       }
     },
     {
-      "path" : "pages/stocktakingDetail/stocktakingDetail",
-      "style" : 
-      {
-        "navigationBarTitleText" : "盘点单详情"
+      "path": "pages/stocktakingDetail/stocktakingDetail",
+      "style": {
+        "navigationBarTitleText": "盘点单详情"
       }
     },
     {
-      "path" : "pages/createGoods/createGoods",
-      "style" : 
-      {
-        "navigationBarTitleText" : "添加商品"
+      "path": "pages/inventoryQuery/inventoryQuery",
+      "style": {
+        "navigationBarTitleText": "库存查询"
       }
     },
     {
-      "path" : "pages/login/login",
-      "style" : 
-      {
-        "navigationBarTitleText" : "用户登录"
+      "path": "pages/businessSituation/businessSituation",
+      "style": {
+        "navigationBarTitleText": "经营概况"
+      }
+    },
+    {
+      "path": "pages/createGoods/createGoods",
+      "style": {
+        "navigationBarTitleText": "添加商品"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "用户登录"
       }
     }
   ],

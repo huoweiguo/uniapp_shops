@@ -15,6 +15,8 @@ if (!Math) {
   "./pages/salesOrderDetails/salesOrderDetails.js";
   "./pages/outbound/outbound.js";
   "./pages/stocktakingDetail/stocktakingDetail.js";
+  "./pages/inventoryQuery/inventoryQuery.js";
+  "./pages/businessSituation/businessSituation.js";
   "./pages/createGoods/createGoods.js";
   "./pages/login/login.js";
 }

@@ -8201,6 +8201,18 @@ const pages = [
     }
   },
   {
+    path: "pages/inventoryQuery/inventoryQuery",
+    style: {
+      navigationBarTitleText: "库存查询"
+    }
+  },
+  {
+    path: "pages/businessSituation/businessSituation",
+    style: {
+      navigationBarTitleText: "经营概况"
+    }
+  },
+  {
     path: "pages/createGoods/createGoods",
     style: {
       navigationBarTitleText: "添加商品"
