@@ -44,10 +44,10 @@
 			</view>
 		</view>
 		<uni-load-more :status="status"/>
-		<view class="instructions" @click="goUrl">
+		<!-- <view class="instructions" @click="goUrl">
 			点击展开新手指引
 			<uni-icons type="up" color="#07fbe3"></uni-icons>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -64,11 +64,6 @@
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value)
 				this.index = e.detail.value
-			},
-			goUrl () {
-			  uni.navigateTo({
-			    url: "/pages/businessSituation/businessSituation"
-			  })
 			}
 		}
 	}

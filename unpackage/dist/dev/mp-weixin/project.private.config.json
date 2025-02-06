@@ -4,6 +4,41 @@
     "miniprogram": {
       "list": [
         {
+          "name": "盘点单",
+          "pathName": "pages/stockingList/stockingList",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "盘点",
+          "pathName": "pages/stocking/stocking",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "盘点详情",
+          "pathName": "pages/stocktakingDetail/stocktakingDetail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "库存查询",
+          "pathName": "pages/inventoryQuery/inventoryQuery",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "经营数据",
+          "pathName": "pages/businessSituation/businessSituation",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "登录",
           "pathName": "pages/login/login",
           "query": "",

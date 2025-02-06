@@ -16,7 +16,9 @@
     "pages/inventoryQuery/inventoryQuery",
     "pages/businessSituation/businessSituation",
     "pages/createGoods/createGoods",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/stocking/stocking",
+    "pages/stockingList/stockingList"
   ],
   "window": {
     "navigationBarTextStyle": "black",

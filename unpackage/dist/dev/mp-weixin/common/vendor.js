@@ -8223,6 +8223,18 @@ const pages = [
     style: {
       navigationBarTitleText: "用户登录"
     }
+  },
+  {
+    path: "pages/stocking/stocking",
+    style: {
+      navigationBarTitleText: "盘点单"
+    }
+  },
+  {
+    path: "pages/stockingList/stockingList",
+    style: {
+      navigationBarTitleText: "盘点单"
+    }
   }
 ];
 const globalStyle = {

@@ -19,6 +19,8 @@ if (!Math) {
   "./pages/businessSituation/businessSituation.js";
   "./pages/createGoods/createGoods.js";
   "./pages/login/login.js";
+  "./pages/stocking/stocking.js";
+  "./pages/stockingList/stockingList.js";
 }
 const _sfc_main = {
   onLaunch: function() {

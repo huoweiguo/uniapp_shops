@@ -21,15 +21,17 @@
   import store from '../../static/store.png'
   import storeQuery from '../../static/store-query.png'
   import taocan from '../../static/taocan.png'
+  import kucun from '../../static/stock.png'
   export default {
     data() {
       return {
         list: [
           { icon: jiaoyi, title: '交易信息', url: '/pages/transaction/transaction'},
           { icon: record, title: '出入记录', url: '/pages/entryExit/entryExit'},
-          { icon: pandian, title: '盘点', url: ''},
+          { icon: pandian, title: '盘点', url: '/pages/stocking/stocking'},
           { icon: store, title: '出库查询', url: '/pages/outbound/outbound'},
-          { icon: taocan, title: '套餐', url: '/pages/recharge/recharge'}
+          { icon: taocan, title: '套餐', url: '/pages/recharge/recharge'},
+          { icon: kucun, title: '库存查询', url: '/pages/inventoryQuery/inventoryQuery'}
         ]
       }
     },

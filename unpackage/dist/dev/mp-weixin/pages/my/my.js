@@ -6,8 +6,8 @@ const _sfc_main = {
     return {
       top: 0,
       list: [
-        { icon: "../../static/data.png", title: "经营数据", url: "" },
-        { icon: "../../static/order.png", title: "全部订单", url: "" }
+        { icon: "../../static/data.png", title: "经营数据", url: "/pages/businessSituation/businessSituation" },
+        { icon: "../../static/order.png", title: "全部订单", url: "/pages/index/index" }
       ]
     };
   },
@@ -22,6 +22,16 @@ const _sfc_main = {
             this.top = res.safeAreaInsets.top;
           }
         }
+      });
+    },
+    login() {
+      common_vendor.index.navigateTo({
+        url: "/pages/login/login"
+      });
+    },
+    toLinks(url) {
+      common_vendor.index.navigateTo({
+        url
       });
     }
   }
@@ -40,19 +50,21 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.s("padding-top:" + $data.top + "px"),
     b: common_assets._imports_0,
-    c: common_assets._imports_1,
-    d: common_vendor.f($data.list, (item, index, i0) => {
+    c: common_vendor.o((...args) => $options.login && $options.login(...args)),
+    d: common_assets._imports_1,
+    e: common_vendor.f($data.list, (item, index, i0) => {
       return {
         a: item.icon,
         b: common_vendor.t(item.title),
         c: index,
-        d: "2f1ef635-1-" + i0 + ",2f1ef635-0",
-        e: common_vendor.p({
+        d: common_vendor.o(($event) => $options.toLinks(item.url), index),
+        e: "2f1ef635-1-" + i0 + ",2f1ef635-0",
+        f: common_vendor.p({
           index
         })
       };
     }),
-    e: common_vendor.p({
+    f: common_vendor.p({
       column: 4,
       highlight: true,
       ["show-border"]: false

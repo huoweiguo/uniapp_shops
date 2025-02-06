@@ -2,7 +2,7 @@
   <!-- pages/login/login.wxml -->
   <view class="login-container">
     <view class="login-box">
-      <image class="avatar" src="../../static/avatar.png"></image>
+      <uni-icons type="weixin" size="80" color="#1aad19"></uni-icons>
       <view class="title">用户登录</view>
       <button
         type="primary"
@@ -51,17 +51,11 @@ export default {
   text-align: center;
 }
 
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
 
 .title {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333333;
+  font-size: 32rpx;
+  margin-bottom: 100px;
+  color: #1aad19;
 }
 
 .login-button {

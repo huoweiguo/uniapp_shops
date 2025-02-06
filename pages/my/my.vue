@@ -4,7 +4,8 @@
     <view class="my_header_outer">
       <view class="my_info">
         <cover-image class="header_icon" src="../../static/header.png"></cover-image>
-        <text class="header_nickname">我是一只小小鸟</text>
+        <!-- <text class="header_nickname">我是一只小小鸟</text> -->
+        <text class="header_nickname" @tap="login">登录</text>
       </view>
     </view>
     <view class="info_common">
@@ -24,7 +25,7 @@
       <view class="my-member-block">
         <view class="my-member-func">常用功能</view>
         <uni-grid :column="4" :highlight="true" :show-border="false">
-          <uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
+          <uni-grid-item v-for="(item, index) in list" :index="index" :key="index" @tap="toLinks(item.url)">
             <view class="grid-item-box" style="background-color: #fff;">
               <image :src="item.icon" class="overview-icon"></image>
               <text class="text">{{ item.title }}</text>
@@ -42,8 +43,8 @@
       return {
         top: 0,
         list: [
-          { icon: '../../static/data.png', title: '经营数据', url: '' },
-          { icon: '../../static/order.png', title: '全部订单', url: '' },
+          { icon: '../../static/data.png', title: '经营数据', url: '/pages/businessSituation/businessSituation' },
+          { icon: '../../static/order.png', title: '全部订单', url: '/pages/index/index' },
         ]
       }
     },
@@ -60,6 +61,18 @@
               this.top = res.safeAreaInsets.top
             }
           }
+        })
+      },
+      
+      login () {
+        uni.navigateTo({
+          url: '/pages/login/login'
+        })
+      },
+      
+      toLinks (url) {
+        uni.navigateTo({
+          url
         })
       }
     }
