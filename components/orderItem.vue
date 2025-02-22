@@ -1,79 +1,76 @@
 <template>
   <view class="order_container">
-    <view class="order_status_desc">
+    <navigator class="order_status_desc" @tap="tolinks(list.id)" hover-stop-propagation>
       <view class="order_status_outer">
-        <text class="order_status_name order_status_1">已完成</text>
-        <text class="order_id">158965423AD4X</text>
+        <text class="order_status_name order_status_1">{{ list.track }}</text>
+        <text class="order_id">{{ list.no }}</text>
       </view>
       <!-- <text>已取消</text>
       <text>待拣货</text>
       <text>已拣货</text> -->
-      <text class="order_dilivery">立即送出 | 12:28前到达</text>
-    </view>
-    <view class="order_mall">
+      <text class="order_dilivery">{{ list.logisticName }}</text>
+    </navigator>
+    <navigator class="order_mall" @tap="tolinks(list.id)" hover-stop-propagation>
       <image class="order_mall_icon" src="../static/mall-f.png"></image>
-      <text class="order_mall_name">上海人民广场人民公园店</text>
-    </view>
+      <text class="order_mall_name">{{ list.channelName }}</text>
+    </navigator>
     <view class="order_user">
       <view class="order_user_info">
         <view class="order_user_outer">
-          <text class="mall_user_name">霍维国</text>
-          <text class="mall_user_tag">门店新客</text>
-          <text class="mall_user_phone">18725486580</text>
+          <text class="mall_user_name">{{ list.warehouseName }}</text>
+          <!-- <text class="mall_user_tag">门店新客</text> -->
+          <!-- <text class="mall_user_phone">18725486580</text> -->
         </view>
         <image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></image>
       </view>
       <view class="order_user_address">
-        安徽省六安市金安区三十铺镇枣园小区,安徽省六安市金安区三十铺镇枣园小区。
+        {{ list.address }}
       </view>
       <view class="order_times">
         <text class="order_times_text">下单时间：</text>
-        <text class="order_times_sec">05-01 18:20</text>
+        <text class="order_times_sec">{{ timestampToTime(list.orderTime) }}</text>
       </view>
-      <view class="order_user_info">
+      <view class="order_user_info" v-if="list.deliveryPhone">
         <view class="order_user_outer">
-          <text class="mall_user_name">jackson</text>
+          <text class="mall_user_name">{{ list.deliveryName }}</text>
           <text class="user_tag">骑手</text>
-          <text class="mall_user_phone">18725486580</text>
+          <text class="mall_user_phone">{{ list.deliveryPhone }}</text>
         </view>
-        <image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></image>
+        <image @tap="callPhone(list.deliveryPhone)" class="mall_phone" src="../static/phone-icon.png"></image>
       </view>
-      <view class="order_remark">
+      <view class="order_remark" v-if="list.remark">
         <text class="order_remark_tag">备注</text>
-        <text class="order_remark_text">收货人隐私号 178514894140566，手机号138****0931</text>
+        <text class="order_remark_text">{{ list.remark }}</text>
       </view>
       <view class="order_button">
-        <text class="order_button_btn">开门</text>
-        <text class="order_button_btn">添加商品</text>
+        <text class="order_button_btn" @tap="openDoor(list.id)">开门</text>
+        <navigator url="/pages/createGoods/createGoods" class="order_button_btn">添加商品</navigator>
       </view>
       <view class="order_number">
-        <text>1</text>件商品，预计收入：<text>&yen;128.50</text>
+        <text>{{ list.totalCount }}</text>件商品，预计收入：<text>&yen;{{ list.totalPrice }}</text>
       </view>
     </view>
     <uni-collapse class="my-collapse">
       <uni-collapse-item title="展开收起信息" title-border="false" :border="false" :show-animation="true">
-        <view class="order_content">
+        <view class="order_content" v-for="item in list.items" :key="item.id">
           <view class="mb30"><text class="order_button_btn_2">改库存</text></view>
-          <view class="order_content_title mb30">蝴蝶结糯米阔腿裤女春秋新款高腰直筒小个子冬季休闲宽松加绒加厚701</view>
+          <view class="order_content_title mb30">{{ item.productName }}</view>
           <view class="order_goods_item">
             <view class="order_goods_left">
               <swiper class="swiper" circular indicator-color="#999" indicator-active-color="white" :indicator-dots="indicatorDots" autoplay interval="2000"
               				:duration="duration">
                 <swiper-item>
-                  <image src="../static/2.png"></image>
-                </swiper-item>
-                <swiper-item>
-                  <image src="../static/3.png"></image>
+                  <image :src="item.thumb"></image>
                 </swiper-item>
               </swiper>
             </view>
             <view class="order_goods_right">
-              <view class="goods_item">条码：232025757<text>7075</text></view>
-              <view class="goods_item">编码：9761103024</view>
-              <view class="goods_item_orange">规格：白色80-100斤</view>
-              <view class="goods_item">单价：<text>&yen;38.50</text></view>
+              <view class="goods_item">条码：{{ item.productId }}<text>1235</text></view>
+              <view class="goods_item">编码：{{ item.shelfCode }}</view>
+              <view class="goods_item_orange">规格：{{ item.standard }}</view>
+              <view class="goods_item">单价：<text>&yen;{{ item.productPrice }}</text></view>
               <view class="goods_store">
-                <view class="goods_store_number">库存：<text>0</text></view>
+                <view class="goods_store_number">库存：<text>{{ item.count }}</text></view>
                 <uni-number-box :value="goodsNumber" @change="changeNumber"/>
               </view>
             </view>
@@ -89,19 +86,32 @@
           </view>
         </view>
       </uni-collapse-item>
-    </uni-collapse>   
+    </uni-collapse>
   </view>
 </template>
 
 <script>
+  import { unlock } from '@/api/common.js'
+  import { timestampToTime } from '@/utils/tools.js'
   export default {
     name:"orderItem",
+    props: {
+      list: {
+        type: Object,
+        default: {},
+        require: true
+      }
+    },
     data() {
       return {
+        timestampToTime,
         goodsNumber: 1,
         indicatorDots: true,
         duration: 500
       };
+    },
+    onLoad () {
+      console.log(this.list, 'list')
     },
     methods: {
       callPhone (phoneNumber) {
@@ -116,8 +126,29 @@
         });
       },
       
+      async openDoor (uid) {
+        const res = await unlock({ uid })
+        if (res.code === 0) {
+          uni.showToast({
+            icon: 'none',
+            title: '操作成功'
+          })
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      },
+      
       changeNumber (value) {
         console.log(value, 'haha')
+      },
+      
+      tolinks (id) {
+        uni.navigateTo({
+          url: `/pages/salesOrderDetails/salesOrderDetails?id=${id}`
+        })
       }
     },
     options: {

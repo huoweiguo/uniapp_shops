@@ -4,6 +4,76 @@
     "miniprogram": {
       "list": [
         {
+          "name": "我的仓库",
+          "pathName": "pages/stocking/stocking",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "新增修改商品",
+          "pathName": "pages/createGoods/createGoods",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "商品详情",
+          "pathName": "pages/goodsDetail/goodsDetail",
+          "query": "id=30492005846",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "商品",
+          "pathName": "pages/goods/goods",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "销售单详情",
+          "pathName": "pages/salesOrderDetails/salesOrderDetails",
+          "query": "id=9845471469",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "套餐",
+          "pathName": "pages/recharge/recharge",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "出入记录",
+          "pathName": "pages/entryExit/entryExit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "切换仓库",
+          "pathName": "pages/changeMall/changeMall",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "门店",
+          "pathName": "pages/changeMall/changeMall",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "我的",
+          "pathName": "pages/my/my",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "盘点单",
           "pathName": "pages/stockingList/stockingList",
           "query": "",
@@ -75,5 +145,8 @@
         }
       ]
     }
+  },
+  "setting": {
+    "urlCheck": false
   }
 }

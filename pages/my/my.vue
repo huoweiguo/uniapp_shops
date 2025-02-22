@@ -2,6 +2,7 @@
   <view class="my_container">
     <view class="my_header_box" :style="'padding-top:'+ top +'px'"></view>
     <view class="my_header_outer">
+      <view class="change_stock" @tap="changeMall"><uni-icons type="loop" size="18" color="#78cf7e"></uni-icons>切换仓库</view>
       <view class="my_info">
         <cover-image class="header_icon" src="../../static/header.png"></cover-image>
         <!-- <text class="header_nickname">我是一只小小鸟</text> -->
@@ -11,7 +12,7 @@
     <view class="info_common">
       <view class="info_charge">
         <text>账户余额（元）</text>
-        <text class="ftb">&yen;149.19</text>
+        <text class="ftb">&yen;{{ balance }}</text>
       </view>
       <navigator class="recharge-btn" url="/pages/deposit/deposit">立即充值</navigator>
     </view>
@@ -38,10 +39,12 @@
 </template>
 
 <script>
+  import { getWallet } from '@/api/user.js'
   export default {
     data() {
       return {
         top: 0,
+        balance: '0.00',
         list: [
           { icon: '../../static/data.png', title: '经营数据', url: '/pages/businessSituation/businessSituation' },
           { icon: '../../static/order.png', title: '全部订单', url: '/pages/index/index' },
@@ -51,6 +54,7 @@
     
     onLoad () {
       this.getSafeArea()
+      this.getWalletInfo()
     },
     
     methods: {
@@ -62,6 +66,26 @@
             }
           }
         })
+      },
+      
+      changeMall () {
+        uni.navigateTo({
+          url: '/pages/changeMall/changeMall'
+        })
+      },
+      
+      // 获取用户余额
+      async getWalletInfo() {
+        const res = await getWallet()
+        if (res.code === 0) {
+          console.log(res.data)
+          this.balance = res.data.balance.toFixed(2)
+        } else {
+          uni.showToast({
+            icon:'none',
+            title: res.msg
+          })
+        }
       },
       
       login () {
@@ -88,8 +112,23 @@
   background-color: #78cf7e;
 }
 .my_header_outer {
+  position: relative;
   padding: 100rpx 40rpx 100rpx;
   background-color: #78cf7e;
+  .change_stock {
+    position: absolute;
+    right: 0;
+    top: 30rpx;
+    display: flex;
+    background-color: #fff;
+    height: 60rpx;
+    width: 180rpx;
+    justify-content: center;
+    align-items: center;
+    font-size: 24rpx;
+    border-radius: 30rpx 0 0 30rpx;
+    color: #78cf7e;
+  }
   .my_info {
     display: flex;
     align-items: center;
@@ -112,7 +151,7 @@
   align-items: center;
   background-color: #fff;
   border-radius: 10rpx;
-  margin: -70rpx 40rpx 30rpx;
+  margin: 0 40rpx 30rpx;
   padding: 30rpx 20rpx;
   .info_charge {
     display: flex;

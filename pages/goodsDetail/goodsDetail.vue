@@ -1,15 +1,12 @@
 <template>
   <view class="goods-info-content">
     <view class="goods-info-section">
-      <view class="goods-title mb20">前端运行日志，请另行在小程序开发工具的控制台查看</view>
-      <view class="goods-info-item">编号/货号：<text>--</text></view>
-      <view class="goods-info-item">单位：<text>袋</text></view>
-      <view class="goods-info-item">条形码：<text>XS454547224</text></view>
+      <view class="goods-title mb20">{{ goodsInfo.name }}</view>
+      <view class="goods-info-item">编号/货号：<text>{{ goodsInfo.id }}</text></view>
+      <view class="goods-info-item">产品分类：<text>{{ goodsInfo.categoryName }}</text></view>
+      <view class="goods-info-item">产品条码：<text>{{ goodsInfo.barCode }}</text></view>
       <view class="goods-images">
-        <image src="../../static/2.png" @tap="toggle('center')"/>
-        <image src="../../static/2.png" />
-        <image src="../../static/2.png" />
-        <image src="../../static/2.png" />
+        <image :src="goodsInfo.pic" @tap="toggle('center')"/>
       </view>
     </view>
     
@@ -18,19 +15,15 @@
       <view class="goods-section-item">
         <view class="goods-li">
           <text class="goods-label">进货价</text>
-          <text class="goods-number">&yen;18.50/袋</text>
+          <text class="goods-number">&yen;{{ goodsInfo.purchasePrice }}</text>
         </view>
         <view class="goods-li">
           <text class="goods-label">零售价</text>
-          <text class="goods-number">&yen;29.50/袋</text>
+          <text class="goods-number">&yen;{{ goodsInfo.salePrice }}</text>
         </view>
         <view class="goods-li">
-          <text class="goods-label">批发价</text>
-          <text class="goods-number">&yen;20.50/袋</text>
-        </view>
-        <view class="goods-li">
-          <text class="goods-label">当前库存</text>
-          <text class="goods-number">20</text>
+          <text class="goods-label">预警库存</text>
+          <text class="goods-number">{{ goodsInfo.warningStock }}</text>
         </view>
       </view>
     </view>
@@ -39,31 +32,40 @@
       <text class="small-text">其他信息</text>
       <view class="goods-section-item">
         <view class="goods-li">
-          <text class="goods-label">进货价</text>
-          <text class="goods-number">--</text>
+          <text class="goods-label">规格</text>
+          <text class="goods-number">{{ goodsInfo.standard }}</text>
         </view>
         <view class="goods-li">
-          <text class="goods-label">零售价</text>
-          <text class="goods-number">--</text>
+          <text class="goods-label">状态</text>
+          <text class="goods-number">{{ goodsInfo.status == 0 ? '下架' : '上架' }}</text>
+        </view>
+        <view class="goods-li">
+          <text class="goods-label">单位</text>
+          <text class="goods-number">{{ goodsInfo.unitName }}</text>
         </view>
       </view>
     </view>
     
-    <navigator class="jump-btn" url="/pages/goodsInfo/goodsInfo">修改商品信息</navigator>
+    <navigator class="jump-btn" url="/pages/createGoods/createGoods">修改商品信息</navigator>
     
     <!--商品展示-->
     <uni-popup ref="popup" type="message">
-      <image class="image-list" src="../../static/2.png"></image>
+      <image class="image-list" :src="goodsInfo.pic"></image>
     </uni-popup>
   </view>
 </template>
 
 <script>
+  import { productInfo } from '@/api/common.js'
   export default {
     data() {
       return {
-        type: 'center'
+        type: 'center',
+        goodsInfo: {}
       }
+    },
+    onLoad (options) {
+      this.getGoodsInfo(options.id)
     },
     methods: {
       toggle(type) {
@@ -71,6 +73,18 @@
         // open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
         this.$refs.popup.open(type)
       },
+      
+      async getGoodsInfo (id) {
+        const res = await productInfo(id)
+        if (res.code === 0) {
+          this.goodsInfo = res.data || {}
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      }
     }
   }
 </script>

@@ -3,8 +3,8 @@
     <view class="recharge_title">版本订阅</view>
     <view class="recharge_version">
       <view class="recharge_version_item" v-for="(item, index) in versionArr" :key="item.id" :class="{'active_version': currentIndex === index}" @tap="setCurrent(index, item)">
-        <text class="version_label">{{ item.label }}</text>
-        <text class="version_small">{{ item.text }}</text>
+        <text class="version_label">{{ item.name }}</text>
+        <text class="version_small">{{ item.price.toFixed(2) }} 元</text>
       </view>
     </view>
     <view class="recharge_pay">
@@ -15,27 +15,37 @@
 </template>
 
 <script>
+  import { tenantPackage } from '@/api/common.js'
   export default {
     data() {
       return {
         currentIndex: 0,
-        versionArr: [
-          { id: 1343, label: '极速版', text: '夫妻店开单收银', price: 599 },
-          { id: 1344, label: '基础版', text: '夫妻店开单收银', price: 1099 },
-          { id: 1345, label: '高级版', text: '夫妻店开单收银', price: 1599 }
-        ]
+        currentMount: 0,
+        versionArr: []
       }
     },
-    computed: {
-      currentMount: {
-        get () {
-          return this.versionArr[this.currentIndex].price.toFixed(2) || 0.00
-        }
-      }
+    onLoad () {
+      this.getRechargeList()
     },
     methods: {
       setCurrent (index, obj) {
         this.currentIndex = index
+        this.currentMount = obj.price.toFixed(2)
+      },
+      
+      async getRechargeList () {
+        const res = await tenantPackage()
+        if (res.code === 0) {
+          this.versionArr = res.data || []
+          if (this.versionArr.length > 0) {
+            this.currentMount = this.versionArr[0].price.toFixed(2)
+          }
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
       }
     }
   }

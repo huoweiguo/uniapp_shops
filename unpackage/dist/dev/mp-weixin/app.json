@@ -18,7 +18,8 @@
     "pages/createGoods/createGoods",
     "pages/login/login",
     "pages/stocking/stocking",
-    "pages/stockingList/stockingList"
+    "pages/stockingList/stockingList",
+    "pages/changeMall/changeMall"
   ],
   "window": {
     "navigationBarTextStyle": "black",

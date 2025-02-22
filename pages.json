@@ -117,6 +117,13 @@
       {
         "navigationBarTitleText" : "盘点单"
       }
+    },
+    {
+      "path" : "pages/changeMall/changeMall",
+      "style" : 
+      {
+        "navigationBarTitleText" : "门店"
+      }
     }
   ],
   "globalStyle": {

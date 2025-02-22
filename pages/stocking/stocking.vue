@@ -10,7 +10,6 @@
     
     <view class="stocking-shop justify-around">
       <view class="add-select"><uni-icons type="plusempty" size="18" color="#fa600a" class="mr10"></uni-icons> <text>选择商品</text></view>
-      <view class="add-select"><uni-icons type="scan" size="18" color="#0095fc" class="mr10"></uni-icons> <text>扫码添加</text></view>
     </view>
   </view>
 </template>

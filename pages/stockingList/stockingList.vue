@@ -1,34 +1,50 @@
 <template>
   <view class="stocking-list">
-    <view class="search-input">
+    <!-- <view class="search-input">
       <uni-easyinput prefixIcon="search" v-model="searchKey" placeholder="单号/商品/备注"></uni-easyinput>
-    </view>
-    <view class="stocking-nav">2025-01-10 星期五</view>
-    <view class="list-item" @tap="toLinks">
-      <view class="list-item-title">我的店铺</view>
-      <view class="list-item-lk">
-        <text class="lk-text1">PDD32587458SXXL</text>
-        <view class="lk-yk">
-          <text class="lk-text2">盈亏</text>
-          <text class="fcred">+0.5</text>
-        </view>
-      </view>
+    </view> -->
+    <!-- <view class="stocking-nav">2025-01-10 星期五</view> -->
+    <view class="list-item" v-for="item in list" :key="item.id">
+      <view class="list-item-title">{{ item.name }}</view>
+      <view class="list-text">仓库状态：{{ item.status }}</view>
+      <view class="list-text">默认仓库：{{ item.defaultStatus ? '是' : '否'}}</view>
+      <view class="list-text">负责人：{{ item.principal ? item.principal : '--' }}</view>
+      <view class="list-text">仓库地址：{{ item.address ? item.address : '--' }}</view>
+      <view class="list-text">仓储费：{{ item.warehousePrice ? item.warehousePrice : '0.00' }}元</view>
+      <view class="list-text">搬运费：{{ item.truckagePrice ? item.truckagePrice : '0.00' }}元</view>
     </view>
   </view>
 </template>
 
 <script>
+  import { warehouseList } from '@/api/common.js' 
   export default {
     data() {
       return {
-        searchKey: ''
+        searchKey: '',
+        list: []
       }
+    },
+    onLoad () {
+      this.getStoreList()
     },
     methods: {
       toLinks () {
         uni.navigateTo({
           url: '/pages/stocktakingDetail/stocktakingDetail'
         })
+      },
+      
+      async getStoreList () {
+        const res = await warehouseList()
+        if (res.code === 0) {
+          this.list = res.data || []
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
       }
     }
   }
@@ -58,22 +74,10 @@
         font-weight: 500;
         margin-bottom: 10rpx;
       }
-      .list-item-lk {
-        display: flex;
-        align-items: center;
-        .lk-text1 {
-          margin-right: 40rpx;
-          font-size: 24rpx;
-          color: #777;
-        }
-        .lk-yk {
-          display: flex;
-          align-items: center;
-          text {
-            font-size: 24rpx;
-            color: #777;
-          }
-        }
+      .list-text {
+        font-size: 24rpx;
+        color: #999;
+        margin-bottom: 6rpx;
       }
     }
   }

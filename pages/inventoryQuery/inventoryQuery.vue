@@ -2,15 +2,10 @@
 	<view class="main">
 		<view class="main-search">
 			<uni-section class="search-box">
-				<uni-easyinput prefixIcon="search" suffixIcon="person-filled" v-model="value"
-					placeholder="商品名称/条形码/货号/简拼">
-				</uni-easyinput>
+				<uni-easyinput prefixIcon="search" v-model="pageReqVO.name" placeholder="商品名称/条形码/货号/简拼"></uni-easyinput>
 			</uni-section>
-			<view class="search-icon">
-				<uni-icons type="person-filled" size="20" color="#666"></uni-icons>
-			</view>
 		</view>
-		<view class="main-content">
+		<!-- <view class="main-content">
 			<view class="main-sort">
 				<picker @change="bindPickerChange" :value="index" :range="array">
 					<view class="uni-input">{{index>=0?array[index]:'排序'}}</view>
@@ -18,31 +13,21 @@
 				<uni-icons type="down" color="#666"></uni-icons>
 			</view>
 			<view class="stock">
-				实际库存：1000
-				&emsp;
-				|
-				&emsp;
-				总金额：¥ 0.00
+				实际库存：1000 &emsp; | &emsp; 总金额：¥ 0.00
 			</view>
-		</view>
-		<view class="commodity">
-			<image src="../../static/2.png" class="commodity-image"></image>
-			<view class="commodity-msg">
-				<view class="commodity-msg-name">示例商品（建议试用后删除）</view>
-				<view>--</view>
-				<view>库存：10000件</view>
-				<view>总金额：¥0.00</view>
-			</view>
-		</view>
-		<view class="commodity">
-			<image src="../../static/3.png" class="commodity-image"></image>
-			<view class="commodity-msg">
-				<view class="commodity-msg-name">琅琅脆清新黄瓜味山药脆片）</view>
-				<view>--</view>
-				<view>库存：10000袋</view>
-				<view>总金额：¥0.00</view>
-			</view>
-		</view>
+		</view> -->
+    <scroll-view class="scroll-view_H" scroll-y lower-threshold="50" @scrolltolower="scrollToLower">
+      <view class="commodity" v-for="item in list" :key="item.id">
+        <image :src="item.pic" class="commodity-image"></image>
+        <view class="commodity-msg">
+          <view class="commodity-msg-name">{{ item.productName }}</view>
+          <view class="fc6">产品编号：{{ item.productId }}</view>
+          <view class="fc6">库存：{{ item.count }}</view>
+          <view class="fc6">总金额：¥{{ item.purchasePrice.toFixed(2) }}</view>
+        </view>
+      </view>
+    </scroll-view>
+		
 		<uni-load-more :status="status"/>
 		<!-- <view class="instructions" @click="goUrl">
 			点击展开新手指引
@@ -52,35 +37,71 @@
 </template>
 
 <script>
+  import { stockQuery } from '@/api/common.js'
 	export default {
 		data() {
 			return {
 				array: ['价格从高到低', '价格从高到低', '库存从多到少', '库存从少到多'],
 				index: -1,
 				status: 'noMore', // more 加载更多，loading 加载中，noMore 没有更多
+        list: [],
+        total: 0,
+        pageReqVO: {
+          name: '',
+          pageNo: 1,
+          pageSize: 10
+        }
 			}
 		},
+    onLoad () {
+      this.getStockList()
+    },
 		methods: {
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value)
 				this.index = e.detail.value
-			}
+			},
+      
+      scrollToLower () {
+        console.log(123)
+        const currentCount = this.pageReqVO.pageSize * this.pageReqVO.pageNo
+        if (currentCount < this.total) {
+          this.pageReqVO.pageNo++
+          this.status = 'loading'
+          this.getStockList()
+        } else {
+          this.status = 'noMore'
+        }
+      },
+      
+      async getStockList () {
+        const res = await stockQuery(this.pageReqVO)
+        this.status = 'more'
+        if (res.code === 0) {
+          this.list = [...this.list, ...res.data.list]
+          this.total = res.data.total || 0
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      }
 		}
 	}
 </script>
 
 <style scoped lang="scss">
 	.main {
-		background-color: #f9f6f6;
+		background-color: #f1f4f9;
 		padding-bottom: 70rpx;
-		height: 100vh;
+		min-height: 100vh;
 		position: relative;
 		box-sizing: border-box;
-
 		.main-search {
 			height: 70rpx;
 			display: flex;
-			padding: 30rpx;
+			padding: 30rpx 30rpx 0;
 			align-items: center;
 
 			.search-box {
@@ -106,8 +127,7 @@
 		}
 
 		.main-content {
-			padding: 20rpx;
-
+			padding: 20rpx 20rpx 0;
 			.main-sort {
 				display: flex;
 				margin-bottom: 20rpx;
@@ -129,22 +149,31 @@
 			margin: 20rpx;
 			border-radius: 5rpx;
 
-			&-image {
-				width: 150rpx;
-				height: 150rpx;
+			.commodity-image {
+        width: 200rpx;
+        height: 170rpx;
 				margin-right: 20rpx;
 				border-radius: 5rpx;
 			}
 
-			&-msg {
-				&-name {
-					color: #333 !important;
+			.commodity-msg {
+        flex: 1;
+        overflow: hidden;
+				.fc6 {
+					color: #999;
+          font-size: 24rpx;
+          margin-top: 10rpx;
 				}
-				view {
-					color: #666;
-				}
+        .commodity-msg-name {
+        	color: #333 !important;
+          font-size: 28rpx;
+        }
 			}
 		}
+    
+    .scroll-view_H {
+      height: 100vh;
+    }
 		
 		.instructions{
 			width: 100%;

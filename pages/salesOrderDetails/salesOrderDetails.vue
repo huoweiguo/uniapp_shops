@@ -1,91 +1,122 @@
 <template>
 	<view class="main">
+    <view class="status">
+      <text>{{ orderInfo.logisticName }}</text>
+      <text>{{ orderInfo.track }}</text>
+    </view>
 		<view class="custom">
 			<view class="title">
-				<text>零售客户</text>
-				<text class="date">2024.12.19</text>
+				<text>店铺名称</text>
+				<text class="date">{{ orderInfo.channelName }}</text>
 			</view>
-			<view class="status">已结清</view>
 			<view class="custom-item">
 				<text>单据编号：</text>
-				<text>XSD202412290001</text>
+				<text>{{ orderInfo.no }}</text>
 			</view>
 			<view class="custom-item">
-				<text>业务员：</text>
-				<text>老板</text>
+				<text>客户名称：</text>
+				<text>{{ orderInfo.customerName }}</text>
 			</view>
 			<view class="custom-item">
-				<text>制单人：</text>
-				<text>老板</text>
+				<text>客户地址：</text>
+				<text>{{ orderInfo.address }}</text>
 			</view>
 			<view class="custom-item">
-				<text>制单时间：</text>
-				<text>2024.12.29 21:09:06</text>
+				<text>下单时间：</text>
+				<text>{{ orderInfo.orderTime }}</text>
 			</view>
 		</view>
 		<view class="goods">
 			<view class="title">销售商品</view>
-			<view class="goods-detail">
-				<cover-image class="goods-img" src="/static/2.png"></cover-image>
+			<view class="goods-detail" v-for="item in orderInfo.items" :key="item.id">
+				<image class="goods-img" :src="item.pic"></image>
 				<view class="goods-text">
-					<view class="goods-msg">示例商品（建议试用后删除）</view>
+					<view class="goods-msg">{{ item.productName }}</view>
 					<view class="goods-money">
-						<text>0.02×1件</text>
-						<text>0.02</text>
+						<text>¥ {{ item.productPrice ? item.productPrice.toFixed(2) : '0.00' }}</text>
+						<text>{{ item.count }}件</text>
 					</view>
 				</view>
 			</view>
 			<view class="goods-total">
-				<text>合计已选1，¥0.02</text>
+				<text>合计数量：{{ orderInfo.totalCount }}</text>
+        <text>合计价格：¥ {{ orderInfo.totalProductPrice ? orderInfo.totalProductPrice.toFixed(2) : '0.00' }}</text>
 			</view>
+      
 		</view>
 		<view class="rebate">
 			<view class="rebate-item">
-				<text>整单折扣：</text>
-				<text>100%</text>
+				<text>优惠金额：</text>
+				<text>¥ {{ orderInfo.discountPrice ? orderInfo.discountPrice.toFixed(2) : '0.00' }}</text>
 			</view>
+      
+      <view class="rebate-item" v-if="orderInfo.discountPercent">
+      	<text>优惠率：</text>
+      	<text>{{ orderInfo.discountPercent }}%</text>
+      </view>
+      <view class="rebate-item" v-if="orderInfo.totalTaxPrice">
+      	<text>税额：</text>
+      	<text>¥ {{ orderInfo.totalTaxPrice ? orderInfo.totalTaxPrice.toFixed(2) : '0.00' }}</text>
+      </view>
+      
 			<view class="rebate-item">
-				<text>折后金额：</text>
-				<text>¥ 0.02</text>
+				<text>定金金额：</text>
+				<text>¥ {{ orderInfo.depositPrice ? orderInfo.depositPrice.toFixed(2) : '0.00' }}</text>
 			</view>
 			<view class="rebate-item">
 				<text>运费：</text>
-				<text>¥ 0.02</text>
+				<text>¥ {{ orderInfo.sendFee ? orderInfo.sendFee.toFixed(2) : '0.00' }}</text>
 			</view>
 			<view class="rebate-item">
-				<text>本单应收：</text>
-				<text>¥ 0.02</text>
+				<text>最终价格：</text>
+				<text>¥ {{ orderInfo.totalPrice ? orderInfo.totalPrice.toFixed(2) : '0.00' }}</text>
 			</view>
-			<view class="rebate-item">
+			<!-- <view class="rebate-item">
 				<text></text>
 				<text class="rebate-item-text">已抹零：¥ 0.02</text>
-			</view>
+			</view> 
 			<view class="net-receipts">
 				<text>本单实收：</text>
 				<text>¥0.02 <text class="net-tools">|</text> 现金 <text class="net-tools">〉</text></text>
-			</view>
+			</view>-->
 		</view>
 	</view>
-	<view class="main-footer">
+	<!-- <view class="main-footer">
 		<view class="btn">
 			<uni-icons type="bars" size="20"></uni-icons>
 			打印
 		</view>
 		<view class="btn">
-			<!-- <uni-icons custom-prefix="custom-icon" type="icon-youxi" size="30"></uni-icons> -->
+			<uni-icons custom-prefix="custom-icon" type="icon-youxi" size="30"></uni-icons>
 			<uni-icons type="bars" size="20"></uni-icons>
 			修改
 		</view>
-	</view>
+	</view> -->
 </template>
 
 <script>
+  import { orderInfo } from '@/api/common.js'
 	export default {
 		data() {
-			return {}
+			return {
+        orderInfo: {}
+      }
 		},
+    onLoad (options) {
+      this.getOrderInfo(options.id)
+    },
 		methods: {
-
+      async getOrderInfo (id) {
+        const res = await orderInfo({ id })
+        if (res.code === 0) {
+          this.orderInfo = res.data || {}
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      }
 		}
 	}
 </script>
@@ -97,6 +128,18 @@
 		padding: 20rpx;
 		overflow-y: auto;
 		overflow-x: hidden;
+    
+    .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60rpx;
+    	padding: 20rpx;
+    	color: #78cf7e;
+      background-color: #fff;
+      margin-bottom: 20rpx;
+    }
+    
 
 		.custom {
 			background-color: #fff;
@@ -106,21 +149,24 @@
 			.title {
 				display: flex;
 				justify-content: space-between;
-				align-items: center;
+				align-items: flex-start;
 				padding: 20rpx 0;
+        text {
+          display: flex;
+          &:first-child {
+            width: 160rpx;
+          }
+          &:last-child {
+            flex: 1;
+            overflow: hidden;
+          }
+        }
 
 				.date {
 					font-size: 28rpx;
 					color: #666;
 				}
 			}
-
-			.status {
-				padding: 0 0rpx 20rpx;
-				color: #12ffdd;
-				border-bottom: 1px solid #eeeeee;
-			}
-
 			.custom-item {
 				display: flex;
 				justify-content: space-between;
@@ -156,7 +202,7 @@
 			.goods-detail {
 				display: flex;
 				justify-content: space-between;
-				align-items: center;
+				align-items: flex-start;
 
 				.goods-img {
 					width: 100rpx;
@@ -166,8 +212,9 @@
 				}
 
 				.goods-text {
-					flex: auto;
+					flex: 1;
 					padding: 0 20rpx;
+          overflow: hidden;
 
 					.goods-msg {
 						padding: 20rpx 0;
@@ -193,6 +240,8 @@
 				text-align: right;
 				padding-top: 20rpx;
 				margin: 20rpx 0;
+        display: flex;
+        flex-direction: column;
 			}
 		}
 

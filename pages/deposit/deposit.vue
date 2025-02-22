@@ -51,6 +51,7 @@
     },
     onLoad () {
       this.getSafeArea()
+      this.depositInfo()
     },
     
     methods: {

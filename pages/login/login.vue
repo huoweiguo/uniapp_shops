@@ -1,70 +1,100 @@
 <template>
   <!-- pages/login/login.wxml -->
-  <view class="login-container">
-    <view class="login-box">
-      <uni-icons type="weixin" size="80" color="#1aad19"></uni-icons>
-      <view class="title">用户登录</view>
-      <button
-        type="primary"
-        open-type="getUserInfo"
-        @getuserinfo="onGetUserInfo"
-        class="login-button"
-        size="mini"
-      >
-        授权登录微信
-      </button>
+  <view class="container">
+    <view class="logo">账号登录</view>
+    <view class="form">
+      <view class="input-group">
+        <input class="input" type="text" placeholder="请输入账号" v-model="params.username" />
+      </view>
+      <view class="input-group">
+        <input class="input" type="password" placeholder="请输入密码" v-model="params.password" />
+      </view>
+      <button class="login-btn" @click="handleLogin">登录</button>
     </view>
   </view>
 </template>
 
 <script>
+import { login } from '@/api/login.js'
 export default {
+  data() {
+    return {
+      params: {
+        username: '',
+        password: '',
+        captchaVerification: 'PfcH6mgr8tpXuMWFjvW6YVaqrswIuwmWI5dsVZSg7sGpWtDCUbHuDEXl3cFB1+VvCC/rAkSwK8Fad52FSuncVg==',
+        socialType: 10,
+        socialCode: '1024',
+        socialState: '9b2ffbc1-7425-4155-9894-9d5c08541d62',
+        socialCodeValid: true
+      }
+    };
+  },
   methods: {
-    onGetUserInfo(e) {
-      if (e.detail.userInfo) {
-        // 用户按了允许授权按钮
-        console.log('用户信息：', e.detail.userInfo);
-        // 这里可以调用登录接口，传递用户信息
+    async handleLogin() {
+      if (this.params.username && this.params.password) {
+        const res = await login(this.params)
+        if (res.code === 200) {
+          console.log(res, 'res')
+        } else {
+          uni.showToast({
+            title: res.msg,
+            icon: 'none'
+          });
+        }
+        
       } else {
-        // 用户按了拒绝按钮
-        console.log('用户拒绝授权');
+        uni.showToast({
+          title: '请输入账号和密码',
+          icon: 'none'
+        });
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.login-container {
+.container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100vh;
-  background-color: #f8f8f8;
+  background-color: #f5f5f5;
 }
 
-.login-box {
+.logo {
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 30rpx;
+  color: #666;
+}
+
+.form {
   width: 80%;
-  max-width: 400px;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
 }
 
-
-.title {
-  font-size: 32rpx;
-  margin-bottom: 100px;
-  color: #1aad19;
+.input-group {
+  margin-bottom: 20rpx;
 }
 
-.login-button {
+.input {
+  height: 60rpx;
+  padding: 10rpx;
+  border: 1px solid #ccc;
+  border-radius: 10rpx;
+  font-size: 24rpx;
+}
+
+.login-btn {
   width: 100%;
-  padding: 10px;
-  background-color: #1aad19;
-  color: #ffffff;
+  height: 80rpx;
+  background-color: #78cf7e;
+  color: #fff;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 10rpx;
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
 }
 </style>

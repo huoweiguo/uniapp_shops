@@ -29,6 +29,9 @@
   min-height: 100vh;
   box-sizing: border-box;
 }
+.goods_container .scroll-view-container.data-v-7e2880f6 {
+  height: calc(100vh - 200rpx);
+}
 .goods_container .goods_operation.data-v-7e2880f6 {
   display: flex;
   justify-content: space-between;

@@ -11,7 +11,7 @@
 				/>
 			</view>
 			<view class="ee-total">
-				<text>筛选 5 条</text>
+				<text>筛选 {{ total }} 条</text>
 			</view>
 		</view>
 		<view class="main">
@@ -19,75 +19,84 @@
 				<view>进店人数
 				<uni-icons type="info-filled" size="16" color="#666"></uni-icons>
 				</view>
-				<view class="persons-num">5人</view>
+				<view class="persons-num">{{total}}人</view>
 			</view>
-			<view class="person-detail">
-				<view class="pd-date" @click="handleClick()">
-					<text>2025-01-08 03:22:20 ~ 未查询到关门时间</text>
-					<uni-icons type="right" size="20" color="#666"></uni-icons>
-				</view>
-				<view class="pd-name">
-					<uni-icons type="person-filled" size="20"></uni-icons>
-					肖长江 <text class="pd-tag">骑手</text>
-				</view>
-				<view class="pd-phone">
-					<uni-icons type="bars" size="20"></uni-icons>
-					239945569
-				</view>
-				<view class="pd-button">
-					<text>查看回放</text>
-				</view>
-			</view>
-			<view class="person-detail">
-				<view class="pd-date">
-					<text>2025-01-08 03:22:20 ~ 未查询到关门时间</text>
-					<uni-icons type="right" size="20" color="#666"></uni-icons>
-				</view>
-				<view class="pd-name">
-					<uni-icons type="person-filled" size="20"></uni-icons>
-					肖长江 <text class="pd-tag">骑手</text>
-				</view>
-				<view class="pd-phone">
-					<uni-icons type="bars" size="20"></uni-icons>
-					239945569
-				</view>
-				<view class="pd-button">
-					<text>查看回放</text>
-				</view>
-			</view>
-			<view class="person-detail">
-				<view class="pd-date">
-					<text>2025-01-08 03:22:20 ~ 未查询到关门时间</text>
-					<uni-icons type="right" size="20" color="#666"></uni-icons>
-				</view>
-				<view class="pd-name">
-					<uni-icons type="person-filled" size="20"></uni-icons>
-					肖长江 <text class="pd-tag">骑手</text>
-				</view>
-				<view class="pd-phone">
-					<uni-icons type="bars" size="20"></uni-icons>
-					239945569
-				</view>
-				<view class="pd-button">
-					<text>查看回放</text>
-				</view>
-			</view>
-		</view>
+      <scroll-view class="scroll-view_H" scroll-y="true" lower-threshold="50" @scrolltolower="scrolltolower">
+        <view class="person-detail" v-for="item in list" :key="item.id">
+          <view class="pd-date" @tap="handleClick">
+            <text>{{ timestampToTime(item.createTime) }}</text>
+            <uni-icons type="right" size="20" color="#666"></uni-icons>
+          </view>
+          <view class="pd-name">
+           仓库名： {{ item.warehouseName ? item.warehouseName : '--' }}
+          </view>
+          <view class="pd-name">
+            开门状态：
+            <text v-if="item.status === 1" class="fcgreen">成功</text>
+            <text v-if="item.status === 0" class="fcred">失败</text>
+          </view>
+          <!-- <view class="pd-button">
+            <text>查看回放</text>
+          </view> -->
+        </view>
+      </scroll-view>
+      <uni-load-more :status="status"></uni-load-more>
+    </view>
 	</view>
 </template>
 
 <script>
+  import { entryRecord } from '@/api/common.js'
+  import { timestampToTime } from '@/utils/tools.js'
 	export default {
 		data() {
 			return {
 				range: ['2025-01-01','2025-01-20'],
-				total: 0
+				total: 0,
+        status: 'more',
+        timestampToTime,
+        pageReqVO: {
+          pageNo: 1,
+          pageSize: 10
+        },
+        list: []
 			}
 		},
+    onLoad () {
+      this.getEntryRecord()
+    },
 		methods: {
 			bindDateChange(v){
 				console.log(v,232323)
 			},
+      
+      async getEntryRecord () {
+        const res = await entryRecord(this.pageReqVO)
+        if (res.code === 0) {
+          this.list = [...this.list, ...res.data.list]
+          
+          this.total = res.data.total
+          if (res.data.list.length < this.pageReqVO.pageSize) {
+            this.status = 'noMore'
+          }
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      },
+      
+      scrolltolower () {
+        const currentCount = this.pageReqVO.pageSize * this.pageReqVO.pageNo
+        if (currentCount < this.total) {
+          this.pageReqVO.pageNo++
+          this.status = 'loading'
+          this.getEntryRecord()
+        } else {
+          this.status = 'noMore'
+        }
+      },
 			
 			handleClick(){
 				uni.navigateTo({
@@ -102,22 +111,35 @@
 	.entry_exit{
 		height: 100vh;
 		.eeTimes{
-			height: 75rpx;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      padding: 0 20rpx;
+			height: 85rpx;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+      box-sizing: border-box;
+      background-color: #fff;
+      z-index: 99;
 			.ee-date{
 				flex: 0 0 65%;
 			}
 			.ee-total{
 				color: #999;
+        font-size: 28rpx;
 				// padding-left: 20rpx;
 			}
 		}
 		.main{
 			height: calc(100vh - 75rpx);
-			padding: 20rpx;
+			padding: 20rpx 20rpx 100rpx;
 			background-color: #f2f2f2;
+      margin-top: 85rpx;
+      .scroll-view_H {
+        height: 100%;
+      }
 			.main-persons{
 				display: flex;
 				justify-content: space-between;

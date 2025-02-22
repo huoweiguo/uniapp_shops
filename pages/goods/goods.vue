@@ -1,113 +1,139 @@
 <template>
   <view class="goods_container">
     <uni-section>
-      <uni-search-bar placeholder="名称/规格/条形码" bgColor="#efefef" @confirm="search" />
+      <uni-search-bar placeholder="请输入商品名称" bgColor="#efefef" @confirm="pageReqVO.name" />
     </uni-section>
     <view class="goods_operation">
-      <uni-data-picker placeholder="全部类别" popup-title="选择类别" :localdata="dataTree" v-model="classify"
-      @change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
+      <uni-data-picker placeholder="全部类别" popup-title="选择类别" :localdata="dataTree" v-model="pageReqVO.categoryId"
+      @change="onchange">
       </uni-data-picker>
-      <view class="select-all"><uni-icons type="plus" size="20"></uni-icons>新增</view>
+      <navigator class="select-all" url="/pages/createGoods/createGoods"><uni-icons type="plus" size="20"></uni-icons>新增</navigator>
     </view>
-    <view class="goods-counts">
+    <!-- <view class="goods-counts">
       <text class="goods-counts-text">商品数量：200</text>|<text class="goods-counts-text">商品库存：50000</text>
-    </view>
+    </view> -->
     
-    <scroll-view scroll-y="true">
-      <navigator class="goods-item-list" url="/pages/goodsDetail/goodsDetail">
+    <scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrolltolower" class="scroll-view-container">
+      <view class="goods-item-list" v-for="item in goodsList" :key="item.id" @tap="toLinks(item.id)">
         <uni-swipe-action>
           <uni-swipe-action-item>
             <view class="content-box">
-              <image src="../../static/2.png" class="goods-list-image"></image>
+              <image :src="item.pic" class="goods-list-image"></image>
               <view class="goods-content">
-                <text class="goods-content-title">狼蓝螯合钙十多个广东省建设大街解放大道</text>
-                <text>零售价：&yen;12.50</text>
-                <text>批发价：&yen;12.50</text>
-                <text>库存：&yen;12.50</text>
+                <text class="goods-content-title">{{ item.name }}</text>
+                <text>销售价格：&yen;{{ item.salePrice && item.salePrice.toFixed(2) }}</text>
+                <text>采购价格：&yen;{{ item.purchasePrice && item.purchasePrice.toFixed(2) }}</text>
+                <text>产品分类：{{ item.categoryName }}</text>
               </view>
             </view>
             <template v-slot:right>
               <view class="slot-button">
-                <text class="slot-button-text bgred" @tap="bindClick({position:'right',content:{text:'编辑'}})">编辑</text>
-                <text class="slot-button-text bgblue" @tap="bindClick({position:'right',content:{text:'删除'}})">删除</text>
+                <text class="slot-button-text bgred" @tap="editGoods({position:'right', id: item.id, content:{text:'编辑'}})">编辑</text>
+                <text class="slot-button-text bgblue" @tap="deleteGoods({position:'right', id: item.id, content:{text:'删除'}})">删除</text>
               </view>
             </template>
           </uni-swipe-action-item>
         </uni-swipe-action>
-      </navigator>
-      
-      <navigator class="goods-item-list" url="/pages/goodsDetail/goodsDetail">
-        <uni-swipe-action>
-          <uni-swipe-action-item>
-            <view class="content-box">
-              <image src="../../static/2.png" class="goods-list-image"></image>
-              <view class="goods-content">
-                <text class="goods-content-title">狼蓝螯合钙十多个广东省建设大街解放大道</text>
-                <text>零售价：&yen;12.50</text>
-                <text>批发价：&yen;12.50</text>
-                <text>库存：&yen;12.50</text>
-              </view>
-            </view>
-            <template v-slot:right>
-              <view class="slot-button">
-                <text class="slot-button-text bgred" @click="bindClick({position:'right',content:{text:'编辑'}})">编辑</text>
-                <text class="slot-button-text bgblue" @click="bindClick({position:'right',content:{text:'删除'}})">删除</text>
-              </view>
-            </template>
-          </uni-swipe-action-item>
-        </uni-swipe-action>
-      </navigator>
+      </view>
     </scroll-view>
+    <uni-load-more :status="status"></uni-load-more>
   </view>
 </template>
 
 <script>
+  import { productList, categoryList } from '@/api/common.js'
   export default {
     data() {
       return {
-        classify: '',
-        delArr: [],
-        dataTree: [
-          { text: '数学', value: 'sx' },
-          { text: '语文', value: 'yw' },
-          { text: '英语', value: 'yy' },
-          { text: '物理', value: 'wl' },
-          { text: '化学', value: 'hx' },
-          { text: '历史', value: 'ls' },
-          { text: '数学1', value: 'sx1' },
-          { text: '语文1', value: 'yw1' },
-          { text: '英语1', value: 'yy1' },
-          { text: '物理1', value: 'wl1' },
-          { text: '化学1', value: 'hx1' },
-          { text: '历史1', value: 'ls1' },
-          { text: '数学2', value: 'sx2' },
-          { text: '语文2', value: 'yw2' },
-          { text: '英语2', value: 'yy2' },
-          { text: '物理2', value: 'wl2' },
-          { text: '化学2', value: 'hx2' },
-          { text: '历史2', value: 'ls2' }
-        ]
+        pageReqVO: {
+          pageNo: 1,
+          pageSize: 10,
+          name: '',
+          categoryId: ''
+        },
+        listReqVO: {
+          name: '',
+          status: ''
+        },
+        status: 'more',
+        total: 0,
+        goodsList: [],
+        dataTree: []
       }
     },
+    onLoad () {
+      this.getCategoryList()
+      this.getGoodsList()
+    },
     methods: {
-      search (value) {
-        console.log(value)
+      async getCategoryList () {
+        const res = await categoryList(this.listReqVO)
+        if (res.code === 0) {
+          let data = res.data || []
+          data.map(item => {
+            this.dataTree.push({
+              text: item.name,
+              value: item.id
+            })
+          })
+          console.log(this.dataTree, 'datatree')
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
       },
-      bindClick (options) {
-        console.log(options)
+      
+      async getGoodsList () {
+        const res = await productList(this.pageReqVO)
+        this.status = 'loading'
+        if (res.code === 0) {
+          this.goodsList = [...this.goodsList, ...res.data.list]
+          this.total = res.data.total
+          if (this.pageReqVO.pageNo * this.pageReqVO.pageSize >= this.total) {
+            this.status = 'noMore'
+          } else {
+            this.status = 'more'
+          }
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
       },
-      onnodeclick(e) {
-        console.log(e);
+      
+      toLinks (id) {
+        uni.navigateTo({
+          url: `/pages/goodsDetail/goodsDetail?id=${id}`
+        })
       },
-      onpopupopened(e) {
-        console.log('popupopened');
+      
+      scrolltolower () {
+        if (this.pageReqVO.pageNo * this.pageReqVO.pageSize < this.total) {
+          this.pageReqVO.pageNo++
+          this.getGoodsList()
+        }
       },
-      onpopupclosed(e) {
-        console.log('popupclosed');
-      },
+      
       onchange(e) {
-        console.log('onchange:', e);
-      }
+        if (e.detail.value.length > 0) {
+          this.pageReqVO.categoryId = e.detail.value[0].value
+          this.pageReqVO.pageNo = 1
+          this.goodsList = []
+          this.getGoodsList()
+        }
+      },
+      
+      editGoods ({ id }) {
+        uni.navigateTo({
+          url: `/pages/createGoods/createGoods?id=${id}`
+        })
+      },
+      
+      deleteGoods ({ id }) {}
+
     }
   }
 </script>
@@ -118,6 +144,9 @@
   background-color: #f1f4f9;
   min-height: 100vh;
   box-sizing: border-box;
+  .scroll-view-container {
+    height: calc(100vh - 200rpx);
+  }
   .goods_operation {
     display: flex;
     justify-content: space-between;

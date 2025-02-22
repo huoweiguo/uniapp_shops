@@ -21,6 +21,7 @@ if (!Math) {
   "./pages/login/login.js";
   "./pages/stocking/stocking.js";
   "./pages/stockingList/stockingList.js";
+  "./pages/changeMall/changeMall.js";
 }
 const _sfc_main = {
   onLaunch: function() {

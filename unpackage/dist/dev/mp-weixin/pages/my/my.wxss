@@ -31,8 +31,23 @@
   background-color: #78cf7e;
 }
 .my_header_outer.data-v-2f1ef635 {
+  position: relative;
   padding: 100rpx 40rpx 100rpx;
   background-color: #78cf7e;
+}
+.my_header_outer .change_stock.data-v-2f1ef635 {
+  position: absolute;
+  right: 0;
+  top: 30rpx;
+  display: flex;
+  background-color: #fff;
+  height: 60rpx;
+  width: 180rpx;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+  border-radius: 30rpx 0 0 30rpx;
+  color: #78cf7e;
 }
 .my_header_outer .my_info.data-v-2f1ef635 {
   display: flex;
@@ -55,7 +70,7 @@
   align-items: center;
   background-color: #fff;
   border-radius: 10rpx;
-  margin: -70rpx 40rpx 30rpx;
+  margin: 0 40rpx 30rpx;
   padding: 30rpx 20rpx;
 }
 .info_common .info_charge.data-v-2f1ef635 {
