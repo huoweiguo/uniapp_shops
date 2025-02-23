@@ -8,7 +8,7 @@
 			<uni-easyinput prefixIcon="search" v-model="value" placeholder="请输入商品名称、条码、货位" >
 			</uni-easyinput>
 			<view class="scan-the-code" @click="scanCode">
-				<uni-icons type="person-filled" size="20" color="#fff"></uni-icons>扫码
+				<uni-icons type="scan" size="20" color="#fff"></uni-icons>扫码
 			</view>
 		</uni-section>
 	</view>

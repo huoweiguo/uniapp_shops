@@ -9,7 +9,7 @@
     </view>
     
     <view class="stocking-shop justify-around">
-      <view class="add-select"><uni-icons type="plusempty" size="18" color="#fa600a" class="mr10"></uni-icons> <text>选择商品</text></view>
+      <view class="add-select" @click="goUrl"><uni-icons type="plusempty" size="18" color="#fa600a" class="mr10"></uni-icons> <text>选择商品</text></view>
     </view>
   </view>
 </template>
@@ -26,7 +26,12 @@
         uni.navigateTo({
           url: '/pages/stockingList/stockingList'
         })
-      }
+      },
+	  goUrl () {
+	  uni.navigateTo({
+		url: '/pages/selectProduct/selectProduct'
+	  })
+	  }
     }
   }
 </script>

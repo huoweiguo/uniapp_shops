@@ -124,6 +124,13 @@
       {
         "navigationBarTitleText" : "门店"
       }
+    },
+    {
+    	"path" : "pages/selectProduct/selectProduct",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "选择商品"
+    	}
     }
   ],
   "globalStyle": {
