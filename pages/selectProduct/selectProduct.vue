@@ -12,38 +12,25 @@
 	</view>
 	<view class="main-content">
 		<view class="aside">
-			<view class="aside-item active">全部</view>
-			<view class="aside-item">一次性用品</view>
-			<view class="aside-item">圣诞专区</view>
-			<view class="aside-item">化妆用品</view>
-			<view class="aside-item">精选福袋下单必看</view>
-			<view class="aside-item">精选福袋</view>
-			<view class="aside-item">降温保暖</view>
-			<view class="aside-item">美妆小样</view>
-			<view class="aside-item">JK制服</view>
-			<view class="aside-item">男士服装</view>
-			<view class="aside-item">毛绒玩具</view>
-			<view class="aside-item">女士上衣</view>
-			<view class="aside-item">本周新品</view>
-			<view class="aside-item">女士职业工装</view>
-			<view class="aside-item">店铺公告</view>
-			<view class="aside-item">女士套装</view>
+			<view :class="!pageReqVO.name?'aside-item':'aside-item active'" @click="changeType({value: '',text: ''})">全部</view>
+			<view v-for="item in dataTree" :class="pageReqVO.name==item.text?'aside-item':'aside-item active'" @click="changeType(item)" :key="item.value">{{item.text}}</view>
+			
 		</view>
 		<view class="content">
-			<view class="content-item" @click="toggleClick">
-				<image src="../../static/2.png" class="content-item-image"></image>
+			<view class="content-item" v-for="item in goodsList" @click="toggleClick">
+				<image :src="item.pic" class="content-item-image"></image>
 				<view class="content-item-msg">
-					<view>琅琅脆清新黄瓜味山药脆片</view>
-					<view>库存：0袋</view>
+					<view>{{item.productName}}</view>
+					<view>库存：{{item.count}}{{item.unitName}}</view>
 				</view>
 			</view>
-			<view class="content-item" @click="toggleClick">
+			<!-- <view class="content-item" @click="toggleClick">
 				<image src="../../static/2.png" class="content-item-image"></image>
 				<view class="content-item-msg">
 					<view>示例商品（建议试用后删除）</view>
 					<view>库存：1000袋</view>
 				</view>
-			</view>
+			</view> -->
 
 			<uni-load-more :status="status" />
 		</view>
@@ -61,18 +48,19 @@
 					<view class="popup-content-count-item">
 						<view>实际数量</view>
 						<view>
-							<uni-icons type="minus" size="20" color="#99fdf9"></uni-icons>
+							<!-- <uni-icons type="minus" size="20" color="#99fdf9"></uni-icons>
 							<uni-easyinput v-model="value" placeholder="请输入内容" clearable="false"></uni-easyinput>
-							<uni-icons type="plus-filled" size="20" color="#5ffff1"></uni-icons>
+							<uni-icons type="plus-filled" size="20" color="#5ffff1"></uni-icons> -->
+							<uni-number-box :value="50" background="#99fdf9" color="#333" />
+							件
 						</view>
+
 					</view>
 				</view>
 				<view class="popup-content-profitLoss">盈亏：0件</view>
 				<view class="popup-content-remark">
 					<view>备注：</view>
-					<uni-easyinput v-model="value" placeholder="请输入内容" clearable="false"
-						@input="input"></uni-easyinput>
-					<uni-icons type="scan" size="20" color="#333"></uni-icons>
+					<uni-easyinput v-model="value" :disabled="disabledEdit" placeholder="请输入内容" suffixIcon="scan" @iconClick="canInput" @input="input"></uni-easyinput>
 				</view>
 			</view>
 			<view class="popup-footer">
@@ -84,6 +72,10 @@
 </template>
 
 <script>
+	import {
+		stockQuery,
+		categoryList
+	} from '@/api/common.js'
 	export default {
 		data() {
 			return {
@@ -97,10 +89,66 @@
 				style: {
 					backgroundColor: '#5ffff1',
 					borderColor: '#fff'
-				}
+				},
+				pageReqVO: {
+					pageNo: 1,
+					pageSize: 10,
+					name: '',
+					categoryId: ''
+				},
+				listReqVO: {
+					name: '',
+					status: ''
+				},
+				status: 'more',
+				total: 0,
+				goodsList: [],
+				dataTree: [],
+				disabledEdit: true
 			}
 		},
+		onLoad() {
+			this.getCategoryList()
+			this.getGoodsList()
+		},
 		methods: {
+			async getCategoryList() {
+				const res = await categoryList(this.listReqVO)
+				if (res.code === 0) {
+					let data = res.data || []
+					data.map(item => {
+						this.dataTree.push({
+							text: item.name,
+							value: item.id
+						})
+					})
+					console.log(this.dataTree, 'datatree')
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				}
+			},
+
+			async getGoodsList() {
+				const res = await stockQuery(this.pageReqVO)
+				this.status = 'loading'
+				if (res.code === 0) {
+					this.goodsList = [...this.goodsList, ...res.data.list]
+					this.total = res.data.total
+					if (this.pageReqVO.pageNo * this.pageReqVO.pageSize >= this.total) {
+						this.status = 'noMore'
+					} else {
+						this.status = 'more'
+					}
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				}
+			},
 			scanCode(e) {
 				if (e == 'prefix') {
 					return false
@@ -114,6 +162,10 @@
 					}
 				});
 			},
+			changeType(item){
+				this.pageReqVO.name = item.text;
+				this.getGoodsList();
+			},
 			toggleClick(item) {
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
 				this.$refs.popup.open('bottom')
@@ -124,6 +176,10 @@
 
 			input(e) {
 				console.log('输入内容：', e);
+			},
+			
+			canInput() {
+				this.disabledEdit = !this.disabledEdit
 			}
 		}
 	}
