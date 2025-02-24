@@ -1,7 +1,7 @@
 <template>
 	<view class="main-search">
 		<uni-section class="search-box">
-			<uni-easyinput prefixIcon="search" suffixIcon="scan" @iconClick="scanCode" v-model="value"
+			<uni-easyinput prefixIcon="search" suffixIcon="scan" @iconClick="scanCode" v-model="pageReqVO.name"
 				placeholder="名称/条形码/编号货品/简拼" clearButton="none">
 				<!-- <uni-easyinput prefixIcon="search" suffixIcon="" v-model="value" placeholder="名称/条形码/编号货品/简拼" clearButton="none" > -->
 			</uni-easyinput>
@@ -12,19 +12,26 @@
 	</view>
 	<view class="main-content">
 		<view class="aside">
-			<view :class="!pageReqVO.name?'aside-item':'aside-item active'" @click="changeType({value: '',text: ''})">全部</view>
-			<view v-for="item in dataTree" :class="pageReqVO.name==item.text?'aside-item':'aside-item active'" @click="changeType(item)" :key="item.value">{{item.text}}</view>
-			
+			<view :class="pageReqVO.name=='all'?'aside-item active':'aside-item'"
+				@click="changeType({value: 'all',text: 'all'})">全部
+			</view>
+			<view v-for="item in dataTree" :class="pageReqVO.name==item.text?'aside-item active':'aside-item'"
+				@click="changeType(item)" :key="item.value">{{item.text}}</view>
+
 		</view>
 		<view class="content">
-			<view class="content-item" v-for="item in goodsList" @click="toggleClick">
-				<image :src="item.pic" class="content-item-image"></image>
-				<view class="content-item-msg">
-					<view>{{item.productName}}</view>
-					<view>库存：{{item.count}}{{item.unitName}}</view>
-				</view>
-			</view>
-			<!-- <view class="content-item" @click="toggleClick">
+			<scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrolltolower"
+				class="scroll-view-container">
+				<uni-swipe-action>
+					<uni-swipe-action-item>
+						<view class="content-item" v-for="item in goodsList" @click="toggleClick">
+							<image :src="item.pic" class="content-item-image"></image>
+							<view class="content-item-msg">
+								<view>{{item.productName}}</view>
+								<view>库存：{{item.count}}{{item.unitName}}</view>
+							</view>
+						</view>
+						<!-- <view class="content-item" @click="toggleClick">
 				<image src="../../static/2.png" class="content-item-image"></image>
 				<view class="content-item-msg">
 					<view>示例商品（建议试用后删除）</view>
@@ -32,18 +39,21 @@
 				</view>
 			</view> -->
 
+					</uni-swipe-action-item>
+				</uni-swipe-action>
+			</scroll-view>
 			<uni-load-more :status="status" />
 		</view>
 		<uni-popup ref="popup" background-color="#fff" @change="change">
 			<view class="popup-content">
 				<view class="popup-content-goods">
-					<image src="../../static/2.png" class="popup-content-image"></image>
-					<text>示例商品（建议试用后删除）</text>
+					<image :src="record.pic" class="popup-content-image"></image>
+					<text>{{record.productName}}</text>
 				</view>
 				<view class="popup-content-count">
 					<view class="popup-content-count-item">
 						<view>库存数量</view>
-						<view>1000</view>
+						<view>{{record.count}}{{record.unitName}}</view>
 					</view>
 					<view class="popup-content-count-item">
 						<view>实际数量</view>
@@ -51,16 +61,17 @@
 							<!-- <uni-icons type="minus" size="20" color="#99fdf9"></uni-icons>
 							<uni-easyinput v-model="value" placeholder="请输入内容" clearable="false"></uni-easyinput>
 							<uni-icons type="plus-filled" size="20" color="#5ffff1"></uni-icons> -->
-							<uni-number-box :value="50" background="#99fdf9" color="#333" />
+							<uni-number-box :value="realyCount" background="#99fdf9" color="#333" />
 							件
 						</view>
 
 					</view>
 				</view>
-				<view class="popup-content-profitLoss">盈亏：0件</view>
+				<view class="popup-content-profitLoss">盈亏：{{profitLoss}}件</view>
 				<view class="popup-content-remark">
 					<view>备注：</view>
-					<uni-easyinput v-model="value" :disabled="disabledEdit" placeholder="请输入内容" suffixIcon="scan" @iconClick="canInput" @input="input"></uni-easyinput>
+					<uni-easyinput v-model="remark" :disabled="disabledEdit" placeholder="请输入内容" suffixIcon="scan"
+						@iconClick="canInput" @input="input"></uni-easyinput>
 				</view>
 			</view>
 			<view class="popup-footer">
@@ -104,7 +115,11 @@
 				total: 0,
 				goodsList: [],
 				dataTree: [],
-				disabledEdit: true
+				disabledEdit: true,
+				record: {},
+				realyCount: 0,
+				profitLoss: '0',
+				remark: ''
 			}
 		},
 		onLoad() {
@@ -149,6 +164,21 @@
 					})
 				}
 			},
+			scrolltolower() {
+				if (this.pageReqVO.pageNo * this.pageReqVO.pageSize < this.total) {
+					this.pageReqVO.pageNo++
+					this.getGoodsList()
+				}
+			},
+
+			onchange(e) {
+				if (e.detail.value.length > 0) {
+					this.pageReqVO.categoryId = e.detail.value[0].value
+					this.pageReqVO.pageNo = 1
+					this.goodsList = []
+					this.getGoodsList()
+				}
+			},
 			scanCode(e) {
 				if (e == 'prefix') {
 					return false
@@ -162,12 +192,13 @@
 					}
 				});
 			},
-			changeType(item){
+			changeType(item) {
 				this.pageReqVO.name = item.text;
 				this.getGoodsList();
 			},
 			toggleClick(item) {
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
+				this.record = item;
 				this.$refs.popup.open('bottom')
 			},
 			change(e) {
@@ -177,7 +208,7 @@
 			input(e) {
 				console.log('输入内容：', e);
 			},
-			
+
 			canInput() {
 				this.disabledEdit = !this.disabledEdit
 			}

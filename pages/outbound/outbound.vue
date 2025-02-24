@@ -5,7 +5,7 @@
 			出库单
 		</view>
 		<uni-section class="search-box">
-			<uni-easyinput prefixIcon="search" v-model="value" placeholder="请输入商品名称、条码、货位" >
+			<uni-easyinput prefixIcon="search" v-model="pageReqVO.name" placeholder="请输入商品名称、条码、货位" :clearable="false">
 			</uni-easyinput>
 			<view class="scan-the-code" @click="scanCode">
 				<uni-icons type="scan" size="20" color="#fff"></uni-icons>扫码
@@ -14,158 +14,42 @@
 	</view>
 	<view class="main-content">
 		<view class="aside">
-			<view class="aside-item active">全部</view>
-			<view class="aside-item">一次性用品</view>
-			<view class="aside-item">圣诞专区</view>
-			<view class="aside-item">化妆用品</view>
-			<view class="aside-item">精选福袋下单必看</view>
-			<view class="aside-item">精选福袋</view>
-			<view class="aside-item">降温保暖</view>
-			<view class="aside-item">美妆小样</view>
-			<view class="aside-item">JK制服</view>
-			<view class="aside-item">男士服装</view>
-			<view class="aside-item">毛绒玩具</view>
-			<view class="aside-item">女士上衣</view>
-			<view class="aside-item">本周新品</view>
-			<view class="aside-item">女士职业工装</view>
-			<view class="aside-item">店铺公告</view>
-			<view class="aside-item">女士套装</view>
+			<view :class="pageReqVO.name=='all'?'aside-item active':'aside-item'"
+				@click="changeType({value: 'all',text: 'all'})">全部
+			</view>
+			<view v-for="item in dataTree" :class="pageReqVO.name==item.text?'aside-item active':'aside-item'"
+				@click="changeType(item)" :key="item.value">{{item.text}}</view>
 		</view>
 		<view class="content">
-			<view class="content-item">
-				<view class="content-item-title">华太 五号电池 10g/粒</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：50份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			<view class="content-item">
-				<view class="content-item-title">华太 7号电池1个</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：40份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			<view class="content-item">
-				<view class="content-item-title">小鹿妈妈 装经典牙线棒50支/盒</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：999份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			<view class="content-item">
-				<view class="content-item-title">华太 五号电池 10g/粒</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：50份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			<view class="content-item">
-				<view class="content-item-title">华太 五号电池 10g/粒</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：50份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			<view class="content-item">
-				<view class="content-item-title">华太 五号电池 10g/粒</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：50份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			<view class="content-item">
-				<view class="content-item-title">华太 五号电池 10g/粒</view>
-				<view class="content-item-box">
-					<image src="../../static/2.png" class="content-item-image"></image>
-					<view class="content-item-msg">
-						<view>条码：4910494868665</view>
-						<view>编码：9761103085</view>
-						<view>规格：<text>10g*1粒</text></view>
-						<view>零售价：<text>¥0.7</text></view>
-					</view>
-				</view>
-				<view class="content-item-action">
-					<view class="content-item-action-count">库存：50份</view>
-					<view class="content-item-action-btn">
-						<view>打印</view>
-						<view>+ 出库</view>
-					</view>
-				</view>
-			</view>
-			
+
+			<scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrolltolower"
+				class="scroll-view-container">
+				<uni-swipe-action>
+					<uni-swipe-action-item>
+						<view class="content-item" v-for="item in goodsList">
+							<view class="content-item-title">{{item.name}}</view>
+							<view class="content-item-box">
+								<image :src="item.pic" class="content-item-image"></image>
+								<view class="content-item-msg">
+									<view>条码：{{item.barCode}}</view>
+									<view>编码：{{item.id}}</view>
+									<view>规格：<text>{{item.standard}}</text></view>
+									<view>零售价：<text>¥{{item.salePrice}}</text></view>
+								</view>
+							</view>
+							<view class="content-item-action">
+								<view class="content-item-action-count">库存：50份</view>
+								<view class="content-item-action-btn">
+									<view>打印</view>
+									<view>+ 出库</view>
+								</view>
+							</view>
+						</view>
+
+
+					</uni-swipe-action-item>
+				</uni-swipe-action>
+			</scroll-view>
 			<uni-load-more :status="status" />
 		</view>
 	</view>
@@ -187,25 +71,88 @@
 </template>
 
 <script>
+	import {
+		productList,
+		categoryList
+	} from '@/api/common.js'
 	export default {
 		data() {
 			return {
 				value: '',
 				status: 'noMore', // more 加载更多，loading 加载中，noMore 没有更多
-
+				pageReqVO: {
+					pageNo: 1,
+					pageSize: 10,
+					name: '',
+					categoryId: ''
+				},
+				listReqVO: {
+					name: '',
+					status: ''
+				},
+				status: 'more',
+				total: 0,
+				goodsList: [],
+				dataTree: [],
+				disabledEdit: true
 			}
 		},
+		onLoad() {
+			this.getCategoryList()
+			this.getGoodsList()
+		},
 		methods: {
-			goUrl () {
-			  uni.navigateTo({
-			    url: '/pages/inventoryQuery/inventoryQuery'
-			  })
+			async getCategoryList() {
+				const res = await categoryList(this.listReqVO)
+				if (res.code === 0) {
+					let data = res.data || []
+					data.map(item => {
+						this.dataTree.push({
+							text: item.name,
+							value: item.id
+						})
+					})
+					console.log(this.dataTree, 'datatree')
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				}
 			},
-			scanCode () {
+
+			async getGoodsList() {
+				const res = await productList(this.pageReqVO)
+				this.status = 'loading'
+				if (res.code === 0) {
+					this.goodsList = [...this.goodsList, ...res.data.list]
+					this.total = res.data.total
+					if (this.pageReqVO.pageNo * this.pageReqVO.pageSize >= this.total) {
+						this.status = 'noMore'
+					} else {
+						this.status = 'more'
+					}
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				}
+			},
+			changeType(item) {
+				this.pageReqVO.name = item.text;
+				this.getGoodsList();
+			},
+			goUrl() {
+				uni.navigateTo({
+					url: '/pages/inventoryQuery/inventoryQuery'
+				})
+			},
+			scanCode() {
 				// 只允许通过相机扫码
 				uni.scanCode({
 					onlyFromCamera: true,
-					success: function (res) {
+					success: function(res) {
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 					}
@@ -233,8 +180,8 @@
 			align-items: center;
 
 			.scan-the-code {
-				line-height: 36px;
-				height: 36px;
+				line-height: 38px;
+				height: 38px;
 				padding: 0 20rpx;
 				background-color: #ff7704;
 				border-top-right-radius: 5px;
