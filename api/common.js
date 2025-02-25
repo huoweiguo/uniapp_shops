@@ -170,7 +170,13 @@ export const uploadImage = (data) => {
   });
 }
 
-
+export const stockOutSubmit = (data) => {
+	return request({
+		url: '/app-api/app/sale-order/batch',
+		method: 'POST',
+		data
+	})
+}
 
 
 

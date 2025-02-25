@@ -23,7 +23,7 @@
           <view class="commodity-msg-name">{{ item.productName }}</view>
           <view class="fc6">产品编号：{{ item.productId }}</view>
           <view class="fc6">库存：{{ item.count }}</view>
-          <view class="fc6">总金额：¥{{ item.purchasePrice.toFixed(2) }}</view>
+          <view class="fc6">总金额：¥{{ item.purchasePrice?.toFixed(2) }}</view>
         </view>
       </view>
     </scroll-view>

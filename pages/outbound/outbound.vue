@@ -40,8 +40,8 @@
 							<view class="content-item-action">
 								<view class="content-item-action-count">库存：50份</view>
 								<view class="content-item-action-btn">
-									<view>打印</view>
-									<view>+ 出库</view>
+									<!-- <view>打印</view> -->
+									<view @click="handleOut(item)">+ 出库</view>
 								</view>
 							</view>
 						</view>
@@ -58,11 +58,11 @@
 			<uni-icons class="shop-cart" type="cart" size="20" color="#ff7704"></uni-icons>
 			<view class="shop-msg">
 				<view class="shop-money">
-					总计<text>¥10</text>
+					总计<text>¥{{totalPrice}}</text>
 				</view>
 				<view class="shop-count">
-					<text>种类</text><text>0种</text>
-					<text>数量</text><text>0</text>
+					<text>种类</text><text>{{cartItems.length}}种</text>
+					<text>数量</text><text>{{totalCount}}</text>
 				</view>
 			</view>
 		</view>
@@ -73,7 +73,8 @@
 <script>
 	import {
 		productList,
-		categoryList
+		categoryList,
+		stockOutSubmit
 	} from '@/api/common.js'
 	export default {
 		data() {
@@ -94,8 +95,17 @@
 				total: 0,
 				goodsList: [],
 				dataTree: [],
-				disabledEdit: true
+				disabledEdit: true,
+				cartItems: []
 			}
+		},
+		computed: {
+			totalPrice() {
+				return this.cartItems.reduce((total, item) => total + item.quantity * item.salePrice, 0);
+			},
+			totalCount() {
+				return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+			},
 		},
 		onLoad() {
 			this.getCategoryList()
@@ -144,8 +154,33 @@
 				this.getGoodsList();
 			},
 			goUrl() {
-				uni.navigateTo({
-					url: '/pages/inventoryQuery/inventoryQuery'
+				// uni.navigateTo({
+				// 	url: '/pages/inventoryQuery/inventoryQuery'
+				// })
+				// 提交
+				const ids = [];
+				this.cartItems.forEach(item => {
+					ids.push(item.id)
+				})
+				stockOutSubmit({
+					ids
+					// id: '', // 编号,示例值(17386)
+					// outTime: '', // 出库时间
+					// orderId: '', // 销售订单编号,示例值(17386)
+					// discountPercent: '', // 优惠率，百分比,示例值(99.88)
+					// items: this.cartItems
+				}).then(res => {
+					if (res.code == 0) {
+						uni.showToast({
+							icon: 'success',
+							title: res?.msg || '提交成功'
+						})
+					} else {
+						uni.showToast({
+							icon: 'none',
+							title: res.msg
+						})
+					}
 				})
 			},
 			scanCode() {
@@ -157,6 +192,18 @@
 						console.log('条码内容：' + res.result);
 					}
 				});
+			},
+			handleOut(item) {
+				console.log(item);
+				const found = this.cartItems.find(i => i.id === item.id);
+				if (found) {
+					found.quantity++;
+				} else {
+					this.cartItems.push({
+						...item,
+						quantity: 1
+					});
+				}
 			}
 		}
 	}
