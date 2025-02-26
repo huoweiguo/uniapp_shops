@@ -75,7 +75,7 @@
 				</view>
 			</view>
 			<view class="popup-footer">
-				<view>盈亏数量：<text>0</text></view>
+				<view>盈亏数量：<text>{{profitLoss}}</text></view>
 				<view class="popup-footer-btn" @click=handleSubmit>选好了</view>
 			</view>
 		</uni-popup>
@@ -205,9 +205,17 @@
 			canInput() {
 				this.disabledEdit = !this.disabledEdit
 			},
-			
+
 			handleSubmit() {
-				handleSubmit().then(res=>{
+				handleSubmit({
+					"id": '',
+					"checkTime": "",
+					"warehouseId": '',
+					"remark": this.remark,
+					"items": [
+						this.record
+					]
+				}).then(res => {
 					uni.navigateBack(-1)
 				})
 			}
