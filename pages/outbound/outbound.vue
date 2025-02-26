@@ -1,7 +1,7 @@
 <template>
 	<view class="main-search">
 		<view class="search-icon">
-			<uni-icons type="person-filled" size="20" color="#ff7704"></uni-icons>
+			<uni-icons type="person-filled" size="20" v-model="pageReqVO.categoryId" color="#ff7704"></uni-icons>
 			出库单
 		</view>
 		<uni-section class="search-box">
