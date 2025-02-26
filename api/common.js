@@ -170,10 +170,20 @@ export const uploadImage = (data) => {
   });
 }
 
+// 出库，提交
 export const stockOutSubmit = (data) => {
 	return request({
 		url: '/app-api/app/sale-order/batch',
 		method: 'PUT',
+		data
+	})
+}
+
+// 创建库存盘点单
+export const stockCheckCreate = (data) => {
+	return request({
+		url: '/admin-api/erp/stock-check/create',
+		method: 'POST',
 		data
 	})
 }

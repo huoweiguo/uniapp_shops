@@ -76,7 +76,7 @@
 			</view>
 			<view class="popup-footer">
 				<view>盈亏数量：<text>0</text></view>
-				<view class="popup-footer-btn">选好了</view>
+				<view class="popup-footer-btn" @click=handleSubmit>选好了</view>
 			</view>
 		</uni-popup>
 	</view>
@@ -85,7 +85,8 @@
 <script>
 	import {
 		stockQuery,
-		categoryList
+		categoryList,
+		stockCheckCreate
 	} from '@/api/common.js'
 	export default {
 		data() {
@@ -203,6 +204,12 @@
 
 			canInput() {
 				this.disabledEdit = !this.disabledEdit
+			},
+			
+			handleSubmit() {
+				handleSubmit().then(res=>{
+					uni.navigateBack(-1)
+				})
 			}
 		}
 	}
