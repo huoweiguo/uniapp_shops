@@ -14,10 +14,10 @@
 	</view>
 	<view class="main-content">
 		<view class="aside">
-			<view :class="pageReqVO.name=='all'?'aside-item active':'aside-item'"
-				@click="changeType({value: 'all',text: 'all'})">全部
+			<view :class="pageReqVO.categoryId==''?'aside-item active':'aside-item'"
+				@click="changeType({value: '',text: 'all'})">全部
 			</view>
-			<view v-for="item in dataTree" :class="pageReqVO.name==item.text?'aside-item active':'aside-item'"
+			<view v-for="item in dataTree" :class="pageReqVO.categoryId==item.value?'aside-item active':'aside-item'"
 				@click="changeType(item)" :key="item.value">{{item.text}}</view>
 		</view>
 		<view class="content">
@@ -150,7 +150,7 @@
 				}
 			},
 			changeType(item) {
-				this.pageReqVO.name = item.text;
+				this.pageReqVO.categoryId = item.value;
 				this.getGoodsList();
 			},
 			goUrl() {
