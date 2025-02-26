@@ -70,7 +70,7 @@
 				<view class="popup-content-profitLoss">盈亏：{{profitLoss}}件</view>
 				<view class="popup-content-remark">
 					<view>备注：</view>
-					<uni-easyinput v-model="remark" :disabled="disabledEdit" placeholder="请输入内容" suffixIcon="scan"
+					<uni-easyinput v-model="remark" :disabled="disabledEdit" placeholder="请输入内容" suffixIcon="compose"
 						@iconClick="canInput" @input="input"></uni-easyinput>
 				</view>
 			</view>
