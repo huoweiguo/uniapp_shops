@@ -25,4 +25,3 @@ exports.pandian = pandian;
 exports.record = record;
 exports.store = store;
 exports.taocan = taocan;
-//# sourceMappingURL=../../.sourcemap/mp-weixin/common/assets.js.map

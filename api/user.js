@@ -16,3 +16,10 @@ export const getTenant = (data) => {
     data,
   });
 }
+// 获取用户信息
+export const getUserInfo = () => {
+	return request({
+		url: '/admin-api/system/user/profile/get',
+		method: 'get'
+	})
+}

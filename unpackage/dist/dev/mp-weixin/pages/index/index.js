@@ -31,7 +31,8 @@ const _sfc_main = {
       waitPickedList: [],
       pickedList: [],
       finishList: [],
-      cancelList: []
+      cancelList: [],
+      warehouseId: ""
     };
   },
   onLoad() {
@@ -63,6 +64,11 @@ const _sfc_main = {
   },
   methods: {
     search(e) {
+      console.log(e, 12121);
+      this.warehouseId = e;
+      this.getOrderList({
+        warehouseId: e
+      });
     },
     async getOrderList(params) {
       const res = await api_common.orderList(params);
@@ -78,7 +84,7 @@ const _sfc_main = {
           }
         } else if (params.sourceStatus == "3") {
           this.waitPickedList = [...this.waitPickedList, ...data];
-          common_vendor.index.__f__("log", "at pages/index/index.vue:131", 3, this.waitPickedList);
+          console.log(3, this.waitPickedList);
           this.waitPickedTotal = res.data.total || 0;
           if (this.waitPickNum * this.pageSize >= this.waitPickedTotal) {
             this.waitPickedStatus = "noMore";
@@ -129,7 +135,8 @@ const _sfc_main = {
             this.getOrderList({
               sourceStatus: "",
               pageNo: this.allNum,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              warehouseId: this.warehouseId
             });
           }
           break;
@@ -140,7 +147,8 @@ const _sfc_main = {
             this.getOrderList({
               sourceStatus: 3,
               pageNo: this.waitPickNum,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              warehouseId: this.warehouseId
             });
           }
           break;
@@ -151,7 +159,8 @@ const _sfc_main = {
             this.getOrderList({
               sourceStatus: 4,
               pageNo: this.pickedNum,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              warehouseId: this.warehouseId
             });
           }
           break;
@@ -162,7 +171,8 @@ const _sfc_main = {
             this.getOrderList({
               sourceStatus: 1,
               pageNo: this.finishNum,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              warehouseId: this.warehouseId
             });
           }
           break;
@@ -173,7 +183,8 @@ const _sfc_main = {
             this.getOrderList({
               sourceStatus: 5,
               pageNo: this.cancelNum,
-              pageSize: this.pageSize
+              pageSize: this.pageSize,
+              warehouseId: this.warehouseId
             });
           }
           break;
@@ -196,90 +207,91 @@ if (!Math) {
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.o($options.search),
-    b: common_vendor.p({
+    b: common_vendor.o(($event) => $data.warehouseId = $event),
+    c: common_vendor.p({
       placeholder: "请输入订单编号",
-      bgColor: "#efefef"
+      bgColor: "#efefef",
+      modelValue: $data.warehouseId
     }),
-    c: common_vendor.f($data.orderStatus, (item, index, i0) => {
+    d: common_vendor.f($data.orderStatus, (item, index, i0) => {
       return {
         a: common_vendor.t(item),
         b: $data.current === index ? 1 : "",
         c: common_vendor.o(($event) => $options.handleTap(index))
       };
     }),
-    d: common_vendor.f($data.allList, (item, index, i0) => {
+    e: common_vendor.f($data.allList, (item, index, i0) => {
       return {
-        a: "32d5319c-2-" + i0,
+        a: "4a757416-2-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
-    e: $data.current === 0,
     f: $data.current === 0,
-    g: common_vendor.p({
+    g: $data.current === 0,
+    h: common_vendor.p({
       status: $data.allStatus
     }),
-    h: common_vendor.f($data.waitPickedList, (item, index, i0) => {
+    i: common_vendor.f($data.waitPickedList, (item, index, i0) => {
       return {
-        a: "32d5319c-4-" + i0,
+        a: "4a757416-4-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
-    i: $data.current === 1,
     j: $data.current === 1,
-    k: common_vendor.p({
+    k: $data.current === 1,
+    l: common_vendor.p({
       status: $data.waitPickedStatus
     }),
-    l: common_vendor.f($data.pickedList, (item, index, i0) => {
+    m: common_vendor.f($data.pickedList, (item, index, i0) => {
       return {
-        a: "32d5319c-6-" + i0,
+        a: "4a757416-6-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
-    m: $data.current === 2,
     n: $data.current === 2,
-    o: common_vendor.p({
+    o: $data.current === 2,
+    p: common_vendor.p({
       status: $data.pickedStatus
     }),
-    p: common_vendor.f($data.finishList, (item, index, i0) => {
+    q: common_vendor.f($data.finishList, (item, index, i0) => {
       return {
-        a: "32d5319c-8-" + i0,
+        a: "4a757416-8-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
-    q: $data.current === 3,
     r: $data.current === 3,
-    s: common_vendor.p({
+    s: $data.current === 3,
+    t: common_vendor.p({
       status: $data.finishStatus
     }),
-    t: common_vendor.f($data.cancelList, (item, index, i0) => {
+    v: common_vendor.f($data.cancelList, (item, index, i0) => {
       return {
-        a: "32d5319c-10-" + i0,
+        a: "4a757416-10-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
-    v: $data.current === 4,
     w: $data.current === 4,
-    x: common_vendor.p({
+    x: $data.current === 4,
+    y: common_vendor.p({
       status: $data.cancelStatus
     }),
-    y: common_vendor.o((...args) => $options.scrolltolower && $options.scrolltolower(...args))
+    z: common_vendor.o((...args) => $options.scrolltolower && $options.scrolltolower(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createPage(MiniProgramPage);
-//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/index.js.map

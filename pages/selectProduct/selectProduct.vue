@@ -2,7 +2,7 @@
 	<view class="main-search">
 		<uni-section class="search-box">
 			<uni-easyinput prefixIcon="search" suffixIcon="scan" @iconClick="scanCode" v-model="pageReqVO.name"
-				placeholder="名称/条形码/编号货品/简拼" clearButton="none">
+				placeholder="名称/条形码/编号货品/简拼" clearButton="none" @input="search">
 				<!-- <uni-easyinput prefixIcon="search" suffixIcon="" v-model="value" placeholder="名称/条形码/编号货品/简拼" clearButton="none" > -->
 			</uni-easyinput>
 			<!-- <view class="scan-the-code" @click="scanCode">
@@ -46,44 +46,48 @@
 		</view>
 		<uni-popup ref="popup" @change="change">
 			<view class="popup-content">
-        <view class="popup-goodsinfo">
-          <img :src="record.pic" class="popup-goodsImg"/>
-          <view class="popup-goods-text">
-            <text>{{ record.name }}</text>
-            <text>价格：&yen;{{ record.salePrice }}</text>
-          </view>
-        </view>
-        <view class="popup-info-stock">
-          <view class="popup-goods-item">
-            <text>盘点时间</text>
-            <view style="width: 480rpx;"><uni-datetime-picker type="datetime" v-model="selectParams.checkTime" /></view>
-          </view>
-          <view class="popup-goods-item">
-            <text>账面库存</text>
-            <text>{{ countStore }} {{ record.unitName }}</text>
-          </view>
-          <view class="popup-goods-item">
-            <text>实际库存</text>
-            <uni-number-box @change="changeValue" :max="maxValue" background="#ff7704" color="#fff" :value="selectParams.actualValue"/>
-          </view>
-          <view class="popup-goods-item">
-            <text>盈亏数量</text>
-            <text>{{ ykCount }} {{ record.unitName }}</text>
-          </view>
-          <view class="popup-goods-item">
-            <text>产品单价(元)</text>
-            <input @input="changePrice" class="input-number" type="number" :value="selectParams.salePrice" />
-          </view>
-          <view class="popup-goods-item">
-            <text>合计金额(元)</text>
-            <text>{{ selectParams.totalAmount }}</text>
-          </view>
-          <view class="popup-goods-item">
-            <text>备注</text>
-            <view class="popup-input-remark"><uni-easyinput trim="all" v-model="selectParams.remark" placeholder="备注(可选填)"></uni-easyinput></view>
-          </view>
-        </view>
-        <button type="primary" @tap="submitSelect">选好了</button>
+				<view class="popup-goodsinfo">
+					<img :src="record.pic" class="popup-goodsImg" />
+					<view class="popup-goods-text">
+						<text>{{ record.name }}</text>
+						<text>价格：&yen;{{ record.salePrice }}</text>
+					</view>
+				</view>
+				<view class="popup-info-stock">
+					<view class="popup-goods-item">
+						<text>盘点时间</text>
+						<view style="width: 480rpx;"><uni-datetime-picker type="datetime"
+								v-model="selectParams.checkTime" /></view>
+					</view>
+					<view class="popup-goods-item">
+						<text>账面库存</text>
+						<text>{{ countStore }} {{ record.unitName }}</text>
+					</view>
+					<view class="popup-goods-item">
+						<text>实际库存</text>
+						<uni-number-box @change="changeValue" :max="maxValue" background="#ff7704" color="#fff"
+							:value="selectParams.actualValue" />
+					</view>
+					<view class="popup-goods-item">
+						<text>盈亏数量</text>
+						<text>{{ ykCount }} {{ record.unitName }}</text>
+					</view>
+					<view class="popup-goods-item">
+						<text>产品单价(元)</text>
+						<input @input="changePrice" class="input-number" type="number"
+							:value="selectParams.salePrice" />
+					</view>
+					<view class="popup-goods-item">
+						<text>合计金额(元)</text>
+						<text>{{ selectParams.totalAmount }}</text>
+					</view>
+					<view class="popup-goods-item">
+						<text>备注</text>
+						<view class="popup-input-remark"><uni-easyinput trim="all" v-model="selectParams.remark"
+								placeholder="备注(可选填)"></uni-easyinput></view>
+					</view>
+				</view>
+				<button type="primary" @tap="submitSelect">选好了</button>
 			</view>
 		</uni-popup>
 	</view>
@@ -92,32 +96,32 @@
 <script>
 	import {
 		stockQuery,
-    productList,
+		productList,
 		categoryList,
 		stockCheckCreate,
-    getStockByGoods
+		getStockByGoods
 	} from '@/api/common.js'
 	export default {
 		data() {
 			return {
-        maxValue: 9999999999,
+				maxValue: 9999999999,
 				value: 1000,
-        countStore: 0,
-        ykCount: 0,
+				countStore: 0,
+				ykCount: 0,
 				status: 'noMore', // more 加载更多，loading 加载中，noMore 没有更多
 				placeholderStyle: "color:#333;font-size:28rpx",
-        actualValue: 1,
+				actualValue: 1,
 				styles: {
 					color: '#333',
 					borderColor: '#fff'
 				},
-        selectParams: {
-          remark: '',
-          checkTime: '',
-          actualValue: 100,
-          salePrice: '',
-          totalAmount: 0.00 
-        },
+				selectParams: {
+					remark: '',
+					checkTime: '',
+					actualValue: 100,
+					salePrice: '',
+					totalAmount: 0.00
+				},
 				style: {
 					backgroundColor: '#5ffff1',
 					borderColor: '#fff'
@@ -165,6 +169,11 @@
 					})
 				}
 			},
+			search(e){
+				console.log(e,173173);
+				this.pageReqVO.name=e;
+				this.getGoodsList()
+			},
 
 			async getGoodsList() {
 				const res = await productList(this.pageReqVO)
@@ -190,24 +199,24 @@
 					this.getGoodsList()
 				}
 			},
-      changeValue (e) {
-        if (e !== '') {
-          this.ykCount = e - this.countStore
-        } else {
-          this.ykCount = 0 - this.countStore
-        }
-        this.selectParams.totalAmount = this.ykCount * this.selectParams.salePrice
-      },
-      changePrice (e) {
-        let num = e.target.value.match(/^\d*(\.?\d)/g)[0] || null;
-        if (num) {
-          this.selectParams.totalAmount = num * this.ykCount
-          this.selectParams.salePrice = num
-        } else {
-          this.selectParams.salePrice = 0
-          this.selectParams.totalAmount = 0
-        }
-      },
+			changeValue(e) {
+				if (e !== '') {
+					this.ykCount = e - this.countStore
+				} else {
+					this.ykCount = 0 - this.countStore
+				}
+				this.selectParams.totalAmount = this.ykCount * this.selectParams.salePrice
+			},
+			changePrice(e) {
+				let num = e.target.value.match(/^\d*(\.?\d)/g)[0] || null;
+				if (num) {
+					this.selectParams.totalAmount = num * this.ykCount
+					this.selectParams.salePrice = num
+				} else {
+					this.selectParams.salePrice = 0
+					this.selectParams.totalAmount = 0
+				}
+			},
 			scanCode(e) {
 				if (e == 'prefix') {
 					return false
@@ -223,31 +232,31 @@
 			},
 			changeType(item) {
 				this.pageReqVO.categoryId = item.value;
-        this.goodsList = [];
+				this.goodsList = [];
 				this.getGoodsList();
 			},
 			async toggleClick(item) {
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
 				this.record = item;
-        this.selectParams.salePrice = item.salePrice
-        const result = uni.getStorageSync('storeId');
-        this.$refs.popup.open('bottom')
-        const res = await getStockByGoods({
-          productId: item.id,
-          warehouseId: result
-        })
-        
-        if (res.code == 0) {
-          this.countStore = res.data || 0
-          this.ykCount = this.selectParams.actualValue - this.countStore
-          this.selectParams.totalAmount = this.ykCount * this.selectParams.salePrice
-        } else {
-          uni.showToast({
-            icon: 'none',
-            title: res.msg || ''
-          })
-        }
-				
+				this.selectParams.salePrice = item.salePrice
+				const result = uni.getStorageSync('storeId');
+				this.$refs.popup.open('bottom')
+				const res = await getStockByGoods({
+					productId: item.id,
+					warehouseId: result
+				})
+
+				if (res.code == 0) {
+					this.countStore = res.data || 0
+					this.ykCount = this.selectParams.actualValue - this.countStore
+					this.selectParams.totalAmount = this.ykCount * this.selectParams.salePrice
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg || ''
+					})
+				}
+
 			},
 			change(e) {
 				console.log('当前模式：' + e.type + ',状态：' + e.show);
@@ -257,119 +266,128 @@
 				this.disabledEdit = !this.disabledEdit
 			},
 
-			async submitSelect () {
-        if (this.selectParams.actualValue === '') {
-          uni.showToast({
-            icon: 'none',
-            title: '请填写实际库存'
-          })
-          return false
-        }
-        
-        if (this.selectParams.checkTime === '') {
-          uni.showToast({
-            icon: 'none',
-            title: '请选择盘点时间'
-          })
-          return false
-        }
-        
-        
-        const result = uni.getStorageSync('storeId');
-        const res = await stockCheckCreate({
-          warehouseId: result,
-          checkTime: new Date(this.selectParams.checkTime).getTime(),
-          items: [
-            {
-              actualCount: this.selectParams.actualValue,
-              count: this.selectParams.actualValue - this.countStore,
-              productBarCode: this.record.barCode,
-              productId: this.record.id,
-              productPrice: this.selectParams.salePrice,
-              productUnitName: this.record.unitName,
-              shelfCode: this.record.shelfCode,
-              stockCount: this.countStore,
-              totalPrice: this.selectParams.totalAmount,
-              pic: this.record.pic,
-              warehouseId: result
-            }
-          ],
-          remark: this.selectParams.remark
-        })
-        
-        if (res.code === 0) {
-          uni.showToast({
-            icon: 'none',
-            title: '商品盘点成功'
-          })
-          this.getGoodsList()
-          this.$refs.popup.close()
-        } else {
-          uni.showToast({
-            icon: 'none',
-            title: res.msg
-          })
-        }
-      }
+			async submitSelect() {
+				if (this.selectParams.actualValue === '') {
+					uni.showToast({
+						icon: 'none',
+						title: '请填写实际库存'
+					})
+					return false
+				}
+
+				if (this.selectParams.checkTime === '') {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择盘点时间'
+					})
+					return false
+				}
+
+
+				const result = uni.getStorageSync('storeId');
+				const res = await stockCheckCreate({
+					warehouseId: result,
+					checkTime: new Date(this.selectParams.checkTime).getTime(),
+					items: [{
+						actualCount: this.selectParams.actualValue,
+						count: this.selectParams.actualValue - this.countStore,
+						productBarCode: this.record.barCode,
+						productId: this.record.id,
+						productPrice: this.selectParams.salePrice,
+						productUnitName: this.record.unitName,
+						shelfCode: this.record.shelfCode,
+						stockCount: this.countStore,
+						totalPrice: this.selectParams.totalAmount,
+						pic: this.record.pic,
+						warehouseId: result
+					}],
+					remark: this.selectParams.remark
+				})
+
+				if (res.code === 0) {
+					uni.showToast({
+						icon: 'none',
+						title: '商品盘点成功'
+					})
+					this.getGoodsList()
+					this.$refs.popup.close()
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				}
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-  .popup-content {
-    background-color: #f1f4f9;
-    padding: 20rpx;
-    .popup-goodsinfo {
-      display: flex;
-      align-items: center;
-      .popup-goodsImg {
-        width: 100rpx;
-        height: 100rpx;
-        margin-right: 20rpx;
-        border-radius: 10rpx;
-      }
-      .popup-goods-text {
-        flex: 1;
-        width: calc(100vw - 180rpx);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        text {
-          font-size: 32rpx;
-          &:first-child {
-            height: 50rpx;
-            line-height: 50rpx;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          &:last-child {
-            font-size: 28rpx;
-            color: #777;
-            margin-top: 10rpx;
-          }
-        }
-      }
-    }
-    .popup-info-stock {
-      background-color: #fff;
-      padding: 20rpx;
-      margin: 40rpx 0;
-      .popup-goods-item {
-        display: flex;
-        margin: 20rpx 0;
-        justify-content: space-between;
-        align-items: center;
-        .popup-input-remark {
-          width: 63vw;
-        }
-        text {
-          font-size: 28rpx;
-          color: #333;
-        }
-      }
-    }
-  }
+	.popup-content {
+		background-color: #f1f4f9;
+		padding: 20rpx;
+
+		.popup-goodsinfo {
+			display: flex;
+			align-items: center;
+
+			.popup-goodsImg {
+				width: 100rpx;
+				height: 100rpx;
+				margin-right: 20rpx;
+				border-radius: 10rpx;
+			}
+
+			.popup-goods-text {
+				flex: 1;
+				width: calc(100vw - 180rpx);
+				display: flex;
+				flex-direction: column;
+				overflow: hidden;
+
+				text {
+					font-size: 32rpx;
+
+					&:first-child {
+						height: 50rpx;
+						line-height: 50rpx;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
+
+					&:last-child {
+						font-size: 28rpx;
+						color: #777;
+						margin-top: 10rpx;
+					}
+				}
+			}
+		}
+
+		.popup-info-stock {
+			background-color: #fff;
+			padding: 20rpx;
+			margin: 40rpx 0;
+
+			.popup-goods-item {
+				display: flex;
+				margin: 20rpx 0;
+				justify-content: space-between;
+				align-items: center;
+
+				.popup-input-remark {
+					width: 63vw;
+				}
+
+				text {
+					font-size: 28rpx;
+					color: #333;
+				}
+			}
+		}
+	}
+
 	.main-search {
 		height: 70rpx;
 		display: flex;
@@ -400,16 +418,16 @@
 			// }
 		}
 	}
-  
-  .input-number {
-    width: 63vw;
-    box-sizing: border-box;
-    border-radius: 8rpx;
-    height: 70rpx;
-    border: 1px solid #e5e5e5;
-    padding: 0 10rpx;
-    text-align: right;
-  }
+
+	.input-number {
+		width: 63vw;
+		box-sizing: border-box;
+		border-radius: 8rpx;
+		height: 70rpx;
+		border: 1px solid #e5e5e5;
+		padding: 0 10rpx;
+		text-align: right;
+	}
 
 	.main-content {
 		height: calc(100vh - 135rpx);
@@ -458,24 +476,26 @@
 				margin-bottom: 20rpx;
 				display: flex;
 				padding: 20rpx;
+
 				.content-item-image {
 					width: 150rpx;
 					height: 150rpx;
 					overflow: hidden;
 					margin-right: 20rpx;
-          overflow: hidden;
+					overflow: hidden;
 				}
 
 				.content-item-msg {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          flex: 1;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					flex: 1;
 					font-weight: 400;
 					font-size: 24rpx;
-          .content-item-title {
-            margin-bottom: 10rpx;
-          }
+
+					.content-item-title {
+						margin-bottom: 10rpx;
+					}
 				}
 
 			}

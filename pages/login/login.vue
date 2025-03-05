@@ -4,8 +4,11 @@
     <view class="logo">账号登录</view>
     <view class="form">
       <view class="input-group">
-        <input class="input" type="text" placeholder="请输入账号" v-model="params.username" />
+        <input class="input" type="text" placeholder="请输入租户名称" v-model="params.tenantName" />
       </view>
+	  <view class="input-group">
+	    <input class="input" type="text" placeholder="请输入用户名" v-model="params.username" />
+	  </view>
       <view class="input-group">
         <input class="input" type="password" placeholder="请输入密码" v-model="params.password" />
       </view>
@@ -20,22 +23,40 @@ export default {
   data() {
     return {
       params: {
+		  tenantName: '',
         username: '',
         password: '',
-        captchaVerification: 'PfcH6mgr8tpXuMWFjvW6YVaqrswIuwmWI5dsVZSg7sGpWtDCUbHuDEXl3cFB1+VvCC/rAkSwK8Fad52FSuncVg==',
-        socialType: 10,
-        socialCode: '1024',
-        socialState: '9b2ffbc1-7425-4155-9894-9d5c08541d62',
-        socialCodeValid: true
+        // captchaVerification: 'PfcH6mgr8tpXuMWFjvW6YVaqrswIuwmWI5dsVZSg7sGpWtDCUbHuDEXl3cFB1+VvCC/rAkSwK8Fad52FSuncVg==',
+        // socialType: 10,
+        // socialCode: '1024',
+        // socialState: '9b2ffbc1-7425-4155-9894-9d5c08541d62',
+        // socialCodeValid: true
       }
     };
   },
   methods: {
     async handleLogin() {
-      if (this.params.username && this.params.password) {
+      if (this.params.tenantName && this.params.username && this.params.password) {
         const res = await login(this.params)
-        if (res.code === 200) {
+        if (res.code === 0) {
           console.log(res, 'res')
+		  uni.setStorage({
+		  	key: 'accessToken',
+		  	data: res?.data?.accessToken||'',
+		  	success: function () {
+		  		console.log('success');
+		  	}
+		  });
+		  uni.setStorage({
+		  	key: 'refreshToken',
+		  	data: res?.data?.refreshToken||'',
+		  	success: function () {
+		  		console.log('success');
+		  	}
+		  });
+		  uni.navigateTo({
+		  	url:"/pages/index/index"
+		  })
         } else {
           uni.showToast({
             title: res.msg,
@@ -45,7 +66,7 @@ export default {
         
       } else {
         uni.showToast({
-          title: '请输入账号和密码',
+          title: '请输入租户名、用户名、密码',
           icon: 'none'
         });
       }

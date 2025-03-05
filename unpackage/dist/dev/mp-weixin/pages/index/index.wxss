@@ -1,45 +1,45 @@
 
 .order_header {
-    position: fixed;
-    width: 100%;
-    background-color: #fff;
-    z-index: 100;
+		position: fixed;
+		width: 100%;
+		background-color: #fff;
+		z-index: 100;
 }
 .scroll_container {
-    padding-top: 200rpx;
-    height: calc(100vh - 200rpx);
+		padding-top: 200rpx;
+		height: calc(100vh - 200rpx);
 }
 .search-box {
-    width: 100%;
+		width: 100%;
 }
 .order_status {
-    width: 100%;
-    padding: 20rpx;
-    display: flex;
-    justify-content: space-between;
-    box-sizing: border-box;
+		width: 100%;
+		padding: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		box-sizing: border-box;
 }
 .order_status_text {
-    height: 60rpx;
-    text-align: center;
-    font-size: 30rpx;
-    font-family: PingFangSC-Regular;
+		height: 60rpx;
+		text-align: center;
+		font-size: 30rpx;
+		font-family: PingFangSC-Regular;
 }
 .status_active {
-    position: relative;
-    color: #2b9939;
+		position: relative;
+		color: #2b9939;
 }
 .status_active::before {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    content: '';
-    display: block;
-    width: 100%;
-    height: 6rpx;
-    background-color: #2b9939;
-    border-radius: 3rpx;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		content: '';
+		display: block;
+		width: 100%;
+		height: 6rpx;
+		background-color: #2b9939;
+		border-radius: 3rpx;
 }
 .scroll-view-item {
-    padding: 20rpx 20rpx 40rpx;
+		padding: 20rpx 20rpx 40rpx;
 }

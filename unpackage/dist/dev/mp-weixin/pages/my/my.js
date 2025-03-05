@@ -8,16 +8,32 @@ const _sfc_main = {
       top: 0,
       balance: "0.00",
       list: [
-        { icon: "../../static/data.png", title: "经营数据", url: "/pages/businessSituation/businessSituation" },
-        { icon: "../../static/order.png", title: "全部订单", url: "/pages/index/index" }
-      ]
+        {
+          icon: "../../static/data.png",
+          title: "经营数据",
+          url: "/pages/businessSituation/businessSituation"
+        },
+        {
+          icon: "../../static/order.png",
+          title: "全部订单",
+          url: "/pages/index/index"
+        }
+      ],
+      user: {}
     };
   },
   onLoad() {
     this.getSafeArea();
+    this.getUser();
     this.getWalletInfo();
   },
   methods: {
+    async getUser() {
+      const res = await api_user.getUserInfo();
+      if (res.code == 0) {
+        this.user = (res == null ? void 0 : res.data) || {};
+      }
+    },
     getSafeArea() {
       common_vendor.index.getSystemInfo({
         success: (res) => {
@@ -36,7 +52,7 @@ const _sfc_main = {
     async getWalletInfo() {
       const res = await api_user.getWallet();
       if (res.code === 0) {
-        common_vendor.index.__f__("log", "at pages/my/my.vue:81", res.data);
+        console.log(res.data);
         this.balance = res.data.balance.toFixed(2);
       } else {
         common_vendor.index.showToast({
@@ -51,9 +67,15 @@ const _sfc_main = {
       });
     },
     toLinks(url) {
-      common_vendor.index.navigateTo({
-        url
-      });
+      if (url == "/pages/index/index") {
+        common_vendor.index.switchTab({
+          url
+        });
+      } else {
+        common_vendor.index.navigateTo({
+          url
+        });
+      }
     }
   }
 };
@@ -70,7 +92,7 @@ if (!Math) {
   (_easycom_uni_icons + _easycom_uni_grid_item + _easycom_uni_grid)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
+  return common_vendor.e({
     a: common_vendor.s("padding-top:" + $data.top + "px"),
     b: common_vendor.p({
       type: "loop",
@@ -78,11 +100,21 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       color: "#78cf7e"
     }),
     c: common_vendor.o((...args) => $options.changeMall && $options.changeMall(...args)),
-    d: common_assets._imports_0,
-    e: common_vendor.o((...args) => $options.login && $options.login(...args)),
-    f: common_vendor.t($data.balance),
-    g: common_assets._imports_1,
-    h: common_vendor.f($data.list, (item, index, i0) => {
+    d: $data.user.avatar
+  }, $data.user.avatar ? {
+    e: $data.user.avatar
+  } : {
+    f: common_assets._imports_0
+  }, {
+    g: $data.user.nickname
+  }, $data.user.nickname ? {
+    h: common_vendor.t($data.user.nickname)
+  } : {
+    i: common_vendor.o((...args) => $options.login && $options.login(...args))
+  }, {
+    j: common_vendor.t($data.balance),
+    k: common_assets._imports_1,
+    l: common_vendor.f($data.list, (item, index, i0) => {
       return {
         a: item.icon,
         b: common_vendor.t(item.title),
@@ -94,13 +126,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       };
     }),
-    i: common_vendor.p({
+    m: common_vendor.p({
       column: 4,
       highlight: true,
       ["show-border"]: false
     })
-  };
+  });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2f1ef635"]]);
 wx.createPage(MiniProgramPage);
-//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/my/my.js.map

@@ -2,7 +2,8 @@
 	<view class="main">
 		<view class="main-search">
 			<uni-section class="search-box">
-				<uni-easyinput prefixIcon="search" v-model="pageReqVO.name" placeholder="商品名称/条形码/货号/简拼"></uni-easyinput>
+				<uni-easyinput prefixIcon="search" v-model="pageReqVO.name" placeholder="商品名称/条形码/货号/简拼"
+					@input="search"></uni-easyinput>
 			</uni-section>
 		</view>
 		<!-- <view class="main-content">
@@ -16,19 +17,19 @@
 				实际库存：1000 &emsp; | &emsp; 总金额：¥ 0.00
 			</view>
 		</view> -->
-    <scroll-view class="scroll-view_H" scroll-y lower-threshold="50" @scrolltolower="scrollToLower">
-      <view class="commodity" v-for="item in list" :key="item.id">
-        <image :src="item.pic" class="commodity-image"></image>
-        <view class="commodity-msg">
-          <view class="commodity-msg-name">{{ item.productName }}</view>
-          <view class="fc6">产品编号：{{ item.productId }}</view>
-          <view class="fc6">库存：{{ item.count }}</view>
-          <view class="fc6">总金额：¥{{ item.purchasePrice?.toFixed(2) }}</view>
-        </view>
-      </view>
-    </scroll-view>
-		
-		<uni-load-more :status="status"/>
+		<scroll-view class="scroll-view_H" scroll-y lower-threshold="50" @scrolltolower="scrollToLower">
+			<view class="commodity" v-for="item in list" :key="item.id">
+				<image :src="item.pic" class="commodity-image"></image>
+				<view class="commodity-msg">
+					<view class="commodity-msg-name">{{ item.productName }}</view>
+					<view class="fc6">产品编号：{{ item.productId }}</view>
+					<view class="fc6">库存：{{ item.count }}</view>
+					<view class="fc6">总金额：¥{{ item.purchasePrice?.toFixed(2) }}</view>
+				</view>
+			</view>
+		</scroll-view>
+
+		<uni-load-more :status="status" />
 		<!-- <view class="instructions" @click="goUrl">
 			点击展开新手指引
 			<uni-icons type="up" color="#07fbe3"></uni-icons>
@@ -37,56 +38,62 @@
 </template>
 
 <script>
-  import { stockQuery } from '@/api/common.js'
+	import {
+		stockQuery
+	} from '@/api/common.js'
 	export default {
 		data() {
 			return {
 				array: ['价格从高到低', '价格从高到低', '库存从多到少', '库存从少到多'],
 				index: -1,
 				status: 'noMore', // more 加载更多，loading 加载中，noMore 没有更多
-        list: [],
-        total: 0,
-        pageReqVO: {
-          name: '',
-          pageNo: 1,
-          pageSize: 10
-        }
+				list: [],
+				total: 0,
+				pageReqVO: {
+					name: '',
+					pageNo: 1,
+					pageSize: 10
+				}
 			}
 		},
-    onLoad () {
-      this.getStockList()
-    },
+		onLoad() {
+			this.getStockList()
+		},
 		methods: {
+			search(e) {
+				this.pageReqVO.name = e;
+				this.getStockList()
+			},
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value)
 				this.index = e.detail.value
 			},
-      
-      scrollToLower () {
-        console.log(123)
-        const currentCount = this.pageReqVO.pageSize * this.pageReqVO.pageNo
-        if (currentCount < this.total) {
-          this.pageReqVO.pageNo++
-          this.status = 'loading'
-          this.getStockList()
-        } else {
-          this.status = 'noMore'
-        }
-      },
-      
-      async getStockList () {
-        const res = await stockQuery(this.pageReqVO)
-        this.status = 'more'
-        if (res.code === 0) {
-          this.list = [...this.list, ...res.data.list]
-          this.total = res.data.total || 0
-        } else {
-          uni.showToast({
-            icon: 'none',
-            title: res.msg
-          })
-        }
-      }
+
+			scrollToLower() {
+				console.log(123)
+				const currentCount = this.pageReqVO.pageSize * this.pageReqVO.pageNo
+				if (currentCount < this.total) {
+					this.pageReqVO.pageNo++
+					this.status = 'loading'
+					this.getStockList()
+				} else {
+					this.status = 'noMore'
+				}
+			},
+
+			async getStockList() {
+				const res = await stockQuery(this.pageReqVO)
+				this.status = 'more'
+				if (res.code === 0) {
+					this.list = [...this.list, ...res.data.list]
+					this.total = res.data.total || 0
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				}
+			}
 		}
 	}
 </script>
@@ -98,6 +105,7 @@
 		min-height: 100vh;
 		position: relative;
 		box-sizing: border-box;
+
 		.main-search {
 			height: 70rpx;
 			display: flex;
@@ -128,6 +136,7 @@
 
 		.main-content {
 			padding: 20rpx 20rpx 0;
+
 			.main-sort {
 				display: flex;
 				margin-bottom: 20rpx;
@@ -150,32 +159,34 @@
 			border-radius: 5rpx;
 
 			.commodity-image {
-        width: 200rpx;
-        height: 170rpx;
+				width: 200rpx;
+				height: 170rpx;
 				margin-right: 20rpx;
 				border-radius: 5rpx;
 			}
 
 			.commodity-msg {
-        flex: 1;
-        overflow: hidden;
+				flex: 1;
+				overflow: hidden;
+
 				.fc6 {
 					color: #999;
-          font-size: 24rpx;
-          margin-top: 10rpx;
+					font-size: 24rpx;
+					margin-top: 10rpx;
 				}
-        .commodity-msg-name {
-        	color: #333 !important;
-          font-size: 28rpx;
-        }
+
+				.commodity-msg-name {
+					color: #333 !important;
+					font-size: 28rpx;
+				}
 			}
 		}
-    
-    .scroll-view_H {
-      height: 100vh;
-    }
-		
-		.instructions{
+
+		.scroll-view_H {
+			height: 100vh;
+		}
+
+		.instructions {
 			width: 100%;
 			height: 70rpx;
 			line-height: 70rpx;
