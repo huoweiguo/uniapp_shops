@@ -1,9 +1,8 @@
 <template>
   <view class="stocking-container">
     <view class="stocking-shop" @tap="toLinks">
-      <text class="shop-text">仓库</text>
+      <text class="shop-text">{{ storeName ? storeName : "请选择仓库" }}</text>
       <view class="shop-right">
-        <text>我的店铺</text>
         <uni-icons type="right" size="18" color="#ddd"></uni-icons>
       </view>
     </view>
@@ -18,8 +17,21 @@
   export default {
     data() {
       return {
-        
+        storeName: ''
       }
+    },
+    onShow () {
+      uni.getStorage({
+        key: 'storeName',
+        success: (res) => {
+          if (res.errMsg === 'getStorage:ok') {
+            this.storeName = res.data
+          }
+        },
+        fail: function (error) {
+            console.log('获取失败', error);
+        }
+      })
     },
     methods: {
       toLinks () {
@@ -27,11 +39,11 @@
           url: '/pages/stockingList/stockingList'
         })
       },
-	  goUrl () {
-	  uni.navigateTo({
-		url: '/pages/selectProduct/selectProduct'
-	  })
-	  }
+      goUrl () {
+        uni.navigateTo({
+          url: '/pages/selectProduct/selectProduct'
+        })
+      }
     }
   }
 </script>

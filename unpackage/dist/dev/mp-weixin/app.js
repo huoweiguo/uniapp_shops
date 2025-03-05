@@ -22,6 +22,7 @@ if (!Math) {
   "./pages/stocking/stocking.js";
   "./pages/stockingList/stockingList.js";
   "./pages/changeMall/changeMall.js";
+  "./pages/selectProduct/selectProduct.js";
 }
 const _sfc_main = {
   onLaunch: function() {

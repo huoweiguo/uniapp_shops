@@ -24,11 +24,11 @@
 				class="scroll-view-container">
 				<uni-swipe-action>
 					<uni-swipe-action-item>
-						<view class="content-item" v-for="item in goodsList" @click="toggleClick">
+						<view class="content-item" v-for="item in goodsList" :key="item.id" @tap="toggleClick(item)">
 							<image :src="item.pic" class="content-item-image"></image>
 							<view class="content-item-msg">
-								<view>{{item.productName}}</view>
-								<view>库存：{{item.count}}{{item.unitName}}</view>
+								<view class="content-item-title">{{item.name}}</view>
+								<view>货架号：{{item.shelfCode}}</view>
 							</view>
 						</view>
 						<!-- <view class="content-item" @click="toggleClick">
@@ -44,39 +44,46 @@
 			</scroll-view>
 			<uni-load-more :status="status" />
 		</view>
-		<uni-popup ref="popup" background-color="#fff" @change="change">
+		<uni-popup ref="popup" @change="change">
 			<view class="popup-content">
-				<view class="popup-content-goods">
-					<image :src="record.pic" class="popup-content-image"></image>
-					<text>{{record.productName}}</text>
-				</view>
-				<view class="popup-content-count">
-					<view class="popup-content-count-item">
-						<view>库存数量</view>
-						<view>{{record.count}}{{record.unitName}}</view>
-					</view>
-					<view class="popup-content-count-item">
-						<view>实际数量</view>
-						<view>
-							<!-- <uni-icons type="minus" size="20" color="#99fdf9"></uni-icons>
-							<uni-easyinput v-model="value" placeholder="请输入内容" clearable="false"></uni-easyinput>
-							<uni-icons type="plus-filled" size="20" color="#5ffff1"></uni-icons> -->
-							<uni-number-box :value="realyCount" background="#99fdf9" color="#333" />
-							件
-						</view>
-
-					</view>
-				</view>
-				<view class="popup-content-profitLoss">盈亏：{{profitLoss}}件</view>
-				<view class="popup-content-remark">
-					<view>备注：</view>
-					<uni-easyinput v-model="remark" :disabled="disabledEdit" placeholder="请输入内容" suffixIcon="compose"
-						@iconClick="canInput" @input="input"></uni-easyinput>
-				</view>
-			</view>
-			<view class="popup-footer">
-				<view>盈亏数量：<text>{{profitLoss}}</text></view>
-				<view class="popup-footer-btn" @click=handleSubmit>选好了</view>
+        <view class="popup-goodsinfo">
+          <img :src="record.pic" class="popup-goodsImg"/>
+          <view class="popup-goods-text">
+            <text>{{ record.name }}</text>
+            <text>价格：&yen;{{ record.salePrice }}</text>
+          </view>
+        </view>
+        <view class="popup-info-stock">
+          <view class="popup-goods-item">
+            <text>盘点时间</text>
+            <view style="width: 480rpx;"><uni-datetime-picker type="datetime" v-model="selectParams.checkTime" /></view>
+          </view>
+          <view class="popup-goods-item">
+            <text>账面库存</text>
+            <text>{{ countStore }} {{ record.unitName }}</text>
+          </view>
+          <view class="popup-goods-item">
+            <text>实际库存</text>
+            <uni-number-box @change="changeValue" :max="maxValue" background="#ff7704" color="#fff" :value="selectParams.actualValue"/>
+          </view>
+          <view class="popup-goods-item">
+            <text>盈亏数量</text>
+            <text>{{ ykCount }} {{ record.unitName }}</text>
+          </view>
+          <view class="popup-goods-item">
+            <text>产品单价(元)</text>
+            <input @input="changePrice" class="input-number" type="number" :value="selectParams.salePrice" />
+          </view>
+          <view class="popup-goods-item">
+            <text>合计金额(元)</text>
+            <text>{{ selectParams.totalAmount }}</text>
+          </view>
+          <view class="popup-goods-item">
+            <text>备注</text>
+            <view class="popup-input-remark"><uni-easyinput trim="all" v-model="selectParams.remark" placeholder="备注(可选填)"></uni-easyinput></view>
+          </view>
+        </view>
+        <button type="primary" @tap="submitSelect">选好了</button>
 			</view>
 		</uni-popup>
 	</view>
@@ -85,19 +92,32 @@
 <script>
 	import {
 		stockQuery,
+    productList,
 		categoryList,
-		stockCheckCreate
+		stockCheckCreate,
+    getStockByGoods
 	} from '@/api/common.js'
 	export default {
 		data() {
 			return {
-				value: '1000',
+        maxValue: 9999999999,
+				value: 1000,
+        countStore: 0,
+        ykCount: 0,
 				status: 'noMore', // more 加载更多，loading 加载中，noMore 没有更多
 				placeholderStyle: "color:#333;font-size:28rpx",
+        actualValue: 1,
 				styles: {
 					color: '#333',
 					borderColor: '#fff'
 				},
+        selectParams: {
+          remark: '',
+          checkTime: '',
+          actualValue: 100,
+          salePrice: '',
+          totalAmount: 0.00 
+        },
 				style: {
 					backgroundColor: '#5ffff1',
 					borderColor: '#fff'
@@ -138,7 +158,6 @@
 							value: item.id
 						})
 					})
-					console.log(this.dataTree, 'datatree')
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -148,7 +167,7 @@
 			},
 
 			async getGoodsList() {
-				const res = await stockQuery(this.pageReqVO)
+				const res = await productList(this.pageReqVO)
 				this.status = 'loading'
 				if (res.code === 0) {
 					this.goodsList = [...this.goodsList, ...res.data.list]
@@ -171,7 +190,24 @@
 					this.getGoodsList()
 				}
 			},
-
+      changeValue (e) {
+        if (e !== '') {
+          this.ykCount = e - this.countStore
+        } else {
+          this.ykCount = 0 - this.countStore
+        }
+        this.selectParams.totalAmount = this.ykCount * this.selectParams.salePrice
+      },
+      changePrice (e) {
+        let num = e.target.value.match(/^\d*(\.?\d)/g)[0] || null;
+        if (num) {
+          this.selectParams.totalAmount = num * this.ykCount
+          this.selectParams.salePrice = num
+        } else {
+          this.selectParams.salePrice = 0
+          this.selectParams.totalAmount = 0
+        }
+      },
 			scanCode(e) {
 				if (e == 'prefix') {
 					return false
@@ -187,43 +223,153 @@
 			},
 			changeType(item) {
 				this.pageReqVO.categoryId = item.value;
+        this.goodsList = [];
 				this.getGoodsList();
 			},
-			toggleClick(item) {
+			async toggleClick(item) {
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
 				this.record = item;
-				this.$refs.popup.open('bottom')
+        this.selectParams.salePrice = item.salePrice
+        const result = uni.getStorageSync('storeId');
+        this.$refs.popup.open('bottom')
+        const res = await getStockByGoods({
+          productId: item.id,
+          warehouseId: result
+        })
+        
+        if (res.code == 0) {
+          this.countStore = res.data || 0
+          this.ykCount = this.selectParams.actualValue - this.countStore
+          this.selectParams.totalAmount = this.ykCount * this.selectParams.salePrice
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg || ''
+          })
+        }
+				
 			},
 			change(e) {
 				console.log('当前模式：' + e.type + ',状态：' + e.show);
-			},
-
-			input(e) {
-				console.log('输入内容：', e);
 			},
 
 			canInput() {
 				this.disabledEdit = !this.disabledEdit
 			},
 
-			handleSubmit() {
-				handleSubmit({
-					"id": '',
-					"checkTime": "",
-					"warehouseId": '',
-					"remark": this.remark,
-					"items": [
-						this.record
-					]
-				}).then(res => {
-					uni.navigateBack(-1)
-				})
-			}
+			async submitSelect () {
+        if (this.selectParams.actualValue === '') {
+          uni.showToast({
+            icon: 'none',
+            title: '请填写实际库存'
+          })
+          return false
+        }
+        
+        if (this.selectParams.checkTime === '') {
+          uni.showToast({
+            icon: 'none',
+            title: '请选择盘点时间'
+          })
+          return false
+        }
+        
+        
+        const result = uni.getStorageSync('storeId');
+        const res = await stockCheckCreate({
+          warehouseId: result,
+          checkTime: new Date(this.selectParams.checkTime).getTime(),
+          items: [
+            {
+              actualCount: this.selectParams.actualValue,
+              count: this.selectParams.actualValue - this.countStore,
+              productBarCode: this.record.barCode,
+              productId: this.record.id,
+              productPrice: this.selectParams.salePrice,
+              productUnitName: this.record.unitName,
+              shelfCode: this.record.shelfCode,
+              stockCount: this.countStore,
+              totalPrice: this.selectParams.totalAmount,
+              pic: this.record.pic,
+              warehouseId: result
+            }
+          ],
+          remark: this.selectParams.remark
+        })
+        
+        if (res.code === 0) {
+          uni.showToast({
+            icon: 'none',
+            title: '商品盘点成功'
+          })
+          this.getGoodsList()
+          this.$refs.popup.close()
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      }
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+  .popup-content {
+    background-color: #f1f4f9;
+    padding: 20rpx;
+    .popup-goodsinfo {
+      display: flex;
+      align-items: center;
+      .popup-goodsImg {
+        width: 100rpx;
+        height: 100rpx;
+        margin-right: 20rpx;
+        border-radius: 10rpx;
+      }
+      .popup-goods-text {
+        flex: 1;
+        width: calc(100vw - 180rpx);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        text {
+          font-size: 32rpx;
+          &:first-child {
+            height: 50rpx;
+            line-height: 50rpx;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          &:last-child {
+            font-size: 28rpx;
+            color: #777;
+            margin-top: 10rpx;
+          }
+        }
+      }
+    }
+    .popup-info-stock {
+      background-color: #fff;
+      padding: 20rpx;
+      margin: 40rpx 0;
+      .popup-goods-item {
+        display: flex;
+        margin: 20rpx 0;
+        justify-content: space-between;
+        align-items: center;
+        .popup-input-remark {
+          width: 63vw;
+        }
+        text {
+          font-size: 28rpx;
+          color: #333;
+        }
+      }
+    }
+  }
 	.main-search {
 		height: 70rpx;
 		display: flex;
@@ -254,6 +400,16 @@
 			// }
 		}
 	}
+  
+  .input-number {
+    width: 63vw;
+    box-sizing: border-box;
+    border-radius: 8rpx;
+    height: 70rpx;
+    border: 1px solid #e5e5e5;
+    padding: 0 10rpx;
+    text-align: right;
+  }
 
 	.main-content {
 		height: calc(100vh - 135rpx);
@@ -302,124 +458,27 @@
 				margin-bottom: 20rpx;
 				display: flex;
 				padding: 20rpx;
-				align-items: center;
-
-
-				&:last-child {
-					margin-bottom: 0;
-				}
-
 				.content-item-image {
-					width: 120rpx;
-					height: 130rpx;
+					width: 150rpx;
+					height: 150rpx;
 					overflow: hidden;
 					margin-right: 20rpx;
+          overflow: hidden;
 				}
 
 				.content-item-msg {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          flex: 1;
 					font-weight: 400;
-					font-size: 28rpx;
+					font-size: 24rpx;
+          .content-item-title {
+            margin-bottom: 10rpx;
+          }
 				}
 
 			}
-		}
-	}
-
-	.popup-content {
-		// @include flex;
-		align-items: center;
-		justify-content: center;
-		padding: 15px;
-		// height: 50px;
-		background-color: #ddd;
-		border-top-left-radius: 10rpx;
-		border-top-right-radius: 10rpx;
-		font-size: 28rpx;
-
-		&-image {
-			width: 120rpx;
-			height: 120rpx;
-		}
-
-		&-goods {
-			margin-bottom: 20rpx;
-			display: flex;
-
-			text {
-				font-size: 28rpx;
-				margin-left: 20rpx;
-			}
-		}
-
-		&-count {
-			border-radius: 5rpx;
-			background: #fff;
-			padding: 0 20rpx;
-
-			&-item {
-				padding: 20rpx 0;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-
-				&:first-child {
-					border-bottom: 1px solid #efefef;
-				}
-
-				view {
-					height: 57rpx;
-					line-height: 57rpx;
-
-					&:last-child {
-						display: flex;
-						align-items: center;
-
-						.uni-easyinput {
-							width: 200rpx;
-							color: #000;
-						}
-					}
-				}
-			}
-		}
-
-		&-profitLoss {
-			background-color: #fff;
-			padding: 40rpx 20rpx;
-			text-align: center;
-			margin-top: 20rpx;
-		}
-
-		&-remark {
-			margin: 20rpx 0;
-			padding: 20rpx;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			background-color: #fff;
-		}
-	}
-
-	.popup-footer {
-		padding: 30rpx 20rpx;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-size: 28rpx;
-
-		text {
-			color: #ff7704;
-		}
-
-		&-btn {
-			color: #fff;
-			background: #ff7704;
-			border-radius: 10rpx;
-			width: 200rpx;
-			padding: 40rpx;
-			text-align: center;
-			font-weight: 500;
-			font-size: 30rpx;
 		}
 	}
 </style>

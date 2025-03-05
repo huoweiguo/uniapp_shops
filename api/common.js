@@ -115,6 +115,7 @@ export const productList = (data) => {
   });
 }
 
+
 // 商品分类列表
 export const categoryList = (data) => {
   return request({
@@ -171,10 +172,10 @@ export const uploadImage = (data) => {
 }
 
 // 出库，提交
-export const stockOutSubmit = (data) => {
+export const stockOutCreate = (data) => {
 	return request({
-		url: '/app-api/app/sale-order/batch',
-		method: 'PUT',
+		url: '/admin-api/erp/stock-out/create',
+		method: 'POST',
 		data
 	})
 }
@@ -188,6 +189,15 @@ export const stockCheckCreate = (data) => {
 	})
 }
 
+
+// 活动商品库存
+export const getStockByGoods = (data) => {
+	return request({
+		url: '/admin-api/erp/stock/get',
+		method: 'GET',
+		data
+	})
+}
 
 
 

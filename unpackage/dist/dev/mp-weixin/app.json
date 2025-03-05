@@ -19,7 +19,8 @@
     "pages/login/login",
     "pages/stocking/stocking",
     "pages/stockingList/stockingList",
-    "pages/changeMall/changeMall"
+    "pages/changeMall/changeMall",
+    "pages/selectProduct/selectProduct"
   ],
   "window": {
     "navigationBarTextStyle": "black",

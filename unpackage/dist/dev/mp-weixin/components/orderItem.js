@@ -81,7 +81,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.t($props.list.no),
     c: common_vendor.t($props.list.logisticName),
     d: common_vendor.o(($event) => $options.tolinks($props.list.id)),
-    e: common_assets._imports_0$4,
+    e: common_assets._imports_0$3,
     f: common_vendor.t($props.list.channelName),
     g: common_vendor.o(($event) => $options.tolinks($props.list.id)),
     h: common_vendor.t($props.list.warehouseName),

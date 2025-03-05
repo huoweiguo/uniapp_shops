@@ -10,7 +10,7 @@ const request = (options) => {
     header: {
       'Content-Type': 'application/json', // 默认请求头
       'tenant-id': '1',
-      'Authorization': 'Bearer fe2f0c1354b740379ac5a2d5aad61e9d'
+      'Authorization': 'Bearer 9a361d45965342f39c05554c8ab6ab04'
     },
   };
 

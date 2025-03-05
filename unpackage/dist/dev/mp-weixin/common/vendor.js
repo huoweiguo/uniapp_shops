@@ -7187,7 +7187,7 @@ function initOnError() {
 function initRuntimeSocketService() {
   const hosts = "192.168.1.240,127.0.0.1";
   const port = "8091";
-  const id = "mp-weixin_awFHKU";
+  const id = "mp-weixin_ioIiIr";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -8240,6 +8240,12 @@ const pages = [
     path: "pages/changeMall/changeMall",
     style: {
       navigationBarTitleText: "门店"
+    }
+  },
+  {
+    path: "pages/selectProduct/selectProduct",
+    style: {
+      navigationBarTitleText: "选择商品"
     }
   }
 ];

@@ -4,6 +4,20 @@
     "miniprogram": {
       "list": [
         {
+          "name": "出库",
+          "pathName": "pages/outbound/outbound",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "选择商品",
+          "pathName": "pages/selectProduct/selectProduct",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "我的仓库",
           "pathName": "pages/stocking/stocking",
           "query": "",
