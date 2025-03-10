@@ -45,13 +45,13 @@
 		<view class="sales-trends">
 			<view class="title">销售统计</view>
 			<view class="trends">
-				<qiun-data-charts type="line" :opts="opts" :chartData="saleTable" />
+				<qiun-data-charts type="area" :opts="opts" :ontouch="true" :chartData="saleTable" />
 			</view>
 		</view>
 		<view class="sales-trends">
 			<view class="title">采购统计</view>
 			<view class="trends">
-        <qiun-data-charts type="line" :opts="opts" :chartData="purchaseTable" />
+        <qiun-data-charts type="area" :opts="opts" :ontouch="true" :chartData="purchaseTable" />
 			</view>
 		</view>
 	</view>
@@ -79,13 +79,15 @@
 					color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4",
 						"#ea7ccc"
 					],
+          enableScroll: true,
 					padding: [15, 10, 0, 15],
-          xAixs: {
-            itemCount: 3,
-            scrollShow: true
+          xAxis: {
+            disableGrid: true,
+            scrollShow: true,
+            itemCount: 5
           },
 					extra: {
-						line: {
+						area: {
 							type: "curve",
 							width: 2,
 							activeType: "hollow"
@@ -94,6 +96,14 @@
 				},
 				saleTable: {
 					categories: [],
+           xAxis: {
+            disableGrid: true,
+            type: 'calibration',
+            gridType: 'dash',
+            itemCount: 5,
+            labelCount: 5,
+            labelRotate: 45 // 设置文字倾斜角度
+          },
 					series: [{
 						name: "销售量",
 						data: []
@@ -214,6 +224,7 @@
 			margin: -40rpx 20rpx 20rpx;
 			background-color: #fff;
 			border-radius: 5rpx;
+      margin-bottom: 20rpx;
 
 			.title {
 				margin-bottom: 20rpx;

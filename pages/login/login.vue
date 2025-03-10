@@ -70,6 +70,10 @@ export default {
         if (res.code === 0) {
           // 存储accessToken
           uni.setStorage({
+            key: 'refreshToken',
+            data: res?.data?.refreshToken || ''
+          })
+          uni.setStorage({
             key: 'accessToken',
             data: res?.data?.accessToken||'',
             success: async function () {

@@ -245,6 +245,15 @@ export const getStockByGoods = (data) => {
 	})
 }
 
+// 刷新令牌
+
+export const refreshToken = (data) => {
+	return request({
+		url: '/admin-api/system/auth/refresh-token',
+		method: 'POST',
+		data
+	})
+}
 
 
 
