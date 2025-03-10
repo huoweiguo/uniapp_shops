@@ -23,13 +23,14 @@
 				<view class="commodity-msg">
 					<view class="commodity-msg-name">{{ item.productName }}</view>
 					<view class="fc6">产品编号：{{ item.productId }}</view>
+					<view class="fc6">仓库名称：{{ item.warehouseName }}</view>
 					<view class="fc6">库存：{{ item.count }}</view>
-					<view class="fc6">总金额：¥{{ item.purchasePrice?.toFixed(2) }}</view>
+					<view class="fc6">进货价：&yen;{{ item.purchasePrice?.toFixed(2) }}</view>
 				</view>
 			</view>
+      <uni-load-more :status="status" />
 		</scroll-view>
-
-		<uni-load-more :status="status" />
+		
 		<!-- <view class="instructions" @click="goUrl">
 			点击展开新手指引
 			<uni-icons type="up" color="#07fbe3"></uni-icons>
@@ -53,7 +54,8 @@
 					name: '',
 					pageNo: 1,
 					pageSize: 10
-				}
+				},
+        timer: null
 			}
 		},
 		onLoad() {
@@ -61,8 +63,13 @@
 		},
 		methods: {
 			search(e) {
-				this.pageReqVO.name = e;
-				this.getStockList()
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.pageReqVO.name = e;
+          this.pageReqVO.pageNo = 1
+          this.list = []
+          this.getStockList()
+        }, 200)
 			},
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -70,7 +77,6 @@
 			},
 
 			scrollToLower() {
-				console.log(123)
 				const currentCount = this.pageReqVO.pageSize * this.pageReqVO.pageNo
 				if (currentCount < this.total) {
 					this.pageReqVO.pageNo++
@@ -82,8 +88,13 @@
 			},
 
 			async getStockList() {
+        uni.showToast({
+          icon: 'loading',
+          title: '加载中...'
+        })
 				const res = await stockQuery(this.pageReqVO)
 				this.status = 'more'
+        uni.hideToast()
 				if (res.code === 0) {
 					this.list = [...this.list, ...res.data.list]
 					this.total = res.data.total || 0

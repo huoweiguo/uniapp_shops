@@ -28,11 +28,9 @@ const _sfc_main = {
     this.getWalletInfo();
   },
   methods: {
-    async getUser() {
-      const res = await api_user.getUserInfo();
-      if (res.code == 0) {
-        this.user = (res == null ? void 0 : res.data) || {};
-      }
+    getUser() {
+      const userInfo = common_vendor.index.getStorageSync("userInfo");
+      this.user = userInfo;
     },
     getSafeArea() {
       common_vendor.index.getSystemInfo({
@@ -52,7 +50,7 @@ const _sfc_main = {
     async getWalletInfo() {
       const res = await api_user.getWallet();
       if (res.code === 0) {
-        console.log(res.data);
+        common_vendor.index.__f__("log", "at pages/my/my.vue:99", res.data);
         this.balance = res.data.balance.toFixed(2);
       } else {
         common_vendor.index.showToast({
@@ -113,8 +111,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     i: common_vendor.o((...args) => $options.login && $options.login(...args))
   }, {
     j: common_vendor.t($data.balance),
-    k: common_assets._imports_1,
-    l: common_vendor.f($data.list, (item, index, i0) => {
+    k: common_vendor.f($data.list, (item, index, i0) => {
       return {
         a: item.icon,
         b: common_vendor.t(item.title),
@@ -126,7 +123,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       };
     }),
-    m: common_vendor.p({
+    l: common_vendor.p({
       column: 4,
       highlight: true,
       ["show-border"]: false
@@ -135,3 +132,4 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2f1ef635"]]);
 wx.createPage(MiniProgramPage);
+//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/my/my.js.map

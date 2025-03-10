@@ -4,6 +4,27 @@
     "miniprogram": {
       "list": [
         {
+          "name": "订单搜索",
+          "pathName": "pages/searchOrder/searchOrder",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "订单",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "选择出库",
+          "pathName": "pages/selectStore/selectStore",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "出库",
           "pathName": "pages/outbound/outbound",
           "query": "",

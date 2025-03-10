@@ -24,13 +24,13 @@
 /* 透明度 */
 /* 文章场景相关 */
 .goods_container.data-v-7e2880f6 {
-  padding: 30rpx;
+  padding: 30rpx 0;
   background-color: #f1f4f9;
-  min-height: 100vh;
+  height: calc(100vh - 60rpx);
   box-sizing: border-box;
 }
 .goods_container .scroll-view-container.data-v-7e2880f6 {
-  height: calc(100vh - 200rpx);
+  max-height: calc(100vh - 200rpx);
 }
 .goods_container .goods_operation.data-v-7e2880f6 {
   display: flex;
@@ -73,6 +73,7 @@
   height: 200rpx;
   overflow: hidden;
   margin-right: 20rpx;
+  border-radius: 10rpx;
 }
 .goods_container .content-box .goods-content.data-v-7e2880f6 {
   display: flex;

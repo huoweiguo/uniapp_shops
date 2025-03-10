@@ -20,7 +20,9 @@
     "pages/stocking/stocking",
     "pages/stockingList/stockingList",
     "pages/changeMall/changeMall",
-    "pages/selectProduct/selectProduct"
+    "pages/selectProduct/selectProduct",
+    "pages/selectStore/selectStore",
+    "pages/searchOrder/searchOrder"
   ],
   "window": {
     "navigationBarTextStyle": "black",

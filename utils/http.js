@@ -35,7 +35,24 @@ const request = (options) => {
 			url: BASE_URL + finalOptions.url, // 拼接完整 URL
 			success: (res) => {
 				if (res.statusCode === 200) {
-					resolve(res.data); // 请求成功，返回数据
+          if (res.data.code === 401) {
+            const jumped = uni.getStorageSync('jumped')
+            if (!jumped) {
+              uni.showToast({
+                icon: 'none',
+                title: '登录已过期，请重新登录'
+              })
+              uni.setStorageSync('jumped', 'true')
+              setTimeout(() => {
+                uni.redirectTo({
+                  url: '/pages/login/login'
+                })
+              }, 1500)
+            }
+            
+          } else {
+            resolve(res.data); // 请求成功，返回数据
+          }
 				} else {
 					reject(res); // 请求失败，返回错误信息
 				}

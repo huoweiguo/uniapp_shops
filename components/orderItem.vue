@@ -21,7 +21,7 @@
           <!-- <text class="mall_user_tag">门店新客</text> -->
           <!-- <text class="mall_user_phone">18725486580</text> -->
         </view>
-        <image @tap="callPhone('18721586596')" class="mall_phone" src="../static/phone-icon.png"></image>
+        <!-- <image @tap="callPhone('')" class="mall_phone" src="../static/phone-icon.png"></image> -->
       </view>
       <view class="order_user_address">
         {{ list.address }}
@@ -53,14 +53,14 @@
     <uni-collapse class="my-collapse">
       <uni-collapse-item title="展开收起信息" title-border="false" :border="false" :show-animation="true">
         <view class="order_content" v-for="item in list.items" :key="item.id">
-          <view class="mb30"><text class="order_button_btn_2">改库存</text></view>
+          <view class="mb30"><text class="order_button_btn_2" @tap="updateStock(item.productId)">改库存</text></view>
           <view class="order_content_title mb30">{{ item.productName }}</view>
           <view class="order_goods_item">
             <view class="order_goods_left">
               <swiper class="swiper" circular indicator-color="#999" indicator-active-color="white" :indicator-dots="indicatorDots" autoplay interval="2000"
               				:duration="duration">
                 <swiper-item>
-                  <image :src="item.thumb"></image>
+                  <image class="image-thumb" :src="item.thumb"></image>
                 </swiper-item>
               </swiper>
             </view>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-  import { unlock } from '@/api/common.js'
+  import { unlock, updateStockCount } from '@/api/common.js'
   import { timestampToTime } from '@/utils/tools.js'
   export default {
     name:"orderItem",
@@ -114,6 +114,25 @@
       console.log(this.list, 'list')
     },
     methods: {
+      async updateStock (id) {
+        const res = await updateStockCount({
+          id,
+          warningStock: this.goodsNumber
+        })
+        
+        if (res.code === 0) {
+          uni.showToast({
+            icon: 'success',
+            title: '修改库存成功'
+          })
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      },
+      
       callPhone (phoneNumber) {
         uni.makePhoneCall({
           phoneNumber: phoneNumber, // 电话号码
@@ -142,7 +161,7 @@
       },
       
       changeNumber (value) {
-        console.log(value, 'haha')
+        this.goodsNumber = value
       },
       
       tolinks (id) {
@@ -196,11 +215,14 @@
 </style>
 <style lang="scss" scoped>
 .order_container {
+  margin-bottom: 30rpx;
+  background-color: #fff;
+  padding: 0 20rpx;
   .order_status_desc {
     background-color: rgba(255,247,211,1);
     padding: 30rpx 30rpx 30rpx 0;
     font-family: PingFangSC-Regular;
-    margin-bottom: 20rpx;
+    margin: 0 -20rpx 20rpx;
     .order_status_outer {
       display: flex;
       justify-content: space-between;
@@ -231,7 +253,7 @@
   }
   .order_mall {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 40rpx;
     .order_mall_icon {
       width: 40rpx;
@@ -265,6 +287,7 @@
       .mall_user_name {
         font-weight: bold;
         margin-right: 14rpx;
+        font-size: 28rpx;
       }
       .mall_user_tag {
         margin-right: 20rpx;
@@ -276,6 +299,7 @@
       }
       .mall_user_phone {
         color: #656565;
+        font-size: 28rpx;
       }
       .mall_phone {
         width: 40rpx;
@@ -285,11 +309,13 @@
     .order_user_address {
       color: #9f9f9f;
       margin-bottom: 30rpx;
+      font-size: 28rpx;
     }
     .order_times {
       display: flex;
       align-items: center;
       margin-bottom: 30rpx;
+      font-size: 28rpx;
       .order_times_text {
         color: #aaa;
       }
@@ -331,6 +357,7 @@
     .order_number {
       display: flex;
       align-items: center;
+      font-size: 28rpx;
       text {
         color: #ff7704;
         font-weight: bold;
@@ -362,6 +389,11 @@
       height: 220rpx;
       overflow: hidden;
       margin-right: 20rpx;
+      .image-thumb {
+        width: 220rpx;
+        height: 220rpx;
+        border-radius: 10rpx;
+      }
     }
     .order_goods_right {
       flex: 1;

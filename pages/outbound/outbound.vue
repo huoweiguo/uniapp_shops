@@ -5,8 +5,7 @@
 			出库单
 		</view> -->
 		<uni-section class="search-box">
-			<uni-easyinput prefixIcon="search" v-model="pageReqVO.name" placeholder="请输入商品名称、条码、货位" :clearable="false"
-				@input="search">
+			<uni-easyinput prefixIcon="search" v-model="pageReqVO.name" placeholder="请输入商品名称、条码、货位" clearable @input="search">
 			</uni-easyinput>
 			<!-- <view class="scan-the-code" @click="scanCode">
 				<uni-icons type="scan" size="20" color="#fff"></uni-icons>扫码
@@ -51,8 +50,8 @@
 
 					</uni-swipe-action-item>
 				</uni-swipe-action>
+        <uni-load-more :status="status"></uni-load-more>
 			</scroll-view>
-			<uni-load-more :status="status" />
 		</view>
 	</view>
 	<!-- <view class="main-shopping">
@@ -97,11 +96,11 @@
 				</view>
 				<view class="popup-goods-item">
 					<text>产品单价(元)</text>
-					<input @input="changePrice" class="input-number" type="number" :value="selectParams.salePrice" />
+					<view class="popup-input-remark"><uni-easyinput type="digit" @input="changePrice" :value="selectParams.salePrice"></uni-easyinput></view>
 				</view>
 				<view class="popup-goods-item">
 					<text>合计金额(元)</text>
-					<text>{{ selectParams.totalAmount }}</text>
+					<text>{{ selectParams.totalAmount ? selectParams.totalAmount: '0.00' }}</text>
 				</view>
 				<view class="popup-goods-item">
 					<text>备注</text>
@@ -109,7 +108,7 @@
 							placeholder="备注(可选填)"></uni-easyinput></view>
 				</view>
 			</view>
-			<button type="primary" style="background-color: #ff7704;">选好了</button>
+			<button type="primary" style="background-color: #ff7704;" @tap="submit">选好了</button>
 		</view>
 	</uni-popup>
 </template>
@@ -126,7 +125,7 @@
 			return {
 				value: '',
 				maxValue: 9999999999,
-				status: 'noMore', // more 加载更多，loading 加载中，noMore 没有更多
+				status: 'more', // more 加载更多，loading 加载中，noMore 没有更多
 				pageReqVO: {
 					pageNo: 1,
 					pageSize: 10,
@@ -137,7 +136,10 @@
 					name: '',
 					status: ''
 				},
-				record: {},
+				record: {
+          pic: '',
+          name: ''
+        },
 				selectParams: {
 					checkTime: '',
 					actualValue: 1,
@@ -146,12 +148,12 @@
 					totalAmount: '0.00',
 					remark: ''
 				},
-				status: 'more',
 				total: 0,
 				goodsList: [],
 				dataTree: [],
 				disabledEdit: true,
-				cartItems: []
+				cartItems: [],
+        timer: null
 			}
 		},
 		computed: {
@@ -168,26 +170,31 @@
 		},
 		methods: {
 			search(e) {
-				this.pageReqVO.name = e;
-				this.getGoodsList();
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.pageReqVO.name = e;
+          this.pageReqVO.pageNo = 1
+          this.goodsList = []
+          this.getGoodsList();
+        }, 200)
 			},
 			changeValue(e) {
-				if (e !== '') {
-					this.selectParams.totalAmount = (e * this.selectParams.salePrice)
+        this.selectParams.actualValue = e
+				if (e) {
+					this.selectParams.totalAmount = (this.selectParams.actualValue * this.selectParams.salePrice).toFixed(2)
 				} else {
 					this.selectParams.totalAmount = 0
 				}
 			},
 
 			changePrice(e) {
-				if (e !== '') {
-					let num = e.target.value.match(/^\d*(\.?\d)/g)[0] || null;
-					this.selectParams.totalAmount = (num * this.selectParams.actualValue)
+        this.selectParams.salePrice = e
+				if (e) {
+					this.selectParams.totalAmount = (this.selectParams.salePrice * this.selectParams.actualValue).toFixed(2)
 				} else {
 					this.selectParams.salePrice = 0
 					this.selectParams.totalAmount = 0
 				}
-
 			},
 
 			async getCategoryList() {
@@ -221,8 +228,13 @@
 			},
 
 			async getGoodsList() {
+        this.status = 'loading'
+        uni.showToast({
+          icon: 'loading',
+          title: '加载中'
+        })
 				const res = await productList(this.pageReqVO)
-				this.status = 'loading'
+        uni.hideToast();
 				if (res.code === 0) {
 					this.goodsList = [...this.goodsList, ...res.data.list]
 					this.total = res.data.total
@@ -240,38 +252,66 @@
 			},
 			changeType(item) {
 				this.pageReqVO.categoryId = item.value;
+        this.pageReqVO.pageNo = 1
+        this.goodsList = []
 				this.getGoodsList();
 			},
-			goUrl() {
-				// uni.navigateTo({
-				// 	url: '/pages/inventoryQuery/inventoryQuery'
-				// })
-				// 提交
-				const ids = [];
-				this.cartItems.forEach(item => {
-					ids.push(item.id)
+			async submit() {
+        
+        if (this.selectParams.checkTime === '') {
+        	uni.showToast({
+        		icon: 'none',
+        		title: '请选择出库时间'
+        	})
+        	return false
+        }
+        
+        if (this.selectParams.actualValue === '') {
+        	uni.showToast({
+        		icon: 'none',
+        		title: '请填写数量'
+        	})
+        	return false
+        }
+        
+				const { pic, unitName, shelfCode, id, barCode } = this.record
+        const { salePrice, remark, storeNumber, totalAmount, actualValue, checkTime } = this.selectParams
+        const warehouseId = uni.getStorageSync('storeId')
+				const res = await stockOutCreate({
+          warehouseId,
+          outTime: new Date(checkTime).getTime(),
+          items: [
+            {
+              pic,
+              productPrice: salePrice,
+              warehouseId,
+              productUnitName: unitName,
+              remark,
+              shelfCode,
+              stockCount: storeNumber,
+              totalPrice: totalAmount,
+              productId: id,
+              productBarCode: barCode,
+              count: actualValue
+            }
+          ]
 				})
-				stockOutCreate({
-					ids
-					// id: '', // 编号,示例值(17386)
-					// outTime: '', // 出库时间
-					// orderId: '', // 销售订单编号,示例值(17386)
-					// discountPercent: '', // 优惠率，百分比,示例值(99.88)
-					// items: this.cartItems
-				}).then(res => {
-					if (res.code == 0) {
-						uni.showToast({
-							icon: 'success',
-							title: res?.msg || '提交成功'
-						})
-					} else {
-						uni.showToast({
-							icon: 'none',
-							title: res.msg
-						})
-					}
-				})
-			},
+        
+        if (res.code === 0) {
+          uni.showToast({
+            title: '出库成功'
+          })
+          this.selectParams.checkTime = ''
+          this.selectParams.remark = ''
+          this.selectParams.actualValue = 1
+          this.$refs.popup.close()
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      },
 			scanCode() {
 				// 只允许通过相机扫码
 				uni.scanCode({
@@ -292,8 +332,15 @@
 				})
 				this.selectParams.totalAmount = (this.selectParams.actualValue * this.selectParams.salePrice).toFixed(2)
 				this.$refs.popup.open('bottom')
-			}
-		}
+			},
+      scrolltolower () {
+        console.log(this.pageReqVO.pageNo * this.pageReqVO.pageSize, this.total)
+        if (this.pageReqVO.pageNo * this.pageReqVO.pageSize < this.total) {
+        	this.pageReqVO.pageNo++
+        	this.getGoodsList()
+        }
+      }
+    }
 	}
 </script>
 
@@ -309,6 +356,7 @@
 		align-items: center;
 		background-color: #fff;
 		z-index: 10;
+    box-sizing: border-box;
 
 		.search-icon {
 			flex: 0 0 100rpx;
@@ -316,7 +364,7 @@
 		}
 
 		.search-box {
-			flex: auto;
+			flex: 1;
 			display: flex;
 			align-items: center;
 
@@ -375,7 +423,9 @@
 			background-color: #efefef;
 			overflow-y: auto;
 			overflow-x: hidden;
-
+      .scroll-view-container {
+      	max-height: calc(100vh - 90rpx);
+      }
 			&-item {
 				background-color: #fff;
 				margin-bottom: 20rpx;
@@ -399,14 +449,19 @@
 						height: 150rpx;
 						overflow: hidden;
 						margin-right: 20rpx;
+            border-radius: 10rpx;
 					}
 
 					.content-item-msg {
 						font-weight: 200;
 						color: #666;
+            view {
+              font-size: 28rpx;
+            }
 
 						text {
 							color: #ff7704;
+              font-size: 28rpx;
 						}
 					}
 				}
@@ -562,15 +617,5 @@
 			background-color: #ff7704;
 			color: #fff;
 		}
-	}
-
-	.input-number {
-		width: 63vw;
-		box-sizing: border-box;
-		border-radius: 8rpx;
-		height: 70rpx;
-		border: 1px solid #e5e5e5;
-		padding: 0 10rpx;
-		text-align: right;
 	}
 </style>

@@ -101,7 +101,9 @@
     {
       "path": "pages/login/login",
       "style": {
-        "navigationBarTitleText": "用户登录"
+        "navigationBarTitleText": "用户登录",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
       }
     },
     {
@@ -131,6 +133,20 @@
     	{
     		"navigationBarTitleText" : "选择商品"
     	}
+    },
+    {
+      "path" : "pages/selectStore/selectStore",
+      "style" : 
+      {
+        "navigationBarTitleText" : "选择仓库"
+      }
+    },
+    {
+      "path" : "pages/searchOrder/searchOrder",
+      "style" : 
+      {
+        "navigationBarTitleText" : "订单搜索"
+      }
     }
   ],
   "globalStyle": {

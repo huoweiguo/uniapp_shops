@@ -8,7 +8,7 @@ const _sfc_main = {
         { icon: common_assets.jiaoyi, title: "交易信息", url: "/pages/transaction/transaction" },
         { icon: common_assets.record, title: "出入记录", url: "/pages/entryExit/entryExit" },
         { icon: common_assets.pandian, title: "盘点", url: "/pages/stocking/stocking" },
-        { icon: common_assets.store, title: "出库查询", url: "/pages/outbound/outbound" },
+        { icon: common_assets.store, title: "出库", url: "/pages/selectStore/selectStore" },
         { icon: common_assets.taocan, title: "套餐", url: "/pages/recharge/recharge" },
         { icon: common_assets.kucun, title: "库存查询", url: "/pages/inventoryQuery/inventoryQuery" }
       ]
@@ -58,3 +58,4 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-46a3d50c"]]);
 wx.createPage(MiniProgramPage);
+//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/overview/overview.js.map

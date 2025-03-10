@@ -20,11 +20,11 @@
 		</view>
 
 		<view class="my-content">
-			<view class="my-member">
+			<!-- <view class="my-member">
 				<image class="member_icon" src="../../static/member.png"></image>
 				会员权益生效中
 				<text>有效期至：2025-10-01</text>
-			</view>
+			</view> -->
 			<view class="my-member-block">
 				<view class="my-member-func">常用功能</view>
 				<uni-grid :column="4" :highlight="true" :show-border="false">
@@ -42,8 +42,7 @@
 
 <script>
 	import {
-		getWallet,
-		getUserInfo
+		getWallet
 	} from '@/api/user.js';
 
 	export default {
@@ -73,11 +72,9 @@
 		},
 
 		methods: {
-			async getUser() {
-				const res = await getUserInfo();
-				if (res.code == 0) {
-					this.user = res?.data || {}
-				}
+			getUser() {
+				const userInfo = uni.getStorageSync('userInfo')
+        this.user = userInfo
 			},
 			getSafeArea() {
 				uni.getSystemInfo({

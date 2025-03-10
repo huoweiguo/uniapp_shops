@@ -10,7 +10,7 @@
           <text class="mall-title">{{ item.name }}</text>
           <text class="mall-id">ID: {{ item.id }}</text>
         </view>
-        <view class="mall-exchange">切换门店</view>
+        <view class="mall-exchange" @tap="exchange(item)">切换门店</view>
       </view>
     </scroll-view>
   </view>
@@ -28,11 +28,17 @@
     onLoad () {
       this.getStoreList()
     },
+    watch: {
+      searchKey (newVal) {
+        this.getStoreList({
+          name: newVal
+        })
+      }
+    },
     methods: {
-      async getStoreList () {
-        const res = await warehouseList()
+      async getStoreList (data = {}) {
+        const res = await warehouseList(data)
         if (res.code === 0) {
-          console.log(res, 'res')
           this.mallList = res.data || []
         } else {
           uni.showToast({
@@ -40,6 +46,29 @@
             title: res.msg
           })
         }
+      },
+      
+      exchange (info) {
+        // 本地存储仓库信息
+        uni.setStorage({
+          key: 'storeId',
+          data: info.id
+        })
+        uni.setStorage({
+          key: 'storeName',
+          data: info.name
+        })
+        
+        uni.showToast({
+          icon: 'none',
+          title: '切换仓库成功'
+        })
+        
+        setTimeout(() => {
+          uni.navigateBack({
+            delta: 1
+          })
+        }, 1500)
       }
     }
   }

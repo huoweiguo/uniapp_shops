@@ -88,7 +88,7 @@ const _sfc_main = {
     if (this.collapse.names.indexOf(this.nameSync) === -1) {
       this.collapse.names.push(this.nameSync);
     } else {
-      console.warn(`name 值 ${this.nameSync} 重复`);
+      common_vendor.index.__f__("warn", "at uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item.vue:154", `name 值 ${this.nameSync} 重复`);
     }
     if (this.collapse.childrens.indexOf(this) === -1) {
       this.collapse.childrens.push(this);
@@ -208,3 +208,4 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createComponent(Component);
+//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item.js.map

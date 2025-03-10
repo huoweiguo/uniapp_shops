@@ -30,27 +30,34 @@
 						<template v-slot:right>
 							<view class="slot-button">
 								<text class="slot-button-text bgred"
-									@tap="editGoods({position:'right', id: item.id, content:{text:'编辑'}})">编辑</text>
+									@tap.stop="editGoods({position:'right', id: item.id, content:{text:'编辑'}})">编辑</text>
 								<text class="slot-button-text bgblue"
-									@tap="deleteGoods({position:'right', id: item.id, content:{text:'删除'}})">删除</text>
+									@tap.stop="deleteGoods({position:'right', id: item.id, content:{text:'删除'}})">删除</text>
 							</view>
 						</template>
 					</uni-swipe-action-item>
 				</uni-swipe-action>
 			</view>
+      <uni-load-more :status="status"></uni-load-more>
 		</scroll-view>
-		<uni-load-more :status="status"></uni-load-more>
+    
+    <!-- 提示窗示例 -->
+    <uni-popup ref="alertDialog" type="dialog">
+      <uni-popup-dialog type="warning" cancelText="取消" confirmText="确定" title="警告" content="确定要删除该商品吗？" @confirm="dialogConfirm"></uni-popup-dialog>
+    </uni-popup>
 	</view>
 </template>
 
 <script>
 	import {
 		productList,
-		categoryList
+		categoryList,
+    deleteProduct
 	} from '@/api/common.js'
 	export default {
 		data() {
 			return {
+        goodsId: '',
 				pageReqVO: {
 					pageNo: 1,
 					pageSize: 10,
@@ -64,7 +71,8 @@
 				status: 'more',
 				total: 0,
 				goodsList: [],
-				dataTree: []
+				dataTree: [],
+        timer: null
 			}
 		},
 		onLoad() {
@@ -73,8 +81,12 @@
 		},
 		methods: {
 			search(e) {
-				this.pageReqVO.name = e;
-				this.getGoodsList()
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.pageReqVO.name = e;
+          this.goodsList = []
+          this.getGoodsList()
+        },200)
 			},
 			async getCategoryList() {
 				const res = await categoryList(this.listReqVO)
@@ -86,7 +98,6 @@
 							value: item.id
 						})
 					})
-					console.log(this.dataTree, 'datatree')
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -130,10 +141,12 @@
 			onchange(e) {
 				if (e.detail.value.length > 0) {
 					this.pageReqVO.categoryId = e.detail.value[0].value
-					this.pageReqVO.pageNo = 1
-					this.goodsList = []
-					this.getGoodsList()
-				}
+				} else {
+          this.pageReqVO.categoryId = ''
+        }
+        this.pageReqVO.pageNo = 1
+        this.goodsList = []
+        this.getGoodsList()
 			},
 
 			editGoods({
@@ -143,24 +156,41 @@
 					url: `/pages/createGoods/createGoods?id=${id}`
 				})
 			},
+      
+      async dialogConfirm () {
+        const res = await deleteProduct(this.goodsId)
+        if (res.code === 0) {
+          const idx = this.goodsList.findIndex(item => item.id === this.goodsId)
+          this.goodsList.splice(idx, 1)
+          uni.showToast({
+            icon: 'none',
+            title: '删除商品成功'
+          })
+        } else {
+          uni.showToast({
+            icon: 'none',
+            title: res.msg
+          })
+        }
+      },
 
-			deleteGoods({
-				id
-			}) {}
-
+			async deleteGoods({id}) {
+        this.goodsId = id
+        this.$refs.alertDialog.open()
+      }
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.goods_container {
-		padding: 30rpx;
+		padding: 30rpx 0;
 		background-color: #f1f4f9;
-		min-height: 100vh;
+		height: calc(100vh - 60rpx);
 		box-sizing: border-box;
 
 		.scroll-view-container {
-			height: calc(100vh - 200rpx);
+			max-height: calc(100vh - 200rpx);
 		}
 
 		.goods_operation {
@@ -209,6 +239,7 @@
 				height: 200rpx;
 				overflow: hidden;
 				margin-right: 20rpx;
+        border-radius: 10rpx;
 			}
 
 			.goods-content {

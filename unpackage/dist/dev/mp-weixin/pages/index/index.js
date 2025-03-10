@@ -63,11 +63,9 @@ const _sfc_main = {
     });
   },
   methods: {
-    search(e) {
-      console.log(e, 12121);
-      this.warehouseId = e;
-      this.getOrderList({
-        warehouseId: e
+    searchOrder() {
+      common_vendor.index.navigateTo({
+        url: "/pages/searchOrder/searchOrder"
       });
     },
     async getOrderList(params) {
@@ -84,7 +82,6 @@ const _sfc_main = {
           }
         } else if (params.sourceStatus == "3") {
           this.waitPickedList = [...this.waitPickedList, ...data];
-          console.log(3, this.waitPickedList);
           this.waitPickedTotal = res.data.total || 0;
           if (this.waitPickNum * this.pageSize >= this.waitPickedTotal) {
             this.waitPickedStatus = "noMore";
@@ -206,92 +203,91 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o($options.search),
-    b: common_vendor.o(($event) => $data.warehouseId = $event),
-    c: common_vendor.p({
+    a: common_vendor.o($options.searchOrder),
+    b: common_vendor.p({
       placeholder: "请输入订单编号",
-      bgColor: "#efefef",
-      modelValue: $data.warehouseId
+      bgColor: "#efefef"
     }),
-    d: common_vendor.f($data.orderStatus, (item, index, i0) => {
+    c: common_vendor.f($data.orderStatus, (item, index, i0) => {
       return {
         a: common_vendor.t(item),
         b: $data.current === index ? 1 : "",
         c: common_vendor.o(($event) => $options.handleTap(index))
       };
     }),
-    e: common_vendor.f($data.allList, (item, index, i0) => {
+    d: common_vendor.f($data.allList, (item, index, i0) => {
       return {
-        a: "4a757416-2-" + i0,
+        a: "32d5319c-2-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
+    e: $data.current === 0,
     f: $data.current === 0,
-    g: $data.current === 0,
-    h: common_vendor.p({
+    g: common_vendor.p({
       status: $data.allStatus
     }),
-    i: common_vendor.f($data.waitPickedList, (item, index, i0) => {
+    h: common_vendor.f($data.waitPickedList, (item, index, i0) => {
       return {
-        a: "4a757416-4-" + i0,
+        a: "32d5319c-4-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
+    i: $data.current === 1,
     j: $data.current === 1,
-    k: $data.current === 1,
-    l: common_vendor.p({
+    k: common_vendor.p({
       status: $data.waitPickedStatus
     }),
-    m: common_vendor.f($data.pickedList, (item, index, i0) => {
+    l: common_vendor.f($data.pickedList, (item, index, i0) => {
       return {
-        a: "4a757416-6-" + i0,
+        a: "32d5319c-6-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
+    m: $data.current === 2,
     n: $data.current === 2,
-    o: $data.current === 2,
-    p: common_vendor.p({
+    o: common_vendor.p({
       status: $data.pickedStatus
     }),
-    q: common_vendor.f($data.finishList, (item, index, i0) => {
+    p: common_vendor.f($data.finishList, (item, index, i0) => {
       return {
-        a: "4a757416-8-" + i0,
+        a: "32d5319c-8-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
+    q: $data.current === 3,
     r: $data.current === 3,
-    s: $data.current === 3,
-    t: common_vendor.p({
+    s: common_vendor.p({
       status: $data.finishStatus
     }),
-    v: common_vendor.f($data.cancelList, (item, index, i0) => {
+    t: common_vendor.f($data.cancelList, (item, index, i0) => {
       return {
-        a: "4a757416-10-" + i0,
+        a: "32d5319c-10-" + i0,
         b: common_vendor.p({
           list: item
         }),
         c: index
       };
     }),
+    v: $data.current === 4,
     w: $data.current === 4,
-    x: $data.current === 4,
-    y: common_vendor.p({
+    x: common_vendor.p({
       status: $data.cancelStatus
     }),
-    z: common_vendor.o((...args) => $options.scrolltolower && $options.scrolltolower(...args))
+    y: common_vendor.o((...args) => $options.scrolltolower && $options.scrolltolower(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createPage(MiniProgramPage);
+//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/index.js.map

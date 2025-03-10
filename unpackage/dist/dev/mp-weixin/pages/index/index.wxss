@@ -41,5 +41,5 @@
 		border-radius: 3rpx;
 }
 .scroll-view-item {
-		padding: 20rpx 20rpx 40rpx;
+    background-color: #f1f1f1;
 }

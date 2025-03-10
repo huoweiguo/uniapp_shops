@@ -19,10 +19,11 @@ export const paySubmit = (data) => {
 }
 
 // 仓库列表
-export const warehouseList = () => {
+export const warehouseList = (data) => {
   return request({
     url: '/admin-api/erp/warehouse/simple-list',
-    method: 'GET'
+    method: 'GET',
+    data
   });
 }
 
@@ -57,7 +58,7 @@ export const unlock = (data) => {
 export const updateStockCount = (data) => {
   return request({
     url: '/admin-api/erp/stock/updateStockCount',
-    method: 'POST',
+    method: 'PUT',
     data,
   });
 }
@@ -115,6 +116,14 @@ export const productList = (data) => {
   });
 }
 
+// 商品单位
+export const getProductUnit = () => {
+  return request({
+    url: '/admin-api/erp/product-unit/simple-list',
+    method: 'GET'
+  }); 
+}
+
 
 // 商品分类列表
 export const categoryList = (data) => {
@@ -124,6 +133,15 @@ export const categoryList = (data) => {
     data,
   });
 }
+
+// 删除商品
+export const deleteProduct = (data) => {
+  return request({
+    url: `/admin-api/erp/product/delete?id=${data}`,
+    method: 'DELETE'
+  });
+}
+
 
 // 商品详情
 export const productInfo = (id) => {
@@ -153,14 +171,42 @@ export const productUpdate = (data) => {
   });
 }
 
-// 经营概况数据统计
+// 销售统计
 export const saleStatistics = (data) => {
   return request({
     url: '/admin-api/erp/sale-statistics/time-summary',
-    method: 'POST',
+    method: 'GET',
     data,
   });
 }
+
+// 采购统计
+export const purchaseStatistics = (data) => {
+  return request({
+    url: '/admin-api/erp/purchase-statistics/time-summary',
+    method: 'GET',
+    data,
+  });
+}
+
+// 销售汇总
+export const saleSummary = (data) => {
+  return request({
+    url: '/admin-api/erp/sale-statistics/summary',
+    method: 'GET',
+    data,
+  });
+}
+
+// 采购汇总
+export const purchaseSummary = (data) => {
+  return request({
+    url: '/admin-api/erp/purchase-statistics/summary',
+    method: 'GET',
+    data,
+  });
+}
+
 
 // 图片上传
 export const uploadImage = (data) => {
@@ -198,6 +244,7 @@ export const getStockByGoods = (data) => {
 		data
 	})
 }
+
 
 
 

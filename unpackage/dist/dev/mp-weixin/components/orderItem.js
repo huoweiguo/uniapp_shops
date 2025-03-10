@@ -21,18 +21,35 @@ const _sfc_main = {
     };
   },
   onLoad() {
-    console.log(this.list, "list");
+    common_vendor.index.__f__("log", "at components/orderItem.vue:114", this.list, "list");
   },
   methods: {
+    async updateStock(id) {
+      const res = await api_common.updateStockCount({
+        id,
+        warningStock: this.goodsNumber
+      });
+      if (res.code === 0) {
+        common_vendor.index.showToast({
+          icon: "success",
+          title: "修改库存成功"
+        });
+      } else {
+        common_vendor.index.showToast({
+          icon: "none",
+          title: res.msg
+        });
+      }
+    },
     callPhone(phoneNumber) {
       common_vendor.index.makePhoneCall({
         phoneNumber,
         // 电话号码
         success: function() {
-          console.log("拨打电话成功");
+          common_vendor.index.__f__("log", "at components/orderItem.vue:140", "拨打电话成功");
         },
         fail: function(err) {
-          console.log("拨打电话失败：", err);
+          common_vendor.index.__f__("log", "at components/orderItem.vue:143", "拨打电话失败：", err);
         }
       });
     },
@@ -51,7 +68,7 @@ const _sfc_main = {
       }
     },
     changeNumber(value) {
-      console.log(value, "haha");
+      this.goodsNumber = value;
     },
     tolinks(id) {
       common_vendor.index.navigateTo({
@@ -85,44 +102,43 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     f: common_vendor.t($props.list.channelName),
     g: common_vendor.o(($event) => $options.tolinks($props.list.id)),
     h: common_vendor.t($props.list.warehouseName),
-    i: common_vendor.o(($event) => $options.callPhone("18721586596")),
-    j: common_assets._imports_1$2,
-    k: common_vendor.t($props.list.address),
-    l: common_vendor.t($data.timestampToTime($props.list.orderTime)),
-    m: $props.list.deliveryPhone
+    i: common_vendor.t($props.list.address),
+    j: common_vendor.t($data.timestampToTime($props.list.orderTime)),
+    k: $props.list.deliveryPhone
   }, $props.list.deliveryPhone ? {
-    n: common_vendor.t($props.list.deliveryName),
-    o: common_vendor.t($props.list.deliveryPhone),
-    p: common_vendor.o(($event) => $options.callPhone($props.list.deliveryPhone)),
-    q: common_assets._imports_1$2
+    l: common_vendor.t($props.list.deliveryName),
+    m: common_vendor.t($props.list.deliveryPhone),
+    n: common_vendor.o(($event) => $options.callPhone($props.list.deliveryPhone)),
+    o: common_assets._imports_1$1
   } : {}, {
-    r: $props.list.remark
+    p: $props.list.remark
   }, $props.list.remark ? {
-    s: common_vendor.t($props.list.remark)
+    q: common_vendor.t($props.list.remark)
   } : {}, {
-    t: common_vendor.o(($event) => $options.openDoor($props.list.id)),
-    v: common_vendor.t($props.list.totalCount),
-    w: common_vendor.t($props.list.totalPrice),
-    x: common_vendor.f($props.list.items, (item, k0, i0) => {
+    r: common_vendor.o(($event) => $options.openDoor($props.list.id)),
+    s: common_vendor.t($props.list.totalCount),
+    t: common_vendor.t($props.list.totalPrice),
+    v: common_vendor.f($props.list.items, (item, k0, i0) => {
       return {
-        a: common_vendor.t(item.productName),
-        b: item.thumb,
-        c: common_vendor.t(item.productId),
-        d: common_vendor.t(item.shelfCode),
-        e: common_vendor.t(item.standard),
-        f: common_vendor.t(item.productPrice),
-        g: common_vendor.t(item.count),
-        h: common_vendor.o($options.changeNumber, item.id),
-        i: "f8ab5a84-2-" + i0 + ",f8ab5a84-1",
-        j: item.id
+        a: common_vendor.o(($event) => $options.updateStock(item.productId), item.id),
+        b: common_vendor.t(item.productName),
+        c: item.thumb,
+        d: common_vendor.t(item.productId),
+        e: common_vendor.t(item.shelfCode),
+        f: common_vendor.t(item.standard),
+        g: common_vendor.t(item.productPrice),
+        h: common_vendor.t(item.count),
+        i: common_vendor.o($options.changeNumber, item.id),
+        j: "f8ab5a84-2-" + i0 + ",f8ab5a84-1",
+        k: item.id
       };
     }),
-    y: $data.indicatorDots,
-    z: $data.duration,
-    A: common_vendor.p({
+    w: $data.indicatorDots,
+    x: $data.duration,
+    y: common_vendor.p({
       value: $data.goodsNumber
     }),
-    B: common_vendor.p({
+    z: common_vendor.p({
       title: "展开收起信息",
       ["title-border"]: "false",
       border: false,
@@ -132,3 +148,4 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-f8ab5a84"]]);
 wx.createComponent(Component);
+//# sourceMappingURL=../../.sourcemap/mp-weixin/components/orderItem.js.map

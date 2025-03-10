@@ -29,7 +29,7 @@
           { icon: jiaoyi, title: '交易信息', url: '/pages/transaction/transaction'},
           { icon: record, title: '出入记录', url: '/pages/entryExit/entryExit'},
           { icon: pandian, title: '盘点', url: '/pages/stocking/stocking'},
-          { icon: store, title: '出库查询', url: '/pages/outbound/outbound'},
+          { icon: store, title: '出库', url: '/pages/selectStore/selectStore'},
           { icon: taocan, title: '套餐', url: '/pages/recharge/recharge'},
           { icon: kucun, title: '库存查询', url: '/pages/inventoryQuery/inventoryQuery'}
         ]

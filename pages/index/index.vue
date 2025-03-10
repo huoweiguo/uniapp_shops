@@ -3,7 +3,7 @@
 		<view class="order_header">
 			<view class="search-box">
 				<uni-section>
-					<uni-search-bar placeholder="请输入订单编号" v-model="warehouseId" bgColor="#efefef" @input="search" />
+					<uni-search-bar placeholder="请输入订单编号" bgColor="#efefef" @tap="searchOrder"/>
 				</uni-section>
 			</view>
 
@@ -48,9 +48,7 @@
 </template>
 
 <script>
-	import {
-		orderList
-	} from '@/api/common.js'
+	import { orderList } from '@/api/common.js'
 	import orderItem from '../../components/orderItem.vue'
 	export default {
 		components: {
@@ -117,13 +115,13 @@
 			})
 		},
 		methods: {
-			search(e) {
-				console.log(e,12121);
-				this.warehouseId = e;
-				this.getOrderList({
-					warehouseId: e
-				});
-			},
+      
+      searchOrder () {
+        uni.navigateTo({
+          url: '/pages/searchOrder/searchOrder'
+        })
+      },
+      
 			async getOrderList(params) {
 				const res = await orderList(params)
 				if (res.code === 0) {
@@ -138,7 +136,6 @@
 						}
 					} else if (params.sourceStatus == '3') {
 						this.waitPickedList = [...this.waitPickedList, ...data]
-						console.log(3, this.waitPickedList)
 						this.waitPickedTotal = res.data.total || 0
 						if (this.waitPickNum * this.pageSize >= this.waitPickedTotal) {
 							this.waitPickedStatus = 'noMore'
@@ -302,6 +299,6 @@
 	}
 
 	.scroll-view-item {
-		padding: 20rpx 20rpx 40rpx;
+    background-color: #f1f1f1;
 	}
 </style>

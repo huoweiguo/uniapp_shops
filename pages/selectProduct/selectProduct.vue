@@ -1,7 +1,7 @@
 <template>
 	<view class="main-search">
 		<uni-section class="search-box">
-			<uni-easyinput prefixIcon="search" suffixIcon="scan" @iconClick="scanCode" v-model="pageReqVO.name"
+			<uni-easyinput prefixIcon="search" v-model="pageReqVO.name"
 				placeholder="名称/条形码/编号货品/简拼" clearButton="none" @input="search">
 				<!-- <uni-easyinput prefixIcon="search" suffixIcon="" v-model="value" placeholder="名称/条形码/编号货品/简拼" clearButton="none" > -->
 			</uni-easyinput>
@@ -20,8 +20,7 @@
 
 		</view>
 		<view class="content">
-			<scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrolltolower"
-				class="scroll-view-container">
+			<scroll-view scroll-y="true" lower-threshold="50" @scrolltolower="scrolltolower" class="scroll-view-container">
 				<uni-swipe-action>
 					<uni-swipe-action-item>
 						<view class="content-item" v-for="item in goodsList" :key="item.id" @tap="toggleClick(item)">
@@ -41,8 +40,9 @@
 
 					</uni-swipe-action-item>
 				</uni-swipe-action>
+        <uni-load-more :status="status" />
 			</scroll-view>
-			<uni-load-more :status="status" />
+			
 		</view>
 		<uni-popup ref="popup" @change="change">
 			<view class="popup-content">
@@ -87,7 +87,7 @@
 								placeholder="备注(可选填)"></uni-easyinput></view>
 					</view>
 				</view>
-				<button type="primary" @tap="submitSelect">选好了</button>
+				<button type="primary" style="background-color: #ff7704;" @tap="submitSelect">选好了</button>
 			</view>
 		</uni-popup>
 	</view>
@@ -144,7 +144,8 @@
 				record: {},
 				realyCount: 0,
 				profitLoss: '0',
-				remark: ''
+				remark: '',
+        timer: null
 			}
 		},
 		onLoad() {
@@ -170,9 +171,13 @@
 				}
 			},
 			search(e){
-				console.log(e,173173);
-				this.pageReqVO.name=e;
-				this.getGoodsList()
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.pageReqVO.name=e;
+          this.pageReqVO.pageNo = 1
+          this.goodsList = []
+          this.getGoodsList()
+        }, 200)
 			},
 
 			async getGoodsList() {
@@ -194,6 +199,7 @@
 				}
 			},
 			scrolltolower() {
+        console.log(122)
 				if (this.pageReqVO.pageNo * this.pageReqVO.pageSize < this.total) {
 					this.pageReqVO.pageNo++
 					this.getGoodsList()
@@ -232,7 +238,8 @@
 			},
 			changeType(item) {
 				this.pageReqVO.categoryId = item.value;
-				this.goodsList = [];
+        this.pageReqVO.pageNo = 1
+        this.goodsList = []
 				this.getGoodsList();
 			},
 			async toggleClick(item) {
@@ -470,6 +477,9 @@
 			background-color: #fff;
 			overflow-y: auto;
 			overflow-x: hidden;
+      .scroll-view-container {
+      	max-height: calc(100vh - 90rpx);
+      }
 
 			&-item {
 				background-color: #fff;
@@ -483,6 +493,7 @@
 					overflow: hidden;
 					margin-right: 20rpx;
 					overflow: hidden;
+          border-radius: 10rpx;
 				}
 
 				.content-item-msg {
